@@ -20,7 +20,7 @@
 - [x] 设计低基数字段枚举策略和排除规则
 - [x] 执行数据库采样/聚合查询并生成画像文档
 - [x] 验证脚本和结果，更新 Catalog 后续建议
-- [ ] 提交并 push
+- [x] 提交并 push
 
 ## Review
 
@@ -34,6 +34,7 @@
 - 品牌/店铺差异上，`orders` 中 `vp_us_weekly_state` 有 `state/week_key`，`ams_placement` 中 `philips_dashboard_m` 是明显非标准字段集合，`amazon_intermediate` 的 Philips/AMS time 表结构也明显偏特例。
 - 后续 Catalog 建议：把 `brand/customer/customer_name` 的真实枚举差异沉淀到 scope aliases；把 `ams_type/ad_type/ads_type/report_type/campaign_type/placement_classification/status/reason` 作为可提示的过滤字段；DSP 和 1P 值枚举需要单独更保守的慢查询方案。
 - 验证通过：新增测试 3 passed；全量测试 156 passed；业务 SQL 回归 13 passed。
+- 已提交并推送：`86e495e Profile intermediate field values`。
 
 ---
 
