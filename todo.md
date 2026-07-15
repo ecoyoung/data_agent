@@ -19,7 +19,7 @@
 - [x] 审计已跟踪文件引用关系
 - [x] 删除明确冗余文件和本地生成物
 - [x] 运行测试验证
-- [ ] 提交并 push 清理结果
+- [x] 提交并 push 清理结果
 
 ## Review
 
@@ -32,6 +32,7 @@
 - 已确认运行时 Catalog 大文件 `tables_columns.json` 和 `table_semantic_index.json` 被代码和测试读取，保留。
 - Secret pattern 扫描未发现可提交文件中存在真实密钥值；只命中 `.env.example` 空占位、代码提示和文档变量名。
 - 验证通过：全量测试 153 passed，业务 SQL 回归 13 passed。
+- 已提交并推送：`9618c85 Clean generated and local files`。
 
 ---
 
