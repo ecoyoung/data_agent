@@ -32,6 +32,47 @@ TEXT_DATE_LITERAL_BETWEEN_RE = re.compile(
     r"(DATE\s*'[^']+')\s+AND\s+(DATE\s*'[^']+')",
     re.IGNORECASE,
 )
+SCOPE_IDENTITY_AND_FILTER_RE = re.compile(
+    r"""
+    (?P<prefix>\s+AND\s+)
+    (?:
+        LOWER\s*\(\s*(?P<lower_col>(?:[a-z_][a-z0-9_]*\.)?(?:brand|customer|customer_name|profile_name))\s*\)
+        \s*=\s*
+        (?:LOWER\s*\(\s*)?'(?P<lower_value>[^']+)'(?:\s*\))?
+      |
+        (?P<plain_col>(?:[a-z_][a-z0-9_]*\.)?(?:brand|customer|customer_name|profile_name))
+        \s*=\s*
+        (?:LOWER\s*\(\s*)?'(?P<plain_value>[^']+)'(?:\s*\))?
+    )
+    """,
+    re.IGNORECASE | re.VERBOSE,
+)
+INTERMEDIATE_SCOPE_PREFIXES = (
+    "3p_sales_and_traffic",
+    "3p_orders",
+    "1p_orders",
+    "ams_campaigns_placement",
+    "ams_advertised_product",
+    "ams_search_term",
+    "ams_targeting",
+    "ams_campaigns",
+    "ams_audience",
+    "ams_ad_campaign_time",
+    "ams_advertised_time",
+    "ams_time",
+    "ads_sp_sd_advertised",
+    "ads_dsp_campaign_ad",
+    "ads_ad_campaign",
+    "dsp_order_funnel",
+    "dsp_audience_line",
+    "dsp_audience_order",
+    "dsp_creative_name",
+    "dsp_lineitem_name",
+    "dsp_product",
+    "fba_inventory_days",
+    "fba_returns",
+    "search_term",
+)
 
 
 @dataclass(frozen=True)
@@ -67,6 +108,65 @@ def _references_text_report_date_table(sql: str) -> bool:
     return bool(tables & text_tables)
 
 
+def _normalize_scope_value(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", value.lower())
+
+
+def _scope_token_from_table(table_name: str) -> str | None:
+    table = table_name.lower().split(".")[-1]
+    if not table.startswith("intermediate_amazon_"):
+        return None
+    base = table.removeprefix("intermediate_amazon_")
+    if base.endswith("_view"):
+        base = base.removesuffix("_view")
+    for prefix in sorted(INTERMEDIATE_SCOPE_PREFIXES, key=len, reverse=True):
+        if base == prefix:
+            return None
+        if base.startswith(prefix + "_"):
+            return base[len(prefix) + 1 :]
+    return None
+
+
+@lru_cache
+def _scope_alias_values() -> dict[str, set[str]]:
+    aliases_file = CATALOG_DIR / "scope_aliases.json"
+    if not aliases_file.exists():
+        return {}
+    data = json.loads(aliases_file.read_text(encoding="utf-8"))
+    result: dict[str, set[str]] = {}
+    for scope, meta in data.get("scopes", {}).items():
+        values = {scope}
+        values.update(str(alias) for alias in meta.get("aliases", []))
+        result[scope.lower()] = {_normalize_scope_value(value) for value in values if value}
+    return result
+
+
+def _scope_filter_values_for_sql(sql: str) -> set[str]:
+    values: set[str] = set()
+    aliases_by_scope = _scope_alias_values()
+    for table in referenced_tables(sql):
+        scope = _scope_token_from_table(table)
+        if not scope:
+            continue
+        values.add(_normalize_scope_value(scope))
+        values.update(aliases_by_scope.get(scope.lower(), set()))
+    return values
+
+
+def _remove_redundant_scope_identity_filters(sql: str) -> str:
+    scope_values = _scope_filter_values_for_sql(sql)
+    if not scope_values:
+        return sql
+
+    def replace(match: re.Match[str]) -> str:
+        value = match.group("lower_value") or match.group("plain_value") or ""
+        if _normalize_scope_value(value) in scope_values:
+            return ""
+        return match.group(0)
+
+    return SCOPE_IDENTITY_AND_FILTER_RE.sub(replace, sql)
+
+
 def _cast_text_report_date_comparisons(sql: str) -> str:
     if not _references_text_report_date_table(sql):
         return sql
@@ -89,6 +189,11 @@ def _cast_text_report_date_comparisons(sql: str) -> str:
 def repair_sql(sql: str) -> RepairResult:
     repaired = sql
     fixes: list[str] = []
+
+    scope_filters_removed = _remove_redundant_scope_identity_filters(repaired)
+    if scope_filters_removed != repaired:
+        repaired = scope_filters_removed
+        fixes.append("remove_redundant_scope_identity_filter")
 
     date_casted = _cast_text_report_date_comparisons(repaired)
     if date_casted != repaired:

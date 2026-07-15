@@ -74,3 +74,74 @@ def test_repair_sql_does_not_cast_date_typed_report_date_tables() -> None:
 
     assert "report_date::date" not in result.sql
     assert "cast_text_report_date_to_date" not in result.fixes
+
+
+def test_repair_sql_removes_redundant_scope_brand_filter_from_user_query() -> None:
+    result = repair_sql(
+        """
+        WITH top_five_asin AS (
+            SELECT
+                asin,
+                SUM(ordered_revenue) AS order_sales
+            FROM intermediate_amazon_3p_orders_blueland_view
+            WHERE report_date = DATE '2026-06-23'
+              AND country_code = 'US'
+            GROUP BY asin
+            ORDER BY order_sales DESC
+            LIMIT 5
+        ),
+        ad_performance AS (
+            SELECT
+                advertised_asin AS asin,
+                SUM(ams_sales) AS ad_sales
+            FROM intermediate_amazon_ams_advertised_product_blueland_view
+            WHERE report_date::date = DATE '2026-06-23'
+              AND country_code = 'US'
+              AND brand = 'blueland'
+              AND LOWER(ams_type) IN ('sp', 'sd', 'sb')
+              AND advertised_asin IN (SELECT asin FROM top_five_asin)
+            GROUP BY advertised_asin
+        )
+        SELECT
+            t.asin,
+            ROUND(t.order_sales::numeric, 2) AS order_sales,
+            COALESCE(ROUND(a.ad_sales::numeric, 2), 0) AS ad_sales
+        FROM top_five_asin t
+        LEFT JOIN ad_performance a ON t.asin = a.asin
+        ORDER BY t.order_sales DESC;
+        """
+    )
+
+    assert result.changed is True
+    assert "remove_redundant_scope_identity_filter" in result.fixes
+    assert "brand = 'blueland'" not in result.sql
+    assert "LOWER(ams_type) IN ('sp', 'sd', 'sb')" in result.sql
+
+
+def test_repair_sql_removes_lower_scope_customer_filter_but_keeps_other_filter() -> None:
+    result = repair_sql(
+        """
+        SELECT SUM(ams_sales)
+        FROM intermediate_amazon_ams_campaigns_brumate_view
+        WHERE report_date = DATE '2026-06-23'
+          AND LOWER(customer) = LOWER('bru mate')
+          AND country = 'US'
+        """
+    )
+
+    assert "LOWER(customer) = LOWER('bru mate')" not in result.sql
+    assert "country = 'US'" in result.sql
+
+
+def test_repair_sql_keeps_non_scope_identity_filter() -> None:
+    result = repair_sql(
+        """
+        SELECT SUM(ams_sales)
+        FROM intermediate_amazon_ams_campaigns_brumate_view
+        WHERE report_date = DATE '2026-06-23'
+          AND brand = 'Some Other Brand'
+        """
+    )
+
+    assert "brand = 'Some Other Brand'" in result.sql
+    assert "remove_redundant_scope_identity_filter" not in result.fixes

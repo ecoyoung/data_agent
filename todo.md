@@ -2,6 +2,37 @@
 
 ---
 
+# Scope 品牌过滤误用修复计划
+
+## Spec
+
+目标：修复历史查询 `0da354def31c43d8900438bc58a08e93` 暴露的问题：SQL 在已经选中 `intermediate_amazon_..._blueland_view` 的情况下，又生成 `brand = 'blueland'`，导致大小写敏感不匹配或冗余过滤。需要把字段值枚举得到的真实取值启发沉淀为规则和机械修复。
+
+边界：
+- 不删除用户明确给出的非 scope 字段过滤。
+- 只修复中间表 scope token/alias 与 `brand/customer/customer_name/profile_name` 的重复过滤。
+- 字符串过滤如果确需保留，优先使用 `LOWER(field) = LOWER('<value>')`；但 scope 表上的同 scope 过滤应直接移除。
+- 保持 SQL repair 幂等，并补充回归测试。
+
+## Checklist
+
+- [x] 定位当前 prompt/catalog/rules 对 brand scope 过滤的约束
+- [x] 增加 scope 字符串过滤机械修复
+- [x] 补强模板/系统规则
+- [x] 补充回归测试覆盖用户 SQL
+- [ ] 运行验证并提交 push
+
+## Review
+
+- 当前 Catalog 已有“不要猜 brand/customer = scope token”的业务规则，但历史 SQL 说明 prompt 约束不足，需要执行前 repair 兜底。
+- `sql_repair.py` 已新增 `remove_redundant_scope_identity_filter`：从中间表名解析 scope token，并结合 `scope_aliases.json` 删除 `brand/customer/customer_name/profile_name = '<scope token or alias>'` 这类重复过滤。
+- 系统 prompt 已补充：scope 表上不要添加同 scope 的 `brand/customer/customer_name/profile_name` 过滤；如果确需按字段真实值过滤，使用 `LOWER(field) = LOWER('<value>')`。
+- 已用用户查询 `0da354def31c43d8900438bc58a08e93` 验证：repair 移除 `brand = 'blueland'`，保留 `LOWER(ams_type) IN ('sp', 'sd', 'sb')`，实际执行返回 5 行。
+- 回归测试已覆盖完整用户 SQL、`LOWER(customer) = LOWER(scope alias)` 移除、非 scope 身份过滤保留。
+- 验证通过：相关测试 36 passed；全量测试 159 passed；业务 SQL 回归 13 passed。
+
+---
+
 # 中间表字段值枚举画像计划
 
 ## Spec

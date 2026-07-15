@@ -11,4 +11,5 @@
 - 写项目计划书时，如果用户说“不要按照当前进度/已有基础”，不是要推翻文档框架，而是保留原框架，用从 0 启动项目的口径重写内容；不要把当前已完成能力写成既有前提。
 - Catalog 中某些中间表日期字段是 `text`（例如 `intermediate_amazon_ams_advertised_product_*_view.report_date`），不能生成 `report_date = DATE 'YYYY-MM-DD'` 这类 text=date 比较；必须用 `report_date::date = DATE ...`，并在 SQL repair / Catalog hint / 回归测试中覆盖。
 - 表名 scope 后缀（如 `_blueland_view`）已经限定品牌/店铺时，不要再猜 `brand = 'blueland'` 或 `customer = scope_token`；真实字段值可能大小写或格式不同（如 `Blueland`、`Blueland_US-US-US-US`）。只有用户明确给出字段值或 Catalog 有真实取值时才加 brand/customer 过滤，字符串过滤应优先用 `LOWER(field) = LOWER(value)`。
+- 仅在 prompt/Catalog 中写“不要猜 brand/customer = scope token”不够；对中间表 scope 已限定的 SQL，要在执行前 repair 中移除 `brand/customer/customer_name/profile_name = '<scope token or alias>'` 这类重复过滤，防止大小写敏感或真实值格式差异导致空结果。
 - 用户问 SP/SD/SB 或 `sp+sd`、`sp+sb` 时，广告中间表要用真实广告类型字段过滤；`ams_advertised_product_*` 表用 `LOWER(ams_type) IN (...)`，不能漏掉广告类型过滤，也不要幻觉 `campaign_type`。

@@ -41,6 +41,8 @@
 ## 默认业务口径
 
 - 品牌/店铺范围优先从表名判断：例如 `intermediate_amazon_3p_orders_belliwelli_view` 对应 Belli Welli，`intermediate_amazon_3p_orders_innerbrightness_view` 对应 Inner brightness。不要默认套 `innerbrightness` 过滤。
+- 已经选中带品牌/店铺 scope 的中间表时，不要再添加同 scope 的 `brand/customer/customer_name/profile_name = '<scope token>'` 过滤；例如 `intermediate_amazon_..._blueland_view` 不要写 `brand = 'blueland'`。真实字段值可能是 `Blueland`、`BrüMate`、`Blueland_US-US-US-US` 等，和表名 token 不完全一致。
+- 如果用户明确要求按 `brand/customer/customer_name/profile_name` 字段值过滤，必须使用用户给出的真实值，并写成 `LOWER(field) = LOWER('<value>')`，不要用表名 token 猜字段值。
 - 如果用户没有指定品牌/店铺，但问题需要单一业务范围，先追问；如果用户明确问“所有品牌/全部店铺”，使用同一报表族下多个中间表 `UNION ALL` 后聚合。
 - 用户只问“销售额/销售/销量”且没有 Business Report、Sessions、流量、转化率或广告上下文时，默认使用订单中间表：销售额 `SUM(ordered_revenue)`，销量 `SUM(ordered_units)`。不要追问销售额口径。
 - 中间订单表默认使用 `ordered_revenue`、`ordered_units`、`order_items`，不要再使用旧原始订单表的 `item_price/quantity`。
