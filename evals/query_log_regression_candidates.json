@@ -1,0 +1,330 @@
+[
+  {
+    "id": "query_log_d771e2bbcee54577be230545691387ae_user_1_brumate_2026_6",
+    "source_query_id": "d771e2bbcee54577be230545691387ae",
+    "source_reasons": [
+      "query_error"
+    ],
+    "created_at": "2026-07-14 03:31:57",
+    "user_text": "@_user_1  Brumate 2026年6月份订单销售额数据",
+    "status": "error",
+    "feedback": [],
+    "error": "数据库错误：column \"intermediate_amazon_3p_orders_brumate_view.report_date\" must appear in the GROUP BY clause or be used in an aggregate function\nLINE 2:     to_char(report_date, 'YYYY-MM') AS month,\n                    ^",
+    "sql": "SELECT\n    to_char(report_date, 'YYYY-MM') AS month,\n    SUM(ordered_revenue) AS sales\nFROM intermediate_amazon_3p_orders_brumate_view\nWHERE\n    report_date >= DATE '2026-06-01'\n    AND report_date < DATE '2026-07-01'\n    AND country_code = 'US'\nGROUP BY month\nORDER BY month;",
+    "expected_tables": [
+      "intermediate_amazon_3p_orders_brumate_view"
+    ],
+    "required_terms_suggestion": [
+      "ordered_revenue",
+      "report_date",
+      "country_code",
+      "country"
+    ],
+    "forbidden_terms_suggestion": [
+      "GROUP BY month"
+    ],
+    "row_count": null,
+    "columns_json": null,
+    "selected_catalog_docs": [
+      "intermediate_amazon.md"
+    ],
+    "needs_human_review": true,
+    "suggested_action": "人工确认后，将正确 SQL 和 required/forbidden terms 合并进正式 evals。"
+  },
+  {
+    "id": "query_log_34fee89aec0d4908a9047c4ae0a18680_user_1_brumate_2026_6",
+    "source_query_id": "34fee89aec0d4908a9047c4ae0a18680",
+    "source_reasons": [
+      "query_error"
+    ],
+    "created_at": "2026-07-14 02:47:07",
+    "user_text": "@_user_1 Brumate 2026年6月份订单销售额数据",
+    "status": "error",
+    "feedback": [],
+    "error": "数据库错误：permission denied for view intermediate_amazon_3p_orders_brumate_view",
+    "sql": "SELECT\n    report_date,\n    SUM(ordered_revenue) AS total_ordered_revenue\nFROM intermediate_amazon_3p_orders_brumate_view\nWHERE report_date >= DATE '2026-06-01'\n  AND report_date <  DATE '2026-07-01'\nGROUP BY report_date\nORDER BY report_date;",
+    "expected_tables": [
+      "intermediate_amazon_3p_orders_brumate_view"
+    ],
+    "required_terms_suggestion": [
+      "ordered_revenue",
+      "report_date",
+      "GROUP BY report_date"
+    ],
+    "forbidden_terms_suggestion": [
+      "permission denied"
+    ],
+    "row_count": null,
+    "columns_json": null,
+    "selected_catalog_docs": [
+      "intermediate_amazon.md"
+    ],
+    "needs_human_review": true,
+    "suggested_action": "人工确认后，将正确 SQL 和 required/forbidden terms 合并进正式 evals。"
+  },
+  {
+    "id": "query_log_ecce891a341f446492df64fcffb8a056_brumate_user_1",
+    "source_query_id": "ecce891a341f446492df64fcffb8a056",
+    "source_reasons": [
+      "query_error"
+    ],
+    "created_at": "2026-07-14 02:16:24",
+    "user_text": "Brumate @_user_1",
+    "status": "error",
+    "feedback": [],
+    "error": "数据库错误：permission denied for view intermediate_amazon_3p_orders_brumate_view",
+    "sql": "SELECT\n    SUM(ordered_revenue) AS total_order_sales\nFROM intermediate_amazon_3p_orders_brumate_view\nWHERE report_date >= DATE '2026-06-01'\n  AND report_date <  DATE '2026-07-01'\n  AND country_code = 'US';",
+    "expected_tables": [
+      "intermediate_amazon_3p_orders_brumate_view"
+    ],
+    "required_terms_suggestion": [
+      "ordered_revenue",
+      "report_date",
+      "country_code",
+      "country"
+    ],
+    "forbidden_terms_suggestion": [
+      "permission denied"
+    ],
+    "row_count": null,
+    "columns_json": null,
+    "selected_catalog_docs": [
+      "intermediate_amazon.md"
+    ],
+    "needs_human_review": true,
+    "suggested_action": "人工确认后，将正确 SQL 和 required/forbidden terms 合并进正式 evals。"
+  },
+  {
+    "id": "query_log_2b8af01c61414a99862435feb712b8bb_user_1_2026_06_24_2026_06_23_5_asin_6_24",
+    "source_query_id": "2b8af01c61414a99862435feb712b8bb",
+    "source_reasons": [
+      "query_error"
+    ],
+    "created_at": "2026-07-09 16:07:09",
+    "user_text": "@_user_1 查询2026-06-24对比2026-06-23销量下滑最多的5个asin，以及6月24日的当日销量和转化率",
+    "status": "error",
+    "feedback": [],
+    "error": "业务规则校验失败：ROUND(expr, 位数) 中的除法结果必须整体转为 numeric，或确保分子分母均为 numeric",
+    "sql": "WITH daily_stats AS (\n    SELECT\n        childasin,\n        report_date::date AS day,\n        SUM(salesbyasin_unitsordered) AS units_sold,\n        SUM(trafficbyasin_sessions) AS sessions\n    FROM amazon_3p_sales_and_traffic_innerbrightness\n    WHERE report_date::date IN ('2026-06-23', '2026-06-24')\n      AND country_code = 'US'\n      AND customer = 'innerbrightness'\n    GROUP BY childasin, report_date::date\n),\nprev AS (\n    SELECT childasin, units_sold AS prev_units\n    FROM daily_stats\n    WHERE day = '2026-06-23'\n),\ncurr AS (\n    SELECT childasin, units_sold AS curr_units, sessions AS curr_sessions\n    FROM daily_stats\n    WHERE day = '2026-06-24'\n),\nranked AS (\n    SELECT\n        curr.childasin,\n        COALESCE(prev.prev_units, 0) AS units_prev,\n        curr.curr_units,\n        curr.curr_sessions,\n        COALESCE(prev.prev_units, 0) - curr.curr_units AS decline\n    FROM curr\n    LEFT JOIN prev ON curr.childasin = prev.childasin\n    WHERE COALESCE(prev.prev_units, 0) > curr.curr_units\n)\nSELECT\n    childasin AS \"ASIN\",\n    curr_units AS \"当日销量 (2026-06-24)\",\n    ROUND(\n        (curr_units::numeric / NULLIF(curr_sessions, 0)), 4\n    ) AS \"当日转化率\",\n    units_prev AS \"前日销量 (2026-06-23)\",\n    decline AS \"下滑量\"\nFROM ranked\nORDER BY decline DESC\nLIMIT 5;",
+    "expected_tables": [
+      "amazon_3p_sales_and_traffic_innerbrightness"
+    ],
+    "required_terms_suggestion": [
+      "salesbyasin_unitsordered",
+      "trafficbyasin_sessions",
+      "report_date",
+      "country_code",
+      "country",
+      "NULLIF",
+      "LEFT JOIN"
+    ],
+    "forbidden_terms_suggestion": [],
+    "row_count": null,
+    "columns_json": null,
+    "selected_catalog_docs": [
+      "innerbrightness_3p.md"
+    ],
+    "needs_human_review": true,
+    "suggested_action": "人工确认后，将正确 SQL 和 required/forbidden terms 合并进正式 evals。"
+  },
+  {
+    "id": "query_log_6bd742d17bd24d60a86059fb18d82fe0_user_1_2026_6_5_asin_business_report_acos",
+    "source_query_id": "6bd742d17bd24d60a86059fb18d82fe0",
+    "source_reasons": [
+      "query_error"
+    ],
+    "created_at": "2026-07-09 14:22:36",
+    "user_text": "@_user_1 2026年6月，广告花费最多的5个asin，以及他们的Business Report销售额和acos",
+    "status": "error",
+    "feedback": [],
+    "error": "数据库错误：function round(double precision, integer) does not exist\nLINE 43:     ROUND(a.ad_spend, 2) AS ad_spend,\n             ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.",
+    "sql": "WITH top5 AS (\n    SELECT\n        advertised_asin,\n        SUM(cost) AS ad_spend\n    FROM amazon_ads_sp_advertised_product_innerbrightness\n    WHERE date::date >= DATE '2026-06-01'\n      AND date::date <  DATE '2026-07-01'\n      AND country_code_request = 'US'\n      AND customer_request = 'INNERBRIGHTNESS'\n    GROUP BY advertised_asin\n    ORDER BY ad_spend DESC\n    LIMIT 5\n),\nad_metrics AS (\n    SELECT\n        t.advertised_asin,\n        SUM(a.cost)      AS ad_spend,\n        SUM(a.sales14d)  AS ad_sales\n    FROM top5 t\n    LEFT JOIN amazon_ads_sp_advertised_product_innerbrightness a\n        ON t.advertised_asin = a.advertised_asin\n        AND a.date::date >= DATE '2026-06-01'\n        AND a.date::date <  DATE '2026-07-01'\n        AND a.country_code_request = 'US'\n        AND a.customer_request = 'INNERBRIGHTNESS'\n    GROUP BY t.advertised_asin\n),\nbr_metrics AS (\n    SELECT\n        t.advertised_asin,\n        SUM(s.salesbyasin_orderedproductsales_amount) AS br_sales\n    FROM top5 t\n    LEFT JOIN amazon_3p_sales_and_traffic_innerbrightness s\n        ON t.advertised_asin = s.childasin\n        AND s.report_date >= DATE '2026-06-01'\n        AND s.report_date <  DATE '2026-07-01'\n        AND s.country_code = 'US'\n        AND s.customer = 'innerbrightness'\n    GROUP BY t.advertised_asin\n)\nSELECT\n    t.advertised_asin,\n    ROUND(a.ad_spend, 2) AS ad_spend,\n    ROUND(COALESCE(a.ad_sales, 0), 2) AS ad_sales,\n    ROUND(COALESCE(b.br_sales, 0), 2) AS br_sales,\n    ROUND((a.ad_spend / NULLIF(a.ad_sales, 0))::numeric, 4) AS acos\nFROM top5 t\nLEFT JOIN ad_metrics a ON t.advertised_asin = a.advertised_asin\nLEFT JOIN br_metrics b ON t.advertised_asin = b.advertised_asin\nORDER BY a.ad_spend DESC;",
+    "expected_tables": [
+      "amazon_ads_sp_advertised_product_innerbrightness",
+      "amazon_3p_sales_and_traffic_innerbrightness"
+    ],
+    "required_terms_suggestion": [
+      "salesbyasin_orderedproductsales_amount",
+      "report_date",
+      "country_code",
+      "country",
+      "NULLIF",
+      "LEFT JOIN"
+    ],
+    "forbidden_terms_suggestion": [
+      "ROUND(double precision"
+    ],
+    "row_count": null,
+    "columns_json": null,
+    "selected_catalog_docs": [
+      "innerbrightness_3p.md",
+      "innerbrightness_ads_sp.md"
+    ],
+    "needs_human_review": true,
+    "suggested_action": "人工确认后，将正确 SQL 和 required/forbidden terms 合并进正式 evals。"
+  },
+  {
+    "id": "query_log_350c01078d2c47939fcf0fb3a1cfa153_user_1_2026_6_5_asin_business_report_acos",
+    "source_query_id": "350c01078d2c47939fcf0fb3a1cfa153",
+    "source_reasons": [
+      "query_error"
+    ],
+    "created_at": "2026-07-09 10:07:27",
+    "user_text": "@_user_1 2026年6月，广告花费最多的5个asin，以及他们的Business Report销售额和acos（百分比形式）",
+    "status": "error",
+    "feedback": [],
+    "error": "业务规则校验失败：ROUND(expr, 位数) 中的除法结果必须整体转为 numeric，或确保分子分母均为 numeric",
+    "sql": "WITH top5_spend_asin AS (\n    SELECT\n        advertised_asin AS asin,\n        SUM(cost) AS ad_spend,\n        SUM(sales14d) AS ad_sales\n    FROM amazon_ads_sp_advertised_product_innerbrightness\n    WHERE date::date >= DATE '2026-06-01'\n      AND date::date <  DATE '2026-07-01'\n      AND country_code_request = 'US'\n      AND customer_request = 'INNERBRIGHTNESS'\n    GROUP BY advertised_asin\n    ORDER BY SUM(cost) DESC\n    LIMIT 5\n),\nbr_sales AS (\n    SELECT\n        childasin AS asin,\n        SUM(salesbyasin_orderedproductsales_amount) AS business_report_sales\n    FROM amazon_3p_sales_and_traffic_innerbrightness\n    WHERE report_date >= DATE '2026-06-01'\n      AND report_date <  DATE '2026-07-01'\n      AND country_code = 'US'\n      AND customer = 'innerbrightness'\n    GROUP BY childasin\n)\nSELECT\n    t.asin,\n    ROUND(t.ad_spend::numeric, 2) AS ad_spend,\n    COALESCE(b.business_report_sales, 0) AS business_report_sales,\n    ROUND((t.ad_spend / NULLIF(t.ad_sales, 0))::numeric * 100, 2) AS acos_pct\nFROM top5_spend_asin t\nLEFT JOIN br_sales b ON b.asin = t.asin\nORDER BY t.ad_spend DESC;",
+    "expected_tables": [
+      "amazon_ads_sp_advertised_product_innerbrightness",
+      "amazon_3p_sales_and_traffic_innerbrightness"
+    ],
+    "required_terms_suggestion": [
+      "salesbyasin_orderedproductsales_amount",
+      "report_date",
+      "country_code",
+      "country",
+      "NULLIF",
+      "LEFT JOIN"
+    ],
+    "forbidden_terms_suggestion": [],
+    "row_count": null,
+    "columns_json": null,
+    "selected_catalog_docs": [
+      "innerbrightness_3p.md",
+      "innerbrightness_ads_sp.md"
+    ],
+    "needs_human_review": true,
+    "suggested_action": "人工确认后，将正确 SQL 和 required/forbidden terms 合并进正式 evals。"
+  },
+  {
+    "id": "query_log_f7052391fbff4422bb7504206e948f9b_user_1_2026_06_24_2026_06_23_5_asin_6_24",
+    "source_query_id": "f7052391fbff4422bb7504206e948f9b",
+    "source_reasons": [
+      "query_error"
+    ],
+    "created_at": "2026-07-09 10:07:05",
+    "user_text": "@_user_1 查询2026-06-24对比2026-06-23销量下滑最多的5个asin，以及6月24日的当日销量和转化率",
+    "status": "error",
+    "feedback": [],
+    "error": "业务规则校验失败：ROUND(expr, 位数) 中的除法结果必须整体转为 numeric，或确保分子分母均为 numeric",
+    "sql": "WITH day_23 AS (\n    SELECT\n        childasin,\n        SUM(salesbyasin_unitsordered) AS units_ordered,\n        SUM(trafficbyasin_sessions) AS sessions\n    FROM amazon_3p_sales_and_traffic_innerbrightness\n    WHERE report_date = DATE '2026-06-23'\n      AND country_code = 'US'\n      AND customer = 'innerbrightness'\n    GROUP BY childasin\n),\nday_24 AS (\n    SELECT\n        childasin,\n        SUM(salesbyasin_unitsordered) AS units_ordered,\n        SUM(trafficbyasin_sessions) AS sessions\n    FROM amazon_3p_sales_and_traffic_innerbrightness\n    WHERE report_date = DATE '2026-06-24'\n      AND country_code = 'US'\n      AND customer = 'innerbrightness'\n    GROUP BY childasin\n)\nSELECT\n    d23.childasin AS asin,\n    d23.units_ordered AS units_ordered_23,\n    d24.units_ordered AS units_ordered_24,\n    (d23.units_ordered - d24.units_ordered) AS decline,\n    ROUND(\n        (d24.units_ordered::numeric / NULLIF(d24.sessions, 0)),\n        4\n    ) AS conversion_rate_24\nFROM day_23 d23\nINNER JOIN day_24 d24 ON d23.childasin = d24.childasin\nWHERE (d23.units_ordered - d24.units_ordered) > 0\nORDER BY decline DESC\nLIMIT 5;",
+    "expected_tables": [
+      "amazon_3p_sales_and_traffic_innerbrightness"
+    ],
+    "required_terms_suggestion": [
+      "salesbyasin_unitsordered",
+      "trafficbyasin_sessions",
+      "report_date",
+      "country_code",
+      "country",
+      "NULLIF"
+    ],
+    "forbidden_terms_suggestion": [],
+    "row_count": null,
+    "columns_json": null,
+    "selected_catalog_docs": [
+      "innerbrightness_3p.md"
+    ],
+    "needs_human_review": true,
+    "suggested_action": "人工确认后，将正确 SQL 和 required/forbidden terms 合并进正式 evals。"
+  },
+  {
+    "id": "query_log_7fa9252a381147dcb286c74a2d5b0c36_2026_6_10_asin_business_report_acos",
+    "source_query_id": "7fa9252a381147dcb286c74a2d5b0c36",
+    "source_reasons": [
+      "query_error"
+    ],
+    "created_at": "2026-07-09 09:27:28",
+    "user_text": "2026年6月，广告花费最多的10个asin，以及他们的Business Report销售额和acos",
+    "status": "error",
+    "feedback": [],
+    "error": "数据库错误：function round(double precision, integer) does not exist\nLINE 19:     ROUND(t.ad_spend::numeric / NULLIF(t.ad_sales, 0), 4) AS...\n             ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.",
+    "sql": "WITH top10_ads AS (\n    SELECT\n        advertised_asin,\n        SUM(cost) AS ad_spend,\n        SUM(sales14d) AS ad_sales\n    FROM amazon_ads_sp_advertised_product_innerbrightness\n    WHERE date::date >= DATE '2026-06-01'\n      AND date::date <  DATE '2026-07-01'\n      AND country_code_request = 'US'\n      AND customer_request = 'INNERBRIGHTNESS'\n    GROUP BY advertised_asin\n    ORDER BY ad_spend DESC\n    LIMIT 10\n)\nSELECT\n    t.advertised_asin AS asin,\n    t.ad_spend,\n    t.ad_sales,\n    ROUND(t.ad_spend::numeric / NULLIF(t.ad_sales, 0), 4) AS acos,\n    COALESCE(br.br_sales, 0) AS br_sales\nFROM top10_ads t\nLEFT JOIN (\n    SELECT\n        childasin,\n        SUM(salesbyasin_orderedproductsales_amount) AS br_sales\n    FROM amazon_3p_sales_and_traffic_innerbrightness\n    WHERE report_date >= DATE '2026-06-01'\n      AND report_date <  DATE '2026-07-01'\n      AND country_code = 'US'\n      AND customer = 'innerbrightness'\n    GROUP BY childasin\n) br ON br.childasin = t.advertised_asin\nORDER BY t.ad_spend DESC;",
+    "expected_tables": [
+      "amazon_ads_sp_advertised_product_innerbrightness",
+      "amazon_3p_sales_and_traffic_innerbrightness"
+    ],
+    "required_terms_suggestion": [
+      "salesbyasin_orderedproductsales_amount",
+      "report_date",
+      "country_code",
+      "country",
+      "NULLIF",
+      "LEFT JOIN"
+    ],
+    "forbidden_terms_suggestion": [
+      "ROUND(double precision"
+    ],
+    "row_count": null,
+    "columns_json": null,
+    "selected_catalog_docs": [
+      "innerbrightness_3p.md",
+      "innerbrightness_ads_sp.md"
+    ],
+    "needs_human_review": true,
+    "suggested_action": "人工确认后，将正确 SQL 和 required/forbidden terms 合并进正式 evals。"
+  },
+  {
+    "id": "query_log_9620f3ede4184cd8a60e233ace2d4cf8_user_1_2026_06_24_2026_06_23_5_asin_6_24",
+    "source_query_id": "9620f3ede4184cd8a60e233ace2d4cf8",
+    "source_reasons": [
+      "query_error"
+    ],
+    "created_at": "2026-07-09 09:01:39",
+    "user_text": "@_user_1 查询2026-06-24对比2026-06-23销量下滑最多的5个asin，以及6月24日的当日销量和转化率",
+    "status": "error",
+    "feedback": [],
+    "error": "业务规则校验失败：Business Report 转化率计算必须使用 NULLIF 或 CASE WHEN 防止除零",
+    "sql": "WITH\nday23 AS (\n    SELECT\n        childasin,\n        SUM(salesbyasin_unitsordered) AS units_23,\n        SUM(trafficbyasin_sessions) AS sessions_23\n    FROM amazon_3p_sales_and_traffic_innerbrightness\n    WHERE report_date = '2026-06-23'\n      AND country_code = 'US'\n      AND customer = 'innerbrightness'\n    GROUP BY childasin\n),\nday24 AS (\n    SELECT\n        childasin,\n        SUM(salesbyasin_unitsordered) AS units_24,\n        SUM(trafficbyasin_sessions) AS sessions_24\n    FROM amazon_3p_sales_and_traffic_innerbrightness\n    WHERE report_date = '2026-06-24'\n      AND country_code = 'US'\n      AND customer = 'innerbrightness'\n    GROUP BY childasin\n)\nSELECT\n    COALESCE(d23.childasin, d24.childasin) AS asin,\n    COALESCE(d24.units_24, 0)               AS units_sold_0624,\n    CASE\n        WHEN COALESCE(d24.sessions_24, 0) > 0\n        THEN ROUND(\n                 COALESCE(d24.units_24, 0)::numeric\n                 / d24.sessions_24,\n                 4)\n        ELSE NULL\n    END                                     AS conversion_rate_0624,\n    COALESCE(d24.units_24, 0)\n    - COALESCE(d23.units_23, 0)             AS unit_change\nFROM day23 d23\nFULL OUTER JOIN day24 d24\n    ON d23.childasin = d24.childasin\nWHERE COALESCE(d23.units_23, 0) > 0\n   OR COALESCE(d24.units_24, 0) > 0\nORDER BY unit_change ASC\nLIMIT 5;",
+    "expected_tables": [
+      "amazon_3p_sales_and_traffic_innerbrightness"
+    ],
+    "required_terms_suggestion": [
+      "salesbyasin_unitsordered",
+      "trafficbyasin_sessions",
+      "report_date",
+      "country_code",
+      "country"
+    ],
+    "forbidden_terms_suggestion": [],
+    "row_count": null,
+    "columns_json": null,
+    "selected_catalog_docs": [
+      "innerbrightness_3p.md"
+    ],
+    "needs_human_review": true,
+    "suggested_action": "人工确认后，将正确 SQL 和 required/forbidden terms 合并进正式 evals。"
+  },
+  {
+    "id": "query_log_93080d6203e241978bb099166d964a99_query",
+    "source_query_id": "93080d6203e241978bb099166d964a99",
+    "source_reasons": [
+      "query_error"
+    ],
+    "created_at": "2026-07-09 08:54:53",
+    "user_text": "确认",
+    "status": "error",
+    "feedback": [],
+    "error": "业务规则校验失败：Business Report 转化率计算必须使用 NULLIF 防止除零",
+    "sql": "WITH daily_data AS (\n    SELECT\n        childasin,\n        report_date,\n        SUM(salesbyasin_unitsordered) AS units_ordered,\n        SUM(trafficbyasin_sessions) AS sessions\n    FROM amazon_3p_sales_and_traffic_innerbrightness\n    WHERE report_date IN ('2026-06-23', '2026-06-24')\n      AND country_code = 'US'\n      AND customer = 'innerbrightness'\n    GROUP BY childasin, report_date\n),\npivot AS (\n    SELECT\n        childasin,\n        COALESCE(SUM(CASE WHEN report_date = '2026-06-23' THEN units_ordered END), 0) AS units_23,\n        COALESCE(SUM(CASE WHEN report_date = '2026-06-24' THEN units_ordered END), 0) AS units_24,\n        COALESCE(SUM(CASE WHEN report_date = '2026-06-24' THEN sessions END), 0) AS sessions_24\n    FROM daily_data\n    GROUP BY childasin\n),\ndecline AS (\n    SELECT\n        childasin,\n        units_23,\n        units_24,\n        units_23 - units_24 AS decline_units,\n        sessions_24,\n        ROUND(\n            CASE WHEN sessions_24 > 0\n                THEN units_24::numeric / sessions_24\n                ELSE 0\n            END,\n            4\n        ) AS conversion_rate_24\n    FROM pivot\n    WHERE units_24 < units_23  -- 只保留下滑的 ASIN\n)\nSELECT\n    childasin AS asin,\n    units_23 AS \"6月23日销量\",\n    units_24 AS \"6月24日销量\",\n    decline_units AS \"下滑件数\",\n    conversion_rate_24 AS \"6月24日转化率\"\nFROM decline\nORDER BY decline_units DESC\nLIMIT 5;",
+    "expected_tables": [
+      "amazon_3p_sales_and_traffic_innerbrightness"
+    ],
+    "required_terms_suggestion": [
+      "salesbyasin_unitsordered",
+      "trafficbyasin_sessions",
+      "report_date",
+      "country_code",
+      "country"
+    ],
+    "forbidden_terms_suggestion": [],
+    "row_count": null,
+    "columns_json": null,
+    "selected_catalog_docs": [
+      "innerbrightness_3p.md"
+    ],
+    "needs_human_review": true,
+    "suggested_action": "人工确认后，将正确 SQL 和 required/forbidden terms 合并进正式 evals。"
+  }
+]

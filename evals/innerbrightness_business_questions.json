@@ -1,0 +1,120 @@
+[
+  {
+    "id": "intermediate_orders_monthly_sales_june_2026",
+    "status": "ready",
+    "question": "看一下 2026 年 6 月 Belli Welli 销售额、销量和订单数",
+    "expected_sql": "SELECT to_char(report_date, 'YYYY-MM') AS month, SUM(ordered_revenue) AS order_revenue, SUM(ordered_units) AS units, SUM(order_items) AS order_items FROM intermediate_amazon_3p_orders_belliwelli_view WHERE report_date >= DATE '2026-06-01' AND report_date < DATE '2026-07-01' AND country_code = 'US' GROUP BY 1 ORDER BY 1;",
+    "expected_tables": ["intermediate_amazon_3p_orders_belliwelli_view"],
+    "required_terms": ["to_char(report_date, 'YYYY-MM')", "ordered_revenue", "GROUP BY 1", "country_code = 'US'"],
+    "forbidden_terms": ["GROUP BY report_date", "salesbyasin_orderedproductsales_amount", "item_price", "LIMIT 10"]
+  },
+  {
+    "id": "intermediate_orders_brumate_monthly_sales_june_2026",
+    "status": "ready",
+    "question": "Brumate 2026年6月份订单销售额数据",
+    "expected_sql": "SELECT to_char(report_date, 'YYYY-MM') AS month, SUM(ordered_revenue) AS order_revenue FROM intermediate_amazon_3p_orders_brumate_view WHERE report_date >= DATE '2026-06-01' AND report_date < DATE '2026-07-01' AND country_code = 'US' GROUP BY 1 ORDER BY 1;",
+    "expected_tables": ["intermediate_amazon_3p_orders_brumate_view"],
+    "required_terms": ["to_char(report_date, 'YYYY-MM')", "ordered_revenue", "GROUP BY 1", "country_code = 'US'"],
+    "forbidden_terms": ["GROUP BY month", "GROUP BY report_date", "salesbyasin_orderedproductsales_amount", "LIMIT 10"]
+  },
+  {
+    "id": "intermediate_orders_brumate_daily_sales_trend_june_2026",
+    "status": "ready",
+    "question": "Brumate 2026年6月份订单销售额趋势",
+    "expected_sql": "SELECT report_date, SUM(ordered_revenue) AS order_revenue FROM intermediate_amazon_3p_orders_brumate_view WHERE report_date >= DATE '2026-06-01' AND report_date < DATE '2026-07-01' AND country_code = 'US' GROUP BY report_date ORDER BY report_date;",
+    "expected_tables": ["intermediate_amazon_3p_orders_brumate_view"],
+    "expected_row_count": 30,
+    "required_terms": ["report_date", "ordered_revenue", "GROUP BY report_date", "ORDER BY report_date", "country_code = 'US'"],
+    "forbidden_terms": ["to_char(report_date", "GROUP BY 1", "GROUP BY month", "salesbyasin_orderedproductsales_amount", "LIMIT 10"]
+  },
+  {
+    "id": "intermediate_orders_daily_sales_may_2026",
+    "status": "ready",
+    "question": "看一下 2026 年 5 月 Inner brightness 每天的订单销售额、销量和订单数",
+    "expected_sql": "SELECT report_date AS date, SUM(ordered_revenue) AS order_revenue, SUM(ordered_units) AS units, SUM(order_items) AS order_items FROM intermediate_amazon_3p_orders_innerbrightness_view WHERE report_date >= DATE '2026-05-01' AND report_date < DATE '2026-06-01' AND country_code = 'US' GROUP BY report_date ORDER BY report_date;",
+    "expected_tables": ["intermediate_amazon_3p_orders_innerbrightness_view"],
+    "required_terms": ["ordered_revenue", "ordered_units", "order_items", "country_code = 'US'"],
+    "forbidden_terms": ["item_price", "buyer_email", "UPDATE", "DELETE"]
+  },
+  {
+    "id": "intermediate_business_report_top_asins_may_2026",
+    "status": "ready",
+    "question": "按 Business Report 看 2026 年 5 月 Inner brightness 销售额最高的 ASIN，并带 sessions 和转化率",
+    "expected_sql": "SELECT asin, SUM(salesbyasin_orderedproductsales_amount) AS sales, SUM(salesbyasin_unitsordered) AS units, SUM(trafficbyasin_sessions) AS sessions, ROUND((SUM(salesbyasin_unitsordered) / NULLIF(SUM(trafficbyasin_sessions), 0))::numeric, 4) AS unit_session_rate FROM intermediate_amazon_3p_sales_and_traffic_innerbrightness_view WHERE report_date >= DATE '2026-05-01' AND report_date < DATE '2026-06-01' AND country_code = 'US' GROUP BY asin ORDER BY sales DESC LIMIT 20;",
+    "expected_tables": ["intermediate_amazon_3p_sales_and_traffic_innerbrightness_view"],
+    "required_terms": ["asin", "salesbyasin_orderedproductsales_amount", "trafficbyasin_sessions", "NULLIF", "LIMIT 20"],
+    "forbidden_terms": ["childasin", "sales14d"]
+  },
+  {
+    "id": "intermediate_ams_campaign_acos_may_2026",
+    "status": "ready",
+    "question": "看 2026 年 5 月 Belli Welli AMS campaign 花费、广告销售额、订单数、ACoS 和 ROAS 排名",
+    "expected_sql": "SELECT campaign_name, SUM(ams_spend) AS spend, SUM(ams_sales) AS ad_sales, SUM(ams_orders) AS ad_orders, SUM(ams_click) AS clicks, SUM(ams_impression) AS impressions, ROUND((SUM(ams_spend) / NULLIF(SUM(ams_sales), 0))::numeric, 4) AS acos, ROUND((SUM(ams_sales) / NULLIF(SUM(ams_spend), 0))::numeric, 4) AS roas FROM intermediate_amazon_ams_campaigns_belliwelli_view WHERE report_date >= DATE '2026-05-01' AND report_date < DATE '2026-06-01' AND country = 'US' GROUP BY campaign_name ORDER BY spend DESC LIMIT 20;",
+    "expected_tables": ["intermediate_amazon_ams_campaigns_belliwelli_view"],
+    "required_terms": ["ams_spend", "ams_sales", "ams_orders", "NULLIF", "country = 'US'"],
+    "forbidden_terms": ["amazon_ads_sp_campaigns_innerbrightness", "sales14d", "purchases14d", "cost"]
+  },
+  {
+    "id": "intermediate_ams_search_terms_wasted_spend_may_2026",
+    "status": "ready",
+    "question": "找 2026 年 5 月 Belli Welli AMS 搜索词里点击不少但没有订单的浪费花费",
+    "expected_sql": "SELECT search_term, SUM(ams_spend) AS spend, SUM(ams_click) AS clicks, SUM(ams_sales) AS ad_sales, SUM(ad_order) AS ad_orders FROM intermediate_amazon_ams_search_term_belliwelli_view WHERE report_date >= DATE '2026-05-01' AND report_date < DATE '2026-06-01' AND country = 'US' GROUP BY search_term HAVING SUM(ams_click) >= 5 AND SUM(ad_order) = 0 ORDER BY spend DESC LIMIT 30;",
+    "expected_tables": ["intermediate_amazon_ams_search_term_belliwelli_view"],
+    "required_terms": ["search_term", "HAVING", "SUM(ams_click) >= 5", "SUM(ad_order) = 0"],
+    "forbidden_terms": ["amazon_ads_sp_search_term_innerbrightness", "purchases14d"]
+  },
+  {
+    "id": "intermediate_ams_targeting_may_2026",
+    "status": "ready",
+    "question": "看 2026 年 5 月 Inner brightness AMS targeting 的花费、销售和 ACoS",
+    "expected_sql": "SELECT targeting, SUM(ams_spend) AS spend, SUM(ams_sales) AS ad_sales, SUM(ams_orders) AS ad_orders, ROUND((SUM(ams_spend) / NULLIF(SUM(ams_sales), 0))::numeric, 4) AS acos FROM intermediate_amazon_ams_targeting_innerbrightness_view WHERE report_date >= DATE '2026-05-01' AND report_date < DATE '2026-06-01' GROUP BY targeting ORDER BY spend DESC LIMIT 30;",
+    "expected_tables": ["intermediate_amazon_ams_targeting_innerbrightness_view"],
+    "required_terms": ["targeting", "ams_spend", "ams_sales", "NULLIF"],
+    "forbidden_terms": ["amazon_ads_sb_targeting_innerbrightness", "sales14d"]
+  },
+  {
+    "id": "intermediate_advertised_product_asin_may_2026",
+    "status": "ready",
+    "question": "看 2026 年 5 月 Inner brightness 广告商品 ASIN 的花费、销售和 ROAS",
+    "expected_sql": "SELECT advertised_asin AS asin, SUM(ams_spend) AS spend, SUM(ams_sales) AS ad_sales, ROUND((SUM(ams_sales) / NULLIF(SUM(ams_spend), 0))::numeric, 4) AS roas FROM intermediate_amazon_ams_advertised_product_innerbrightness_view WHERE report_date::date >= DATE '2026-05-01' AND report_date::date < DATE '2026-06-01' AND country_code = 'US' GROUP BY advertised_asin ORDER BY spend DESC LIMIT 30;",
+    "expected_tables": ["intermediate_amazon_ams_advertised_product_innerbrightness_view"],
+    "required_terms": ["advertised_asin", "report_date::date", "ams_spend", "ams_sales"],
+    "forbidden_terms": ["amazon_ads_sp_advertised_product_innerbrightness", "sales14d"]
+  },
+  {
+    "id": "intermediate_tacos_daily_may_2026",
+    "status": "ready",
+    "question": "算一下 2026 年 5 月 Belli Welli 每天 AMS 的 TACOS",
+    "expected_sql": "WITH total_sales AS (SELECT report_date, SUM(ordered_revenue) AS total_sales FROM intermediate_amazon_3p_orders_belliwelli_view WHERE report_date >= DATE '2026-05-01' AND report_date < DATE '2026-06-01' AND country_code = 'US' GROUP BY report_date), ad_spend AS (SELECT report_date, SUM(ams_spend) AS spend FROM intermediate_amazon_ams_campaigns_belliwelli_view WHERE report_date >= DATE '2026-05-01' AND report_date < DATE '2026-06-01' AND country = 'US' GROUP BY report_date) SELECT s.report_date, s.total_sales, COALESCE(a.spend, 0) AS ad_spend, ROUND((COALESCE(a.spend, 0) / NULLIF(s.total_sales, 0))::numeric, 4) AS tacos FROM total_sales s LEFT JOIN ad_spend a ON a.report_date = s.report_date ORDER BY s.report_date;",
+    "expected_tables": ["intermediate_amazon_3p_orders_belliwelli_view", "intermediate_amazon_ams_campaigns_belliwelli_view"],
+    "required_terms": ["ordered_revenue", "ams_spend", "tacos", "LEFT JOIN"],
+    "forbidden_terms": ["amazon_ads_sp_campaigns_innerbrightness", "UNION ALL SELECT date::date"]
+  },
+  {
+    "id": "intermediate_fba_returns_reason_may_2026",
+    "status": "ready",
+    "question": "看 2026 年 5 月 Belli Welli FBA 退货原因排行",
+    "expected_sql": "SELECT reason, SUM(return_units) AS returned_units FROM intermediate_amazon_fba_returns_belliwelli_view WHERE return_date >= DATE '2026-05-01' AND return_date < DATE '2026-06-01' AND country_code = 'US' GROUP BY reason ORDER BY returned_units DESC LIMIT 30;",
+    "expected_tables": ["intermediate_amazon_fba_returns_belliwelli_view"],
+    "required_terms": ["return_date", "reason", "return_units"],
+    "forbidden_terms": ["amazon_3p_fba_returns_innerbrightness", "customer_comments"]
+  },
+  {
+    "id": "intermediate_dsp_order_funnel_roas_may_2026",
+    "status": "ready",
+    "question": "看 2026 年 5 月 Belli Welli DSP order funnel ROAS",
+    "expected_sql": "SELECT order_funnel, SUM(dsp_cost) AS dsp_spend, SUM(dsp_total_sales) AS dsp_sales, ROUND((SUM(dsp_total_sales) / NULLIF(SUM(dsp_cost), 0))::numeric, 4) AS roas FROM intermediate_amazon_dsp_order_funnel_belliwelli_view WHERE report_date >= DATE '2026-05-01' AND report_date < DATE '2026-06-01' AND profile_name = 'US' GROUP BY order_funnel ORDER BY dsp_spend DESC LIMIT 30;",
+    "expected_tables": ["intermediate_amazon_dsp_order_funnel_belliwelli_view"],
+    "required_terms": ["dsp_cost", "dsp_total_sales", "profile_name = 'US'", "NULLIF"],
+    "forbidden_terms": ["ams_spend", "amazon_ads"]
+  },
+  {
+    "id": "intermediate_multi_brand_orders_may_2026",
+    "status": "ready",
+    "question": "对比 2026 年 5 月 Belli Welli 和 Inner brightness 的订单销售额",
+    "expected_sql": "WITH orders AS (SELECT 'belliwelli' AS brand_scope, report_date, ordered_revenue, ordered_units FROM intermediate_amazon_3p_orders_belliwelli_view WHERE report_date >= DATE '2026-05-01' AND report_date < DATE '2026-06-01' UNION ALL SELECT 'innerbrightness' AS brand_scope, report_date, ordered_revenue, ordered_units FROM intermediate_amazon_3p_orders_innerbrightness_view WHERE report_date >= DATE '2026-05-01' AND report_date < DATE '2026-06-01') SELECT brand_scope, SUM(ordered_revenue) AS sales, SUM(ordered_units) AS units FROM orders GROUP BY brand_scope ORDER BY sales DESC;",
+    "expected_tables": ["intermediate_amazon_3p_orders_belliwelli_view", "intermediate_amazon_3p_orders_innerbrightness_view"],
+    "required_terms": ["UNION ALL", "brand_scope", "ordered_revenue", "ordered_units"],
+    "forbidden_terms": ["item_price"]
+  }
+]

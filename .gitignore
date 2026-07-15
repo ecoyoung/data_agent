@@ -1,0 +1,15 @@
+.env
+postgresql.env
+.claude/settings.local.json
+.venv/
+__pycache__/
+.pytest_cache/
+.DS_Store
+*.pyc
+charts/
+*.png
+storage/
+
+# Generated database inventory exports. Keep source catalogs under src/data_agent/data_catalog tracked.
+docs/database_inventory.json
+docs/database_inventory.md

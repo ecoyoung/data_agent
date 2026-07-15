@@ -1,0 +1,99 @@
+{
+  "_comment": "Centralized keyword tables shared by chart.py (metric → result column inference) and prompt_builder.py (keyword → table domain scoring). Add new metrics or domains here, not in Python code.",
+  "metrics": [
+    {
+      "name": "ad_spend",
+      "question_keywords": ["广告花费", "花费最多", "花费最高", "花费", "广告费", "ad spend", "ad_spend", "ad cost"],
+      "column_substrings": ["ams_spend", "dsp_cost", "ad_spend", "spend", "cost"]
+    },
+    {
+      "name": "ad_sales",
+      "question_keywords": ["广告销售", "广告归因销售", "ad sales", "ad_sales"],
+      "column_substrings": ["ams_sales", "dsp_sales", "dsp_total_sales", "ad_sales"]
+    },
+    {
+      "name": "br_sales",
+      "question_keywords": ["business report 销售额", "br 销售额", "business report 销售"],
+      "column_substrings": ["salesbyasin_orderedproductsales_amount", "br_sales"]
+    },
+    {
+      "name": "returns",
+      "question_keywords": ["退货", "return"],
+      "column_substrings": ["return"]
+    },
+    {
+      "name": "units",
+      "question_keywords": ["销量", "件数", "units sold", "units"],
+      "column_substrings": ["ordered_units", "salesbyasin_unitsordered", "ams_units", "dsp_units_sold", "units"]
+    },
+    {
+      "name": "sales",
+      "question_keywords": ["销售额", "销售"],
+      "column_substrings": ["ordered_revenue", "salesbyasin_orderedproductsales_amount", "ams_sales", "dsp_total_sales", "dsp_sales", "sales", "revenue"]
+    },
+    {
+      "name": "acos",
+      "question_keywords": ["acos"],
+      "column_substrings": ["acos"]
+    },
+    {
+      "name": "roas",
+      "question_keywords": ["roas"],
+      "column_substrings": ["roas"]
+    },
+    {
+      "name": "tacos",
+      "question_keywords": ["tacos"],
+      "column_substrings": ["tacos"]
+    },
+    {
+      "name": "ctr",
+      "question_keywords": ["ctr"],
+      "column_substrings": ["ctr"]
+    },
+    {
+      "name": "conversion_rate",
+      "question_keywords": ["转化率", "cvr", "conversion"],
+      "column_substrings": ["conversion_rate", "cvr", "conversion"]
+    },
+    {
+      "name": "sessions",
+      "question_keywords": ["sessions", "session"],
+      "column_substrings": ["trafficbyasin_sessions", "sessions", "session"]
+    },
+    {
+      "name": "clicks",
+      "question_keywords": ["clicks", "点击"],
+      "column_substrings": ["ams_click", "dsp_click", "clicks", "click"]
+    },
+    {
+      "name": "impressions",
+      "question_keywords": ["impressions", "曝光"],
+      "column_substrings": ["ams_impression", "dsp_impression", "impressions", "impression"]
+    },
+    {
+      "name": "inventory",
+      "question_keywords": ["库存"],
+      "column_substrings": ["inventory", "stock"]
+    }
+  ],
+  "table_domains": [
+    {"domain": "business_report", "question_keywords": ["business report", "sessions", "session", "page views", "pageviews", "转化率", "流量"]},
+    {"domain": "orders", "question_keywords": ["订单", "order", "销量", "销售额", "tacos"]},
+    {"domain": "shipments", "question_keywords": ["发货", "shipment", "承运商", "履约中心", "预计到达"]},
+    {"domain": "returns", "question_keywords": ["退货", "return", "退货原因"]},
+    {"domain": "subscribe_and_save", "question_keywords": ["subscribe", "save", "s&s", "订阅"]},
+    {"domain": "inventory_snapshot", "question_keywords": ["库存", "可售", "不可售", "sellable", "unsellable"]},
+    {"domain": "inventory_health", "question_keywords": ["库存健康", "库龄", "周转", "低库存", "sell through"]},
+    {"domain": "inventory_planning", "question_keywords": ["补货", "库存覆盖", "days of supply", "recommended action", "inbound"]},
+    {"domain": "ams_campaigns", "question_keywords": ["广告", "ams", "campaign", "sp", "sb", "sponsored products", "sponsored brands"]},
+    {"domain": "ams_advertised_product", "question_keywords": ["advertised product", "广告商品", "广告asin", "广告 ASIN"]},
+    {"domain": "dsp", "question_keywords": ["dsp", "programmatic", "展示广告", "order funnel"]},
+    {"domain": "sp", "question_keywords": ["sp", "sponsored products"]},
+    {"domain": "sb", "question_keywords": ["sb", "sponsored brands"]},
+    {"domain": "search_terms", "question_keywords": ["搜索词", "search term"]},
+    {"domain": "targeting", "question_keywords": ["投放词", "targeting", "keyword"]},
+    {"domain": "placement", "question_keywords": ["placement", "广告位", "top of search", "detail page"]},
+    {"domain": "purchased_product", "question_keywords": ["purchased product", "购买asin", "购买 ASIN", "买了哪个"]}
+  ]
+}

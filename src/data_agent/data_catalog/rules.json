@@ -1,0 +1,94 @@
+{
+  "version": 1,
+  "business_rules": [
+    {
+      "id": "canonical_source_intermediate_amazon",
+      "description": "所有业务 SQL 默认使用 intermediate_amazon_ 中间表；旧 Innerbrightness 专用表仅作历史参考。",
+      "prompt": "只使用本 Data Catalog 记录的 `intermediate_amazon_` 中间表和字段。"
+    },
+    {
+      "id": "generic_sales_uses_ordered_revenue",
+      "description": "通用销售额默认订单销售额。",
+      "prompt": "用户只问“销售额/销售/销量”且没有 Business Report、Sessions、流量、转化率或广告上下文时，默认订单中间表；销售额用 `SUM(ordered_revenue)`，销量用 `SUM(ordered_units)`。"
+    },
+    {
+      "id": "month_without_trend_rolls_up",
+      "description": "整月问题默认月汇总一行。",
+      "prompt": "用户问某个月份且没有“趋势/走势/每天/按日/daily”时，默认输出月度汇总一行：`to_char(report_date, 'YYYY-MM') AS month` + `GROUP BY 1`。"
+    },
+    {
+      "id": "trend_uses_daily_grain",
+      "description": "趋势问题按日返回完整时间序列。",
+      "prompt": "用户说“趋势/走势/每天/每日/按日/daily”时，必须按 `report_date` 或对应日期字段日粒度分组，按日期升序返回完整日期序列，用于折线图。"
+    },
+    {
+      "id": "business_report_conversion_rate",
+      "description": "Business Report 转化率必须用 Units / Sessions。",
+      "prompt": "Business Report 转化率不要用 `AVG(trafficbyasin_unitsessionpercentage)`；使用 `SUM(salesbyasin_unitsordered) / NULLIF(SUM(trafficbyasin_sessions), 0)`。"
+    },
+    {
+      "id": "round_numeric_cast",
+      "description": "PostgreSQL ROUND 双参数需要 numeric。",
+      "prompt": "任何 `ROUND(expr, n)` 中的 `expr` 必须整体转为 `numeric`，例如 `ROUND((SUM(ams_spend) / NULLIF(SUM(ams_sales), 0))::numeric, 4)`。"
+    }
+  ],
+  "ask_user_about": [
+    {
+      "id": "missing_time_range",
+      "reason": "missing_time_range",
+      "keywords": ["销售", "销售额", "销量", "订单", "sessions", "转化", "广告", "acos", "roas", "搜索词", "花费", "退货", "订阅", "tacos", "business report"],
+      "skip_keywords": ["库存", "补货", "库龄", "可售", "不可售"],
+      "question": "请补充查询时间范围，例如 2026年7月、上月、最近7天，或一个具体起止日期。"
+    },
+    {
+      "id": "ambiguous_ad_scope",
+      "reason": "ambiguous_ad_scope",
+      "keywords": ["广告效果", "广告表现", "广告怎么样", "广告"],
+      "resolved_keywords": ["sp", "sb", "sponsored products", "sponsored brands", "sp+sb", "搜索词", "acos", "roas"],
+      "question": "你想看哪类广告：SP、SB，还是 SP+SB 汇总？"
+    },
+    {
+      "id": "ambiguous_inventory_scope",
+      "reason": "ambiguous_inventory_scope",
+      "keywords": ["库存风险", "库存怎么样", "库存情况", "库存有没有风险"],
+      "resolved_keywords": ["可售", "不可售", "库龄", "库存健康", "补货", "days of supply", "覆盖"],
+      "question": "库存问题请确认口径：可售/不可售库存、库龄/库存健康、补货建议，还是库存覆盖天数？"
+    }
+  ],
+  "auto_mappings": [
+    {
+      "id": "brumate_scope",
+      "match": ["brumate"],
+      "scope_token": "brumate"
+    },
+    {
+      "id": "belliwelli_scope",
+      "match": ["belli welli", "belliwelli"],
+      "scope_token": "belliwelli"
+    },
+    {
+      "id": "innerbrightness_scope",
+      "match": ["inner brightness", "innerbrightness", "inner brightness-new"],
+      "scope_token": "innerbrightness"
+    }
+  ],
+  "forbidden_sql": [
+    {
+      "id": "pii_fields",
+      "message": "SQL 查询了禁止展示的敏感字段",
+      "patterns": ["buyer_email", "buyer_name", "buyer_phone_number", "bill_address", "ship_address", "recipient_name", "ship_phone_number", "ship_postal_code", "tracking_number", "customer_comments"]
+    },
+    {
+      "id": "month_alias_group_by",
+      "message": "月度聚合使用 to_char(report_date, 'YYYY-MM') AS month 时不能 GROUP BY month；请使用 GROUP BY 1 或 GROUP BY to_char(report_date, 'YYYY-MM')",
+      "requires": ["to_char(report_date, 'YYYY-MM') AS month"],
+      "patterns": ["group by month"]
+    },
+    {
+      "id": "business_report_avg_conversion",
+      "message": "Business Report 转化率不能默认 AVG(unit session percentage)，应使用 SUM(units ordered) / SUM(sessions)",
+      "table_prefixes": ["intermediate_amazon_3p_sales_and_traffic_"],
+      "patterns": ["avg(trafficbyasin_unitsessionpercentage"]
+    }
+  ]
+}

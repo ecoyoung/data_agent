@@ -1,0 +1,16 @@
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+.DS_Store
+*.pyc
+*.pyo
+*.pyd
+charts/
+storage/
+*.png
+*.dmg
+*.xlsx
+keepa_dashboard_*.html
+docs/database_inventory.json
+docs/database_inventory.md

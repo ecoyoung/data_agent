@@ -1,0 +1,2298 @@
+{
+  "version": 1,
+  "source": "src/data_agent/data_catalog/tables_metadata.json",
+  "scope_count": 94,
+  "scopes": {
+    "alltech365": {
+      "scope_token": "alltech365",
+      "base_scope": "alltech365",
+      "market": null,
+      "aliases": [
+        "alltech365"
+      ],
+      "domains": {
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_alltech365_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_alltech365_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_alltech365_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_alltech365_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 4
+    },
+    "ams_time": {
+      "scope_token": "ams_time",
+      "base_scope": "ams_time",
+      "market": null,
+      "aliases": [
+        "ams time"
+      ],
+      "domains": {
+        "amazon_intermediate": [
+          "intermediate_amazon_ams_time_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "anker_it": {
+      "scope_token": "anker_it",
+      "base_scope": "anker",
+      "market": "IT",
+      "aliases": [
+        "anker",
+        "anker it"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_anker_it_view",
+          "intermediate_amazon_dsp_audience_order_anker_it_view",
+          "intermediate_amazon_dsp_creative_name_anker_it_view",
+          "intermediate_amazon_dsp_lineitem_name_anker_it_view",
+          "intermediate_amazon_dsp_order_funnel_anker_it_view",
+          "intermediate_amazon_dsp_product_anker_it_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 6
+    },
+    "arrojo": {
+      "scope_token": "arrojo",
+      "base_scope": "arrojo",
+      "market": null,
+      "aliases": [
+        "arrojo"
+      ],
+      "domains": {
+        "1p_orders": [
+          "intermediate_amazon_1p_orders_arrojo_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_arrojo_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_arrojo_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 3
+    },
+    "arrojo_time": {
+      "scope_token": "arrojo_time",
+      "base_scope": "arrojo_time",
+      "market": null,
+      "aliases": [
+        "arrojo time"
+      ],
+      "domains": {
+        "1p_orders": [
+          "intermediate_amazon_1p_orders_arrojo_time_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "baituo": {
+      "scope_token": "baituo",
+      "base_scope": "baituo",
+      "market": null,
+      "aliases": [
+        "baituo"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_baituo_view",
+          "intermediate_amazon_dsp_audience_order_baituo_view",
+          "intermediate_amazon_dsp_creative_name_baituo_view",
+          "intermediate_amazon_dsp_lineitem_name_baituo_view",
+          "intermediate_amazon_dsp_order_funnel_baituo_view",
+          "intermediate_amazon_dsp_product_baituo_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 6
+    },
+    "barbasol": {
+      "scope_token": "barbasol",
+      "base_scope": "barbasol",
+      "market": null,
+      "aliases": [
+        "barbasol"
+      ],
+      "domains": {
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_barbasol_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_barbasol_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_barbasol_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_barbasol_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 4
+    },
+    "bearvana": {
+      "scope_token": "bearvana",
+      "base_scope": "bearvana",
+      "market": null,
+      "aliases": [
+        "bearvana"
+      ],
+      "domains": {
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_bearvana_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "beekeeper_ca": {
+      "scope_token": "beekeeper_ca",
+      "base_scope": "beekeeper",
+      "market": "CA",
+      "aliases": [
+        "beekeeper",
+        "beekeeper ca",
+        "beekeepers ca"
+      ],
+      "domains": {
+        "ads_audience_campaign": [
+          "intermediate_amazon_ams_audience_beekeeper_ca_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_beekeeper_ca_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_beekeeper_ca_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_beekeeper_ca_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_beekeeper_ca_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_beekeeper_ca_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_beekeeper_ca_view"
+        ],
+        "dsp": [
+          "intermediate_amazon_dsp_creative_name_beekeeper_ca_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_beekeeper_ca_view"
+        ],
+        "returns": [
+          "intermediate_amazon_fba_returns_beekeeper_ca_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 10
+    },
+    "beekeeper_us": {
+      "scope_token": "beekeeper_us",
+      "base_scope": "beekeeper",
+      "market": "US",
+      "aliases": [
+        "beekeeper",
+        "beekeeper us",
+        "beekeepers us"
+      ],
+      "domains": {
+        "ads_audience_campaign": [
+          "intermediate_amazon_ams_audience_beekeeper_us_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_beekeeper_us_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_beekeeper_us_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_beekeeper_us_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_beekeeper_us_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_beekeeper_us_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_beekeeper_us_view"
+        ],
+        "dsp": [
+          "intermediate_amazon_dsp_creative_name_beekeeper_us_view",
+          "intermediate_amazon_dsp_lineitem_name_beekeeper_us_view",
+          "intermediate_amazon_dsp_order_funnel_beekeeper_us_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_beekeeper_us_view"
+        ],
+        "returns": [
+          "intermediate_amazon_fba_returns_beekeeper_us_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 12
+    },
+    "beekeepers_us": {
+      "scope_token": "beekeepers_us",
+      "base_scope": "beekeepers",
+      "market": "US",
+      "aliases": [
+        "beekeeper us",
+        "beekeepers",
+        "beekeepers us"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_beekeepers_us_view",
+          "intermediate_amazon_dsp_audience_order_beekeepers_us_view",
+          "intermediate_amazon_dsp_product_beekeepers_us_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 3
+    },
+    "beekeepersnaturals": {
+      "scope_token": "beekeepersnaturals",
+      "base_scope": "beekeepersnaturals",
+      "market": null,
+      "aliases": [
+        "beekeeper",
+        "beekeepers naturals",
+        "beekeepersnaturals"
+      ],
+      "domains": {
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_beekeepersnaturals_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_beekeepersnaturals_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 2
+    },
+    "beekeepersnaturals_vie": {
+      "scope_token": "beekeepersnaturals_vie",
+      "base_scope": "beekeepersnaturals_vie",
+      "market": null,
+      "aliases": [
+        "beekeepersnaturals vie"
+      ],
+      "domains": {
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_beekeepersnaturals_vie"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "belliwelli": {
+      "scope_token": "belliwelli",
+      "base_scope": "belliwelli",
+      "market": null,
+      "aliases": [
+        "belli welli",
+        "belliwelli"
+      ],
+      "domains": {
+        "ads_audience_campaign": [
+          "intermediate_amazon_ads_ad_campaign_belliwelli_view",
+          "intermediate_amazon_ads_dsp_campaign_ad_belliwelli_view",
+          "intermediate_amazon_ams_audience_belliwelli_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ads_sp_sd_advertised_belliwelli_view",
+          "intermediate_amazon_ams_advertised_product_belliwelli_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_belliwelli_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_belliwelli_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_belliwelli_view",
+          "intermediate_amazon_search_term_belliwelli_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_belliwelli_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_belliwelli_view"
+        ],
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_belliwelli_view",
+          "intermediate_amazon_dsp_audience_order_belliwelli_view",
+          "intermediate_amazon_dsp_creative_name_belliwelli_view",
+          "intermediate_amazon_dsp_lineitem_name_belliwelli_view",
+          "intermediate_amazon_dsp_order_funnel_belliwelli_view",
+          "intermediate_amazon_dsp_product_belliwelli_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_belliwelli_view"
+        ],
+        "returns": [
+          "intermediate_amazon_fba_returns_belliwelli_view"
+        ]
+      },
+      "identity_values": {
+        "brand": [
+          "Belli Welli"
+        ],
+        "customer": [
+          "Belli Welli"
+        ],
+        "customer_name": [
+          "Belli Welli"
+        ]
+      },
+      "table_count": 19
+    },
+    "bestqi": {
+      "scope_token": "bestqi",
+      "base_scope": "bestqi",
+      "market": null,
+      "aliases": [
+        "bestqi"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_bestqi_view",
+          "intermediate_amazon_dsp_audience_order_bestqi_view",
+          "intermediate_amazon_dsp_creative_name_bestqi_view",
+          "intermediate_amazon_dsp_lineitem_name_bestqi_view",
+          "intermediate_amazon_dsp_order_funnel_bestqi_view",
+          "intermediate_amazon_dsp_product_bestqi_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 6
+    },
+    "blueland": {
+      "scope_token": "blueland",
+      "base_scope": "blueland",
+      "market": null,
+      "aliases": [
+        "blue land",
+        "blueland"
+      ],
+      "domains": {
+        "ads_audience_campaign": [
+          "intermediate_amazon_ams_audience_blueland_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_blueland_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_blueland_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_blueland_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_blueland_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_blueland_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_blueland_view"
+        ],
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_blueland_view",
+          "intermediate_amazon_dsp_audience_order_blueland_view",
+          "intermediate_amazon_dsp_creative_name_blueland_view",
+          "intermediate_amazon_dsp_lineitem_name_blueland_view",
+          "intermediate_amazon_dsp_order_funnel_blueland_view",
+          "intermediate_amazon_dsp_product_blueland_view"
+        ],
+        "inventory_days": [
+          "intermediate_amazon_fba_inventory_days_blueland_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_blueland_view"
+        ],
+        "returns": [
+          "intermediate_amazon_fba_returns_blueland_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 16
+    },
+    "brumate": {
+      "scope_token": "brumate",
+      "base_scope": "brumate",
+      "market": null,
+      "aliases": [
+        "bru mate",
+        "brumate",
+        "brümate"
+      ],
+      "domains": {
+        "ads_audience_campaign": [
+          "intermediate_amazon_ads_ad_campaign_brumate_view",
+          "intermediate_amazon_ads_dsp_campaign_ad_brumate_view",
+          "intermediate_amazon_ams_audience_brumate_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ads_sp_sd_advertised_brumate_view",
+          "intermediate_amazon_ams_advertised_product_brumate_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_brumate_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_brumate_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_brumate_view",
+          "intermediate_amazon_search_term_brumate_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_brumate_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_brumate_view"
+        ],
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_brumate_view",
+          "intermediate_amazon_dsp_audience_order_brumate_view",
+          "intermediate_amazon_dsp_creative_name_brumate_view",
+          "intermediate_amazon_dsp_lineitem_name_brumate_view",
+          "intermediate_amazon_dsp_order_funnel_brumate_view",
+          "intermediate_amazon_dsp_product_brumate_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_brumate_view"
+        ],
+        "returns": [
+          "intermediate_amazon_fba_returns_brumate_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 19
+    },
+    "densch": {
+      "scope_token": "densch",
+      "base_scope": "densch",
+      "market": null,
+      "aliases": [
+        "densch"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_densch_view",
+          "intermediate_amazon_dsp_audience_order_densch_view",
+          "intermediate_amazon_dsp_creative_name_densch_view",
+          "intermediate_amazon_dsp_lineitem_name_densch_view",
+          "intermediate_amazon_dsp_order_funnel_densch_view",
+          "intermediate_amazon_dsp_product_densch_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 6
+    },
+    "dynamiclighting": {
+      "scope_token": "dynamiclighting",
+      "base_scope": "dynamiclighting",
+      "market": null,
+      "aliases": [
+        "dynamiclighting"
+      ],
+      "domains": {
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_dynamiclighting_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_dynamiclighting_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_dynamiclighting_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 3
+    },
+    "easycosy": {
+      "scope_token": "easycosy",
+      "base_scope": "easycosy",
+      "market": null,
+      "aliases": [
+        "easycosy"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_audience_order_easycosy_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "easycosy_ca": {
+      "scope_token": "easycosy_ca",
+      "base_scope": "easycosy",
+      "market": "CA",
+      "aliases": [
+        "easycosy",
+        "easycosy ca"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_easycosy_ca_view",
+          "intermediate_amazon_dsp_creative_name_easycosy_ca_view",
+          "intermediate_amazon_dsp_lineitem_name_easycosy_ca_view",
+          "intermediate_amazon_dsp_order_funnel_easycosy_ca_view",
+          "intermediate_amazon_dsp_product_easycosy_ca_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 5
+    },
+    "egohome": {
+      "scope_token": "egohome",
+      "base_scope": "egohome",
+      "market": null,
+      "aliases": [
+        "egohome"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_egohome_view",
+          "intermediate_amazon_dsp_audience_order_egohome_view",
+          "intermediate_amazon_dsp_creative_name_egohome_view",
+          "intermediate_amazon_dsp_lineitem_name_egohome_view",
+          "intermediate_amazon_dsp_order_funnel_egohome_view",
+          "intermediate_amazon_dsp_product_egohome_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 6
+    },
+    "energizerconnect": {
+      "scope_token": "energizerconnect",
+      "base_scope": "energizerconnect",
+      "market": null,
+      "aliases": [
+        "energizerconnect"
+      ],
+      "domains": {
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_energizerconnect_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_energizerconnect_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 2
+    },
+    "energizerconnect_vie": {
+      "scope_token": "energizerconnect_vie",
+      "base_scope": "energizerconnect_vie",
+      "market": null,
+      "aliases": [
+        "energizerconnect vie"
+      ],
+      "domains": {
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_energizerconnect_vie"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "enjoylife": {
+      "scope_token": "enjoylife",
+      "base_scope": "enjoylife",
+      "market": null,
+      "aliases": [
+        "enjoylife"
+      ],
+      "domains": {
+        "1p_orders": [
+          "intermediate_amazon_1p_orders_enjoylife_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_enjoylife_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_enjoylife_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_enjoylife_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_enjoylife_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_enjoylife_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 6
+    },
+    "enjoylife_time": {
+      "scope_token": "enjoylife_time",
+      "base_scope": "enjoylife_time",
+      "market": null,
+      "aliases": [
+        "enjoylife time"
+      ],
+      "domains": {
+        "1p_orders": [
+          "intermediate_amazon_1p_orders_enjoylife_time_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "firemaple": {
+      "scope_token": "firemaple",
+      "base_scope": "firemaple",
+      "market": null,
+      "aliases": [
+        "firemaple"
+      ],
+      "domains": {
+        "ads_audience_campaign": [
+          "intermediate_amazon_ams_audience_firemaple_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_firemaple_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_firemaple_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_firemaple_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_firemaple_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_firemaple_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_firemaple_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_firemaple_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 8
+    },
+    "fpd_jp": {
+      "scope_token": "fpd_jp",
+      "base_scope": "fpd",
+      "market": "JP",
+      "aliases": [
+        "fpd",
+        "fpd jp"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_fpd_jp_view",
+          "intermediate_amazon_dsp_audience_order_fpd_jp_view",
+          "intermediate_amazon_dsp_creative_name_fpd_jp_view",
+          "intermediate_amazon_dsp_lineitem_name_fpd_jp_view",
+          "intermediate_amazon_dsp_order_funnel_fpd_jp_view",
+          "intermediate_amazon_dsp_product_fpd_jp_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 6
+    },
+    "funboy": {
+      "scope_token": "funboy",
+      "base_scope": "funboy",
+      "market": null,
+      "aliases": [
+        "funboy"
+      ],
+      "domains": {
+        "1p_orders": [
+          "intermediate_amazon_1p_orders_funboy_view"
+        ],
+        "ads_audience_campaign": [
+          "intermediate_amazon_ams_audience_funboy_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_funboy_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_funboy_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_funboy_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_funboy_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_funboy_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 7
+    },
+    "funboy_time": {
+      "scope_token": "funboy_time",
+      "base_scope": "funboy_time",
+      "market": null,
+      "aliases": [
+        "funboy time"
+      ],
+      "domains": {
+        "1p_orders": [
+          "intermediate_amazon_1p_orders_funboy_time_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "glowrecipe": {
+      "scope_token": "glowrecipe",
+      "base_scope": "glowrecipe",
+      "market": null,
+      "aliases": [
+        "glowrecipe"
+      ],
+      "domains": {
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_glowrecipe_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_glowrecipe_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 2
+    },
+    "googoo": {
+      "scope_token": "googoo",
+      "base_scope": "googoo",
+      "market": null,
+      "aliases": [
+        "googoo"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_googoo_view",
+          "intermediate_amazon_dsp_audience_order_googoo_view",
+          "intermediate_amazon_dsp_creative_name_googoo_view",
+          "intermediate_amazon_dsp_lineitem_name_googoo_view",
+          "intermediate_amazon_dsp_order_funnel_googoo_view",
+          "intermediate_amazon_dsp_product_googoo_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 6
+    },
+    "greenhousejuice": {
+      "scope_token": "greenhousejuice",
+      "base_scope": "greenhousejuice",
+      "market": null,
+      "aliases": [
+        "greenhousejuice"
+      ],
+      "domains": {
+        "ads_audience_campaign": [
+          "intermediate_amazon_ams_audience_greenhousejuice_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_greenhousejuice_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_greenhousejuice_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_greenhousejuice_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_greenhousejuice_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_greenhousejuice_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_greenhousejuice_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 7
+    },
+    "greenhousejuice_vie": {
+      "scope_token": "greenhousejuice_vie",
+      "base_scope": "greenhousejuice_vie",
+      "market": null,
+      "aliases": [
+        "greenhousejuice vie"
+      ],
+      "domains": {
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_greenhousejuice_vie"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "hisense": {
+      "scope_token": "hisense",
+      "base_scope": "hisense",
+      "market": null,
+      "aliases": [
+        "hisense"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_hisense_view",
+          "intermediate_amazon_dsp_audience_order_hisense_view",
+          "intermediate_amazon_dsp_creative_name_hisense_view",
+          "intermediate_amazon_dsp_lineitem_name_hisense_view",
+          "intermediate_amazon_dsp_order_funnel_hisense_view",
+          "intermediate_amazon_dsp_product_hisense_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 6
+    },
+    "hisensema": {
+      "scope_token": "hisensema",
+      "base_scope": "hisensema",
+      "market": null,
+      "aliases": [
+        "hisensema"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_product_hisensema_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "hukitchen": {
+      "scope_token": "hukitchen",
+      "base_scope": "hukitchen",
+      "market": null,
+      "aliases": [
+        "hukitchen"
+      ],
+      "domains": {
+        "1p_orders": [
+          "intermediate_amazon_1p_orders_hukitchen_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_hukitchen_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_hukitchen_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_hukitchen_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_hukitchen_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_hukitchen_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 6
+    },
+    "hukitchen_time": {
+      "scope_token": "hukitchen_time",
+      "base_scope": "hukitchen_time",
+      "market": null,
+      "aliases": [
+        "hukitchen time"
+      ],
+      "domains": {
+        "1p_orders": [
+          "intermediate_amazon_1p_orders_hukitchen_time_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "humanmotion": {
+      "scope_token": "humanmotion",
+      "base_scope": "humanmotion",
+      "market": null,
+      "aliases": [
+        "humanmotion"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_humanmotion_view",
+          "intermediate_amazon_dsp_audience_order_humanmotion_view",
+          "intermediate_amazon_dsp_creative_name_humanmotion_view",
+          "intermediate_amazon_dsp_lineitem_name_humanmotion_view",
+          "intermediate_amazon_dsp_order_funnel_humanmotion_view",
+          "intermediate_amazon_dsp_product_humanmotion_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 6
+    },
+    "hygienelab": {
+      "scope_token": "hygienelab",
+      "base_scope": "hygienelab",
+      "market": null,
+      "aliases": [
+        "hygienelab"
+      ],
+      "domains": {
+        "ads_audience_campaign": [
+          "intermediate_amazon_ams_audience_hygienelab_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_hygienelab_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_hygienelab_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_hygienelab_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_hygienelab_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_hygienelab_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_hygienelab_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_hygienelab_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 8
+    },
+    "innerbrightness": {
+      "scope_token": "innerbrightness",
+      "base_scope": "innerbrightness",
+      "market": null,
+      "aliases": [
+        "inner brightness",
+        "inner brightness new",
+        "innerbrightness"
+      ],
+      "domains": {
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_innerbrightness_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_innerbrightness_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_innerbrightness_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_innerbrightness_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_innerbrightness_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_innerbrightness_view"
+        ]
+      },
+      "identity_values": {
+        "brand": [
+          "Inner brightness",
+          "Inner brightness-New"
+        ],
+        "customer": [
+          "Inner brightness-New"
+        ]
+      },
+      "table_count": 6
+    },
+    "innerbrightness_vie": {
+      "scope_token": "innerbrightness_vie",
+      "base_scope": "innerbrightness_vie",
+      "market": null,
+      "aliases": [
+        "innerbrightness vie"
+      ],
+      "domains": {
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_innerbrightness_vie"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "jemglobal": {
+      "scope_token": "jemglobal",
+      "base_scope": "jemglobal",
+      "market": null,
+      "aliases": [
+        "jemglobal"
+      ],
+      "domains": {
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_jemglobal_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_jemglobal_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_jemglobal_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 3
+    },
+    "kupretty": {
+      "scope_token": "kupretty",
+      "base_scope": "kupretty",
+      "market": null,
+      "aliases": [
+        "kupretty"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_kupretty_view",
+          "intermediate_amazon_dsp_audience_order_kupretty_view",
+          "intermediate_amazon_dsp_creative_name_kupretty_view",
+          "intermediate_amazon_dsp_lineitem_name_kupretty_view",
+          "intermediate_amazon_dsp_order_funnel_kupretty_view",
+          "intermediate_amazon_dsp_product_kupretty_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 6
+    },
+    "lider": {
+      "scope_token": "lider",
+      "base_scope": "lider",
+      "market": null,
+      "aliases": [
+        "lider"
+      ],
+      "domains": {
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_lider_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_lider_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_lider_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 3
+    },
+    "lider_ca": {
+      "scope_token": "lider_ca",
+      "base_scope": "lider",
+      "market": "CA",
+      "aliases": [
+        "lider",
+        "lider ca"
+      ],
+      "domains": {
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_lider_ca_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_lider_ca_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_lider_ca_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_lider_ca_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_lider_ca_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_lider_ca_view"
+        ],
+        "dsp": [
+          "intermediate_amazon_dsp_product_lider_ca_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_lider_ca_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 8
+    },
+    "lider_uk": {
+      "scope_token": "lider_uk",
+      "base_scope": "lider",
+      "market": "UK",
+      "aliases": [
+        "lider",
+        "lider uk"
+      ],
+      "domains": {
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_lider_uk_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_lider_uk_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_lider_uk_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_lider_uk_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_lider_uk_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_lider_uk_view"
+        ],
+        "dsp": [
+          "intermediate_amazon_dsp_product_lider_uk_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_lider_uk_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 8
+    },
+    "lider_us": {
+      "scope_token": "lider_us",
+      "base_scope": "lider",
+      "market": "US",
+      "aliases": [
+        "lider",
+        "lider us"
+      ],
+      "domains": {
+        "ads_audience_campaign": [
+          "intermediate_amazon_ams_audience_lider_us_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_lider_us_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_lider_us_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_lider_us_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_lider_us_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_lider_us_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_lider_us_view"
+        ],
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_lider_us_view",
+          "intermediate_amazon_dsp_audience_order_lider_us_view",
+          "intermediate_amazon_dsp_creative_name_lider_us_view",
+          "intermediate_amazon_dsp_lineitem_name_lider_us_view",
+          "intermediate_amazon_dsp_order_funnel_lider_us_view",
+          "intermediate_amazon_dsp_product_lider_us_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_lider_us_view"
+        ],
+        "returns": [
+          "intermediate_amazon_fba_returns_lider_us_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 15
+    },
+    "luma": {
+      "scope_token": "luma",
+      "base_scope": "luma",
+      "market": null,
+      "aliases": [
+        "luma"
+      ],
+      "domains": {
+        "ads_audience_campaign": [
+          "intermediate_amazon_ads_ad_campaign_luma_view",
+          "intermediate_amazon_ams_audience_luma_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ads_sp_sd_advertised_luma_view",
+          "intermediate_amazon_ams_advertised_product_luma_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_luma_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_luma_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_luma_view",
+          "intermediate_amazon_search_term_luma_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_luma_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_luma_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_luma_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 11
+    },
+    "luvme": {
+      "scope_token": "luvme",
+      "base_scope": "luvme",
+      "market": null,
+      "aliases": [
+        "luvme"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_luvme_view",
+          "intermediate_amazon_dsp_audience_order_luvme_view",
+          "intermediate_amazon_dsp_creative_name_luvme_view",
+          "intermediate_amazon_dsp_lineitem_name_luvme_view",
+          "intermediate_amazon_dsp_order_funnel_luvme_view",
+          "intermediate_amazon_dsp_product_luvme_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 6
+    },
+    "mastonhome": {
+      "scope_token": "mastonhome",
+      "base_scope": "mastonhome",
+      "market": null,
+      "aliases": [
+        "mastonhome"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_mastonhome_view",
+          "intermediate_amazon_dsp_audience_order_mastonhome_view",
+          "intermediate_amazon_dsp_creative_name_mastonhome_view",
+          "intermediate_amazon_dsp_lineitem_name_mastonhome_view",
+          "intermediate_amazon_dsp_order_funnel_mastonhome_view",
+          "intermediate_amazon_dsp_product_mastonhome_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 6
+    },
+    "minorfigures": {
+      "scope_token": "minorfigures",
+      "base_scope": "minorfigures",
+      "market": null,
+      "aliases": [
+        "minor figures",
+        "minorfigures"
+      ],
+      "domains": {
+        "ads_audience_campaign": [
+          "intermediate_amazon_ads_ad_campaign_minorfigures_view",
+          "intermediate_amazon_ams_audience_minorfigures_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ads_sp_sd_advertised_minorfigures_view",
+          "intermediate_amazon_ams_advertised_product_minorfigures_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_minorfigures_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_minorfigures_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_minorfigures_view",
+          "intermediate_amazon_search_term_minorfigures_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_minorfigures_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_minorfigures_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_minorfigures_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 11
+    },
+    "naturalrhythm": {
+      "scope_token": "naturalrhythm",
+      "base_scope": "naturalrhythm",
+      "market": null,
+      "aliases": [
+        "natural rhythm",
+        "naturalrhythm"
+      ],
+      "domains": {
+        "ads_audience_campaign": [
+          "intermediate_amazon_ams_audience_naturalrhythm_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_naturalrhythm_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_naturalrhythm_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_naturalrhythm_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_naturalrhythm_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_naturalrhythm_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_naturalrhythm_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_naturalrhythm_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 8
+    },
+    "penny": {
+      "scope_token": "penny",
+      "base_scope": "penny",
+      "market": null,
+      "aliases": [
+        "penny"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_creative_name_penny_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "pennybuy": {
+      "scope_token": "pennybuy",
+      "base_scope": "pennybuy",
+      "market": null,
+      "aliases": [
+        "pennybuy"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_pennybuy_view",
+          "intermediate_amazon_dsp_audience_order_pennybuy_view",
+          "intermediate_amazon_dsp_lineitem_name_pennybuy_view",
+          "intermediate_amazon_dsp_order_funnel_pennybuy_view",
+          "intermediate_amazon_dsp_product_pennybuy_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 5
+    },
+    "perfectbar": {
+      "scope_token": "perfectbar",
+      "base_scope": "perfectbar",
+      "market": null,
+      "aliases": [
+        "perfect bar",
+        "perfectbar"
+      ],
+      "domains": {
+        "1p_orders": [
+          "intermediate_amazon_1p_orders_perfectbar_view"
+        ],
+        "ads_audience_campaign": [
+          "intermediate_amazon_ams_audience_perfectbar_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_perfectbar_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_perfectbar_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_perfectbar_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_perfectbar_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_perfectbar_view"
+        ],
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_perfectbar_view",
+          "intermediate_amazon_dsp_audience_order_perfectbar_view",
+          "intermediate_amazon_dsp_creative_name_perfectbar_view",
+          "intermediate_amazon_dsp_lineitem_name_perfectbar_view",
+          "intermediate_amazon_dsp_order_funnel_perfectbar_view",
+          "intermediate_amazon_dsp_product_perfectbar_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 13
+    },
+    "perfectbar_time": {
+      "scope_token": "perfectbar_time",
+      "base_scope": "perfectbar_time",
+      "market": null,
+      "aliases": [
+        "perfectbar time"
+      ],
+      "domains": {
+        "1p_orders": [
+          "intermediate_amazon_1p_orders_perfectbar_time_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "philips": {
+      "scope_token": "philips",
+      "base_scope": "philips",
+      "market": null,
+      "aliases": [
+        "philips"
+      ],
+      "domains": {
+        "amazon_intermediate": [
+          "intermediate_amazon_ams_ad_campaign_time_philips",
+          "intermediate_amazon_ams_ad_campaign_time_philips_view",
+          "intermediate_amazon_ams_advertised_time_philips_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_philips_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 4
+    },
+    "philips_dashboard_m": {
+      "scope_token": "philips_dashboard_m",
+      "base_scope": "philips_dashboard_m",
+      "market": null,
+      "aliases": [
+        "philips dashboard m"
+      ],
+      "domains": {
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_philips_dashboard_m"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "philips_eu": {
+      "scope_token": "philips_eu",
+      "base_scope": "philips",
+      "market": "EU",
+      "aliases": [
+        "philips",
+        "philips eu"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_philips_eu_view",
+          "intermediate_amazon_dsp_lineitem_name_philips_eu_view",
+          "intermediate_amazon_dsp_order_funnel_philips_eu_view",
+          "intermediate_amazon_dsp_product_philips_eu_view"
+        ],
+        "returns": [
+          "intermediate_amazon_fba_returns_philips_eu_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 5
+    },
+    "philips_view_2": {
+      "scope_token": "philips_view_2",
+      "base_scope": "philips_view_2",
+      "market": null,
+      "aliases": [
+        "philips view 2"
+      ],
+      "domains": {
+        "amazon_intermediate": [
+          "intermediate_amazon_ams_ad_campaign_time_philips_view_2"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "ravjams": {
+      "scope_token": "ravjams",
+      "base_scope": "ravjams",
+      "market": null,
+      "aliases": [
+        "ravjams"
+      ],
+      "domains": {
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_ravjams_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_ravjams_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_ravjams_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 3
+    },
+    "rog": {
+      "scope_token": "rog",
+      "base_scope": "rog",
+      "market": null,
+      "aliases": [
+        "rog"
+      ],
+      "domains": {
+        "1p_orders": [
+          "intermediate_amazon_1p_orders_rog_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_rog_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 2
+    },
+    "rog_ca": {
+      "scope_token": "rog_ca",
+      "base_scope": "rog",
+      "market": "CA",
+      "aliases": [
+        "rog",
+        "rog ca"
+      ],
+      "domains": {
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_rog_ca_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_rog_ca_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_rog_ca_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_rog_ca_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_rog_ca_view"
+        ],
+        "dsp": [
+          "intermediate_amazon_dsp_product_rog_ca_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 6
+    },
+    "rog_sourcing": {
+      "scope_token": "rog_sourcing",
+      "base_scope": "rog_sourcing",
+      "market": null,
+      "aliases": [
+        "rog sourcing"
+      ],
+      "domains": {
+        "1p_orders": [
+          "intermediate_amazon_1p_orders_rog_sourcing_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "rog_sourcing_ca": {
+      "scope_token": "rog_sourcing_ca",
+      "base_scope": "rog_sourcing",
+      "market": "CA",
+      "aliases": [
+        "rog sourcing",
+        "rog sourcing ca"
+      ],
+      "domains": {
+        "1p_orders": [
+          "intermediate_amazon_1p_orders_rog_sourcing_ca_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "rog_sourcing_us": {
+      "scope_token": "rog_sourcing_us",
+      "base_scope": "rog_sourcing",
+      "market": "US",
+      "aliases": [
+        "rog sourcing",
+        "rog sourcing us"
+      ],
+      "domains": {
+        "1p_orders": [
+          "intermediate_amazon_1p_orders_rog_sourcing_us_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "rog_time": {
+      "scope_token": "rog_time",
+      "base_scope": "rog_time",
+      "market": null,
+      "aliases": [
+        "rog time"
+      ],
+      "domains": {
+        "1p_orders": [
+          "intermediate_amazon_1p_orders_rog_time_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "rog_us": {
+      "scope_token": "rog_us",
+      "base_scope": "rog",
+      "market": "US",
+      "aliases": [
+        "rog",
+        "rog us"
+      ],
+      "domains": {
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_rog_us_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_rog_us_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_rog_us_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_rog_us_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_rog_us_view"
+        ],
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_rog_us_view",
+          "intermediate_amazon_dsp_audience_order_rog_us_view",
+          "intermediate_amazon_dsp_creative_name_rog_us_view",
+          "intermediate_amazon_dsp_lineitem_name_rog_us_view",
+          "intermediate_amazon_dsp_order_funnel_rog_us_view",
+          "intermediate_amazon_dsp_product_rog_us_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 11
+    },
+    "sebamed": {
+      "scope_token": "sebamed",
+      "base_scope": "sebamed",
+      "market": null,
+      "aliases": [
+        "sebamed"
+      ],
+      "domains": {
+        "ads_audience_campaign": [
+          "intermediate_amazon_ads_ad_campaign_sebamed_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ads_sp_sd_advertised_sebamed_view",
+          "intermediate_amazon_ams_advertised_product_sebamed_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_sebamed_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_sebamed_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_sebamed_view",
+          "intermediate_amazon_search_term_sebamed_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_sebamed_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_sebamed_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_sebamed_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 10
+    },
+    "smartcaregiver": {
+      "scope_token": "smartcaregiver",
+      "base_scope": "smartcaregiver",
+      "market": null,
+      "aliases": [
+        "smartcaregiver"
+      ],
+      "domains": {
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_smartcaregiver_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_smartcaregiver_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_smartcaregiver_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_smartcaregiver_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_smartcaregiver_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_smartcaregiver_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_smartcaregiver_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 7
+    },
+    "sonoff": {
+      "scope_token": "sonoff",
+      "base_scope": "sonoff",
+      "market": null,
+      "aliases": [
+        "sonoff"
+      ],
+      "domains": {
+        "1p_orders": [
+          "intermediate_amazon_1p_orders_sonoff_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_sonoff_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_sonoff_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_sonoff_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_sonoff_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_sonoff_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_sonoff_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_sonoff_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 8
+    },
+    "sonoff3p": {
+      "scope_token": "sonoff3p",
+      "base_scope": "sonoff3p",
+      "market": null,
+      "aliases": [
+        "sonoff3p"
+      ],
+      "domains": {
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_sonoff3p_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "sonoff3p_eu": {
+      "scope_token": "sonoff3p_eu",
+      "base_scope": "sonoff3p",
+      "market": "EU",
+      "aliases": [
+        "sonoff 3p eu",
+        "sonoff3p",
+        "sonoff3p eu"
+      ],
+      "domains": {
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_sonoff3p_eu_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_sonoff3p_eu_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_sonoff3p_eu_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_sonoff3p_eu_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_sonoff3p_eu_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 5
+    },
+    "sonoff3p_us": {
+      "scope_token": "sonoff3p_us",
+      "base_scope": "sonoff3p",
+      "market": "US",
+      "aliases": [
+        "sonoff 3p us",
+        "sonoff3p",
+        "sonoff3p us"
+      ],
+      "domains": {
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_sonoff3p_us_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_sonoff3p_us_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_sonoff3p_us_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_sonoff3p_us_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_sonoff3p_us_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 5
+    },
+    "sonoff_eu": {
+      "scope_token": "sonoff_eu",
+      "base_scope": "sonoff",
+      "market": "EU",
+      "aliases": [
+        "sonoff",
+        "sonoff eu"
+      ],
+      "domains": {
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_sonoff_eu_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_sonoff_eu_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 2
+    },
+    "sonoff_sourcing": {
+      "scope_token": "sonoff_sourcing",
+      "base_scope": "sonoff_sourcing",
+      "market": null,
+      "aliases": [
+        "sonoff sourcing"
+      ],
+      "domains": {
+        "1p_orders": [
+          "intermediate_amazon_1p_orders_sonoff_sourcing_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "sonoff_time": {
+      "scope_token": "sonoff_time",
+      "base_scope": "sonoff_time",
+      "market": null,
+      "aliases": [
+        "sonoff time"
+      ],
+      "domains": {
+        "1p_orders": [
+          "intermediate_amazon_1p_orders_sonoff_time_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "sonoff_us": {
+      "scope_token": "sonoff_us",
+      "base_scope": "sonoff",
+      "market": "US",
+      "aliases": [
+        "sonoff",
+        "sonoff us"
+      ],
+      "domains": {
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_sonoff_us_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_sonoff_us_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 2
+    },
+    "supergut": {
+      "scope_token": "supergut",
+      "base_scope": "supergut",
+      "market": null,
+      "aliases": [
+        "supergut"
+      ],
+      "domains": {
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_supergut_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_supergut_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_supergut_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_supergut_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_supergut_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_supergut_view"
+        ],
+        "dsp": [
+          "intermediate_amazon_dsp_creative_name_supergut_view",
+          "intermediate_amazon_dsp_lineitem_name_supergut_view",
+          "intermediate_amazon_dsp_order_funnel_supergut_view",
+          "intermediate_amazon_dsp_product_supergut_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_supergut_view"
+        ],
+        "returns": [
+          "intermediate_amazon_fba_returns_supergut_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 12
+    },
+    "supergut_us": {
+      "scope_token": "supergut_us",
+      "base_scope": "supergut",
+      "market": "US",
+      "aliases": [
+        "supergut",
+        "supergut us"
+      ],
+      "domains": {
+        "ads_audience_campaign": [
+          "intermediate_amazon_ams_audience_supergut_us_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "topgreener": {
+      "scope_token": "topgreener",
+      "base_scope": "topgreener",
+      "market": null,
+      "aliases": [
+        "topgreener"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_creative_name_topgreener_view",
+          "intermediate_amazon_dsp_lineitem_name_topgreener_view",
+          "intermediate_amazon_dsp_order_funnel_topgreener_view",
+          "intermediate_amazon_dsp_product_topgreener_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 4
+    },
+    "vitalproteinsbv": {
+      "scope_token": "vitalproteinsbv",
+      "base_scope": "vitalproteinsbv",
+      "market": null,
+      "aliases": [
+        "vital proteins",
+        "vital proteins bv",
+        "vitalproteinsbv"
+      ],
+      "domains": {
+        "ads_audience_campaign": [
+          "intermediate_amazon_ads_ad_campaign_vitalproteinsbv_view",
+          "intermediate_amazon_ads_dsp_campaign_ad_vitalproteinsbv_view"
+        ],
+        "ams_advertised_product": [
+          "intermediate_amazon_ads_sp_sd_advertised_vitalproteinsbv_view",
+          "intermediate_amazon_ams_advertised_product_vitalproteinsbv_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_vitalproteinsbv_view"
+        ],
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_vitalproteinsbv_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_vitalproteinsbv_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 7
+    },
+    "vitalproteinsbv_eu": {
+      "scope_token": "vitalproteinsbv_eu",
+      "base_scope": "vitalproteinsbv",
+      "market": "EU",
+      "aliases": [
+        "vital proteins",
+        "vital proteins bv",
+        "vitalproteinsbv",
+        "vitalproteinsbv eu"
+      ],
+      "domains": {
+        "orders": [
+          "intermediate_amazon_3p_orders_vitalproteinsbv_eu_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "vitalproteinsbv_eu_vie": {
+      "scope_token": "vitalproteinsbv_eu_vie",
+      "base_scope": "vitalproteinsbv_eu_vie",
+      "market": null,
+      "aliases": [
+        "vitalproteinsbv eu vie"
+      ],
+      "domains": {
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_vitalproteinsbv_eu_vie"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "vitalproteinsbv_us": {
+      "scope_token": "vitalproteinsbv_us",
+      "base_scope": "vitalproteinsbv",
+      "market": "US",
+      "aliases": [
+        "vital proteins",
+        "vital proteins bv",
+        "vitalproteinsbv",
+        "vitalproteinsbv us"
+      ],
+      "domains": {
+        "ads_audience_campaign": [
+          "intermediate_amazon_ams_audience_vitalproteinsbv_us_view"
+        ],
+        "orders": [
+          "intermediate_amazon_3p_orders_vitalproteinsbv_us_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 2
+    },
+    "vitalproteinsbv_us_vie": {
+      "scope_token": "vitalproteinsbv_us_vie",
+      "base_scope": "vitalproteinsbv_us_vie",
+      "market": null,
+      "aliases": [
+        "vitalproteinsbv us vie"
+      ],
+      "domains": {
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_vitalproteinsbv_us_vie"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "vp_eu": {
+      "scope_token": "vp_eu",
+      "base_scope": "vp",
+      "market": "EU",
+      "aliases": [
+        "vital proteins eu",
+        "vitalproteins eu",
+        "vp",
+        "vp eu"
+      ],
+      "domains": {
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_vp_eu_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_vp_eu_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_vp_eu_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_vp_eu_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_vp_eu_view"
+        ],
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_vp_eu_view",
+          "intermediate_amazon_dsp_audience_order_vp_eu_view",
+          "intermediate_amazon_dsp_creative_name_vp_eu_view",
+          "intermediate_amazon_dsp_lineitem_name_vp_eu_view",
+          "intermediate_amazon_dsp_order_funnel_vp_eu_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 10
+    },
+    "vp_us": {
+      "scope_token": "vp_us",
+      "base_scope": "vp",
+      "market": "US",
+      "aliases": [
+        "vital proteins us",
+        "vitalproteins us",
+        "vp",
+        "vp us"
+      ],
+      "domains": {
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_vp_us_view"
+        ],
+        "ams_campaigns": [
+          "intermediate_amazon_ams_campaigns_vp_us_view"
+        ],
+        "ams_placement": [
+          "intermediate_amazon_ams_campaigns_placement_vp_us_view"
+        ],
+        "ams_search_terms": [
+          "intermediate_amazon_ams_search_term_vp_us_view"
+        ],
+        "ams_targeting": [
+          "intermediate_amazon_ams_targeting_vp_us_view"
+        ],
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_vp_us_view",
+          "intermediate_amazon_dsp_audience_order_vp_us_view",
+          "intermediate_amazon_dsp_creative_name_vp_us_view",
+          "intermediate_amazon_dsp_lineitem_name_vp_us_view",
+          "intermediate_amazon_dsp_order_funnel_vp_us_view",
+          "intermediate_amazon_dsp_product_vp_us_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 11
+    },
+    "vp_us_weekly_state": {
+      "scope_token": "vp_us_weekly_state",
+      "base_scope": "vp_us_weekly_state",
+      "market": null,
+      "aliases": [
+        "vp us weekly state"
+      ],
+      "domains": {
+        "orders": [
+          "intermediate_amazon_3p_orders_vp_us_weekly_state_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "xtremeconnectedhome": {
+      "scope_token": "xtremeconnectedhome",
+      "base_scope": "xtremeconnectedhome",
+      "market": null,
+      "aliases": [
+        "xtremeconnectedhome"
+      ],
+      "domains": {
+        "orders": [
+          "intermediate_amazon_3p_orders_xtremeconnectedhome_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "xtremeconnectedhome_": {
+      "scope_token": "xtremeconnectedhome_",
+      "base_scope": "xtremeconnectedhome_",
+      "market": null,
+      "aliases": [
+        "xtremeconnectedhome"
+      ],
+      "domains": {
+        "ams_advertised_product": [
+          "intermediate_amazon_ams_advertised_product_xtremeconnectedhome_"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "xtremeconnectedhome_vi": {
+      "scope_token": "xtremeconnectedhome_vi",
+      "base_scope": "xtremeconnectedhome_vi",
+      "market": null,
+      "aliases": [
+        "xtremeconnectedhome vi"
+      ],
+      "domains": {
+        "business_report": [
+          "intermediate_amazon_3p_sales_and_traffic_xtremeconnectedhome_vi"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 1
+    },
+    "yangfan": {
+      "scope_token": "yangfan",
+      "base_scope": "yangfan",
+      "market": null,
+      "aliases": [
+        "yangfan"
+      ],
+      "domains": {
+        "dsp": [
+          "intermediate_amazon_dsp_audience_line_yangfan_view",
+          "intermediate_amazon_dsp_audience_order_yangfan_view",
+          "intermediate_amazon_dsp_creative_name_yangfan_view",
+          "intermediate_amazon_dsp_lineitem_name_yangfan_view",
+          "intermediate_amazon_dsp_order_funnel_yangfan_view",
+          "intermediate_amazon_dsp_product_yangfan_view"
+        ]
+      },
+      "identity_values": {},
+      "table_count": 6
+    }
+  }
+}
