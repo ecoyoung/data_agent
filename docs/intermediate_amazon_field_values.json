@@ -1,0 +1,6641 @@
+{
+  "generated_at": "2026-07-15T03:58:24Z",
+  "source": "public.intermediate_amazon_% PostgreSQL objects",
+  "table_count": 462,
+  "enumerated_table_count": 19,
+  "enum_policy": {
+    "sample_rows_per_table_column": 2000,
+    "top_values": 20,
+    "max_distinct_in_sample": 50,
+    "statement_timeout_ms": 1000,
+    "enum_tables_per_domain": 2,
+    "include_domains": [],
+    "skip_domains": [
+      "1p_orders",
+      "amazon_intermediate",
+      "dsp"
+    ],
+    "preferred_enum_scopes": [
+      "innerbrightness",
+      "brumate",
+      "blueland",
+      "belliwelli",
+      "lider_us",
+      "beekeeper_us",
+      "supergut",
+      "perfectbar"
+    ],
+    "excluded_high_cardinality_patterns": [
+      "asin",
+      "sku",
+      "fnsku",
+      "msku",
+      "upc",
+      "ean",
+      "isbn",
+      "keyword",
+      "search_term",
+      "searchterm",
+      "targeting_expression",
+      "targeting_text",
+      "matched_target",
+      "query",
+      "title",
+      "description",
+      "url",
+      "image",
+      "email",
+      "phone",
+      "address"
+    ],
+    "excluded_high_cardinality_suffixes": [
+      "_id",
+      "_ids",
+      "_name",
+      "_names",
+      "_number",
+      "_numbers",
+      "_code",
+      "_text"
+    ],
+    "always_enumerate": [
+      "ad_type",
+      "ads_type",
+      "ams_type",
+      "brand",
+      "campaign_type",
+      "country",
+      "country_code",
+      "currency",
+      "customer",
+      "customer_name",
+      "disposition",
+      "fulfillment_channel",
+      "marketplace",
+      "marketplace_name",
+      "match_type",
+      "model",
+      "order_status",
+      "placement",
+      "profile_country_code",
+      "profile_marketplace",
+      "profile_type",
+      "reason",
+      "report_type",
+      "return_status",
+      "sales_channel",
+      "status",
+      "targeting_type",
+      "type",
+      "vcc"
+    ]
+  },
+  "structure": {
+    "global_common_columns": [
+      {
+        "column": "brand",
+        "table_count": 458,
+        "domain_count": 13,
+        "domains": [
+          "1p_orders",
+          "ads_audience_campaign",
+          "amazon_intermediate",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting",
+          "business_report",
+          "dsp",
+          "inventory_days",
+          "orders",
+          "returns"
+        ]
+      },
+      {
+        "column": "year",
+        "table_count": 453,
+        "domain_count": 12,
+        "domains": [
+          "1p_orders",
+          "ads_audience_campaign",
+          "amazon_intermediate",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting",
+          "business_report",
+          "dsp",
+          "orders",
+          "returns"
+        ]
+      },
+      {
+        "column": "month",
+        "table_count": 453,
+        "domain_count": 12,
+        "domains": [
+          "1p_orders",
+          "ads_audience_campaign",
+          "amazon_intermediate",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting",
+          "business_report",
+          "dsp",
+          "orders",
+          "returns"
+        ]
+      },
+      {
+        "column": "quarter",
+        "table_count": 453,
+        "domain_count": 12,
+        "domains": [
+          "1p_orders",
+          "ads_audience_campaign",
+          "amazon_intermediate",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting",
+          "business_report",
+          "dsp",
+          "orders",
+          "returns"
+        ]
+      },
+      {
+        "column": "model",
+        "table_count": 440,
+        "domain_count": 12,
+        "domains": [
+          "1p_orders",
+          "ads_audience_campaign",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting",
+          "business_report",
+          "dsp",
+          "inventory_days",
+          "orders",
+          "returns"
+        ]
+      },
+      {
+        "column": "report_date",
+        "table_count": 427,
+        "domain_count": 11,
+        "domains": [
+          "1p_orders",
+          "ads_audience_campaign",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting",
+          "business_report",
+          "dsp",
+          "inventory_days",
+          "orders"
+        ]
+      },
+      {
+        "column": "customer",
+        "table_count": 361,
+        "domain_count": 8,
+        "domains": [
+          "ads_audience_campaign",
+          "ams_advertised_product",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting",
+          "business_report",
+          "dsp",
+          "returns"
+        ]
+      },
+      {
+        "column": "profile_name",
+        "table_count": 352,
+        "domain_count": 7,
+        "domains": [
+          "ads_audience_campaign",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting",
+          "dsp"
+        ]
+      },
+      {
+        "column": "report_type",
+        "table_count": 319,
+        "domain_count": 7,
+        "domains": [
+          "ads_audience_campaign",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_targeting",
+          "dsp",
+          "returns"
+        ]
+      },
+      {
+        "column": "ams_spend",
+        "table_count": 202,
+        "domain_count": 7,
+        "domains": [
+          "ads_audience_campaign",
+          "amazon_intermediate",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "ams_impression",
+        "table_count": 201,
+        "domain_count": 7,
+        "domains": [
+          "ads_audience_campaign",
+          "amazon_intermediate",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "ams_click",
+        "table_count": 201,
+        "domain_count": 7,
+        "domains": [
+          "ads_audience_campaign",
+          "amazon_intermediate",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "ams_units",
+        "table_count": 201,
+        "domain_count": 7,
+        "domains": [
+          "ads_audience_campaign",
+          "amazon_intermediate",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "ams_sales",
+        "table_count": 201,
+        "domain_count": 7,
+        "domains": [
+          "ads_audience_campaign",
+          "amazon_intermediate",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "ams_ctr",
+        "table_count": 198,
+        "domain_count": 7,
+        "domains": [
+          "ads_audience_campaign",
+          "amazon_intermediate",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "ams_roas",
+        "table_count": 191,
+        "domain_count": 6,
+        "domains": [
+          "ads_audience_campaign",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "campaign_id",
+        "table_count": 180,
+        "domain_count": 6,
+        "domains": [
+          "ads_audience_campaign",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "budget_currency_code",
+        "table_count": 180,
+        "domain_count": 6,
+        "domains": [
+          "ads_audience_campaign",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "ams_cvr",
+        "table_count": 180,
+        "domain_count": 6,
+        "domains": [
+          "ads_audience_campaign",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "ams_acos",
+        "table_count": 180,
+        "domain_count": 6,
+        "domains": [
+          "ads_audience_campaign",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "product_name",
+        "table_count": 173,
+        "domain_count": 7,
+        "domains": [
+          "1p_orders",
+          "ads_audience_campaign",
+          "ams_advertised_product",
+          "business_report",
+          "dsp",
+          "orders",
+          "returns"
+        ]
+      },
+      {
+        "column": "vcc",
+        "table_count": 168,
+        "domain_count": 3,
+        "domains": [
+          "dsp",
+          "inventory_days",
+          "returns"
+        ]
+      },
+      {
+        "column": "ams_cpc",
+        "table_count": 164,
+        "domain_count": 6,
+        "domains": [
+          "ads_audience_campaign",
+          "amazon_intermediate",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "campaign_name",
+        "table_count": 156,
+        "domain_count": 7,
+        "domains": [
+          "ads_audience_campaign",
+          "amazon_intermediate",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "ams_orders",
+        "table_count": 151,
+        "domain_count": 5,
+        "domains": [
+          "ads_audience_campaign",
+          "ams_advertised_product",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "country_code",
+        "table_count": 148,
+        "domain_count": 7,
+        "domains": [
+          "1p_orders",
+          "ads_audience_campaign",
+          "amazon_intermediate",
+          "ams_advertised_product",
+          "business_report",
+          "orders",
+          "returns"
+        ]
+      },
+      {
+        "column": "ams_same_sku_sales",
+        "table_count": 145,
+        "domain_count": 5,
+        "domains": [
+          "ads_audience_campaign",
+          "ams_advertised_product",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "ams_same_sku_units",
+        "table_count": 145,
+        "domain_count": 5,
+        "domains": [
+          "ads_audience_campaign",
+          "ams_advertised_product",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "asin",
+        "table_count": 132,
+        "domain_count": 8,
+        "domains": [
+          "1p_orders",
+          "amazon_intermediate",
+          "ams_advertised_product",
+          "business_report",
+          "dsp",
+          "inventory_days",
+          "orders",
+          "returns"
+        ]
+      },
+      {
+        "column": "category",
+        "table_count": 130,
+        "domain_count": 4,
+        "domains": [
+          "1p_orders",
+          "ams_advertised_product",
+          "business_report",
+          "orders"
+        ]
+      },
+      {
+        "column": "ams_dpv",
+        "table_count": 130,
+        "domain_count": 5,
+        "domains": [
+          "ads_audience_campaign",
+          "ams_campaigns",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "ams_same_sku_orders",
+        "table_count": 129,
+        "domain_count": 4,
+        "domains": [
+          "ams_advertised_product",
+          "ams_placement",
+          "ams_search_terms",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "ams_type",
+        "table_count": 116,
+        "domain_count": 4,
+        "domains": [
+          "ads_audience_campaign",
+          "ams_advertised_product",
+          "ams_placement",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "ad_group_name",
+        "table_count": 98,
+        "domain_count": 3,
+        "domains": [
+          "ams_advertised_product",
+          "ams_search_terms",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "customer_name",
+        "table_count": 97,
+        "domain_count": 6,
+        "domains": [
+          "1p_orders",
+          "ads_audience_campaign",
+          "amazon_intermediate",
+          "ams_campaigns",
+          "inventory_days",
+          "orders"
+        ]
+      },
+      {
+        "column": "ams_other_sku_sales",
+        "table_count": 89,
+        "domain_count": 3,
+        "domains": [
+          "ams_advertised_product",
+          "ams_search_terms",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "ams_other_sku_units",
+        "table_count": 89,
+        "domain_count": 3,
+        "domains": [
+          "ams_advertised_product",
+          "ams_search_terms",
+          "ams_targeting"
+        ]
+      },
+      {
+        "column": "country",
+        "table_count": 75,
+        "domain_count": 3,
+        "domains": [
+          "ads_audience_campaign",
+          "ams_campaigns",
+          "ams_search_terms"
+        ]
+      },
+      {
+        "column": "ad_type",
+        "table_count": 73,
+        "domain_count": 3,
+        "domains": [
+          "amazon_intermediate",
+          "ams_campaigns",
+          "ams_search_terms"
+        ]
+      },
+      {
+        "column": "campaign_type",
+        "table_count": 45,
+        "domain_count": 3,
+        "domains": [
+          "ads_audience_campaign",
+          "amazon_intermediate",
+          "ams_campaigns"
+        ]
+      },
+      {
+        "column": "campaign_tag",
+        "table_count": 45,
+        "domain_count": 3,
+        "domains": [
+          "ads_audience_campaign",
+          "amazon_intermediate",
+          "ams_campaigns"
+        ]
+      },
+      {
+        "column": "sku",
+        "table_count": 44,
+        "domain_count": 4,
+        "domains": [
+          "amazon_intermediate",
+          "inventory_days",
+          "orders",
+          "returns"
+        ]
+      },
+      {
+        "column": "time",
+        "table_count": 24,
+        "domain_count": 4,
+        "domains": [
+          "ads_audience_campaign",
+          "amazon_intermediate",
+          "ams_advertised_product",
+          "ams_search_terms"
+        ]
+      },
+      {
+        "column": "ams_order",
+        "table_count": 17,
+        "domain_count": 3,
+        "domains": [
+          "ads_audience_campaign",
+          "amazon_intermediate",
+          "ams_advertised_product"
+        ]
+      },
+      {
+        "column": "date",
+        "table_count": 3,
+        "domain_count": 3,
+        "domains": [
+          "amazon_intermediate",
+          "ams_placement",
+          "dsp"
+        ]
+      }
+    ],
+    "domains": {
+      "1p_orders": {
+        "table_count": 18,
+        "common_columns": [
+          {
+            "column": "asin",
+            "table_count": 18,
+            "coverage": 1.0,
+            "types": {
+              "character varying(100)": 11,
+              "character varying(20)": 7
+            }
+          },
+          {
+            "column": "brand",
+            "table_count": 18,
+            "coverage": 1.0,
+            "types": {
+              "text": 18
+            }
+          },
+          {
+            "column": "category",
+            "table_count": 18,
+            "coverage": 1.0,
+            "types": {
+              "character varying(100)": 18
+            }
+          },
+          {
+            "column": "country_code",
+            "table_count": 18,
+            "coverage": 1.0,
+            "types": {
+              "character varying(10)": 18
+            }
+          },
+          {
+            "column": "customer_name",
+            "table_count": 18,
+            "coverage": 1.0,
+            "types": {
+              "text": 18
+            }
+          },
+          {
+            "column": "glance_view",
+            "table_count": 18,
+            "coverage": 1.0,
+            "types": {
+              "bigint": 7,
+              "numeric(15,4)": 7,
+              "integer": 4
+            }
+          },
+          {
+            "column": "local_currency",
+            "table_count": 18,
+            "coverage": 1.0,
+            "types": {
+              "character varying(10)": 18
+            }
+          },
+          {
+            "column": "model",
+            "table_count": 18,
+            "coverage": 1.0,
+            "types": {
+              "text": 18
+            }
+          },
+          {
+            "column": "month",
+            "table_count": 18,
+            "coverage": 1.0,
+            "types": {
+              "integer": 18
+            }
+          },
+          {
+            "column": "product_name",
+            "table_count": 18,
+            "coverage": 1.0,
+            "types": {
+              "character varying(500)": 18
+            }
+          },
+          {
+            "column": "quarter",
+            "table_count": 18,
+            "coverage": 1.0,
+            "types": {
+              "integer": 18
+            }
+          },
+          {
+            "column": "report_date",
+            "table_count": 18,
+            "coverage": 1.0,
+            "types": {
+              "date": 18
+            }
+          },
+          {
+            "column": "shipped_cogs",
+            "table_count": 18,
+            "coverage": 1.0,
+            "types": {
+              "numeric(15,4)": 11,
+              "integer": 7
+            }
+          },
+          {
+            "column": "shipped_revenue",
+            "table_count": 18,
+            "coverage": 1.0,
+            "types": {
+              "numeric(15,4)": 11,
+              "integer": 7
+            }
+          },
+          {
+            "column": "shipped_units",
+            "table_count": 18,
+            "coverage": 1.0,
+            "types": {
+              "numeric(15,4)": 11,
+              "integer": 7
+            }
+          },
+          {
+            "column": "year",
+            "table_count": 18,
+            "coverage": 1.0,
+            "types": {
+              "integer": 18
+            }
+          }
+        ],
+        "majority_columns": [],
+        "variant_columns": [
+          {
+            "column": "distributor_view",
+            "table_count": 11,
+            "coverage": 0.6111,
+            "types": {
+              "text": 11
+            }
+          },
+          {
+            "column": "ordered_revenue",
+            "table_count": 11,
+            "coverage": 0.6111,
+            "types": {
+              "numeric(15,4)": 7,
+              "integer": 4
+            }
+          },
+          {
+            "column": "ordered_units",
+            "table_count": 11,
+            "coverage": 0.6111,
+            "types": {
+              "integer": 11
+            }
+          },
+          {
+            "column": "product_priority",
+            "table_count": 11,
+            "coverage": 0.6111,
+            "types": {
+              "character varying": 11
+            }
+          },
+          {
+            "column": "self_definition_tag",
+            "table_count": 11,
+            "coverage": 0.6111,
+            "types": {
+              "character varying": 11
+            }
+          },
+          {
+            "column": "order_revenue",
+            "table_count": 7,
+            "coverage": 0.3889,
+            "types": {
+              "numeric": 7
+            }
+          },
+          {
+            "column": "order_units",
+            "table_count": 7,
+            "coverage": 0.3889,
+            "types": {
+              "bigint": 7
+            }
+          }
+        ]
+      },
+      "ads_audience_campaign": {
+        "table_count": 25,
+        "common_columns": [
+          {
+            "column": "brand",
+            "table_count": 25,
+            "coverage": 1.0,
+            "types": {
+              "text": 24,
+              "character varying(100)": 1
+            }
+          }
+        ],
+        "majority_columns": [
+          {
+            "column": "ams_click",
+            "table_count": 22,
+            "coverage": 0.88,
+            "types": {
+              "numeric(65,10)": 16,
+              "numeric": 6
+            }
+          },
+          {
+            "column": "ams_cpc",
+            "table_count": 22,
+            "coverage": 0.88,
+            "types": {
+              "numeric(65,10)": 16,
+              "numeric": 6
+            }
+          },
+          {
+            "column": "ams_ctr",
+            "table_count": 22,
+            "coverage": 0.88,
+            "types": {
+              "numeric(65,10)": 16,
+              "numeric": 6
+            }
+          },
+          {
+            "column": "ams_impression",
+            "table_count": 22,
+            "coverage": 0.88,
+            "types": {
+              "numeric(65,10)": 16,
+              "numeric": 6
+            }
+          },
+          {
+            "column": "ams_roas",
+            "table_count": 22,
+            "coverage": 0.88,
+            "types": {
+              "numeric(65,10)": 16,
+              "numeric": 6
+            }
+          },
+          {
+            "column": "ams_sales",
+            "table_count": 22,
+            "coverage": 0.88,
+            "types": {
+              "numeric(65,10)": 16,
+              "numeric": 6
+            }
+          },
+          {
+            "column": "ams_spend",
+            "table_count": 22,
+            "coverage": 0.88,
+            "types": {
+              "numeric(65,10)": 16,
+              "numeric": 6
+            }
+          },
+          {
+            "column": "ams_units",
+            "table_count": 22,
+            "coverage": 0.88,
+            "types": {
+              "numeric(65,10)": 16,
+              "numeric": 6
+            }
+          },
+          {
+            "column": "campaign_name",
+            "table_count": 22,
+            "coverage": 0.88,
+            "types": {
+              "text": 22
+            }
+          },
+          {
+            "column": "month",
+            "table_count": 22,
+            "coverage": 0.88,
+            "types": {
+              "integer": 22
+            }
+          },
+          {
+            "column": "profile_name",
+            "table_count": 22,
+            "coverage": 0.88,
+            "types": {
+              "text": 22
+            }
+          },
+          {
+            "column": "quarter",
+            "table_count": 22,
+            "coverage": 0.88,
+            "types": {
+              "integer": 22
+            }
+          },
+          {
+            "column": "year",
+            "table_count": 22,
+            "coverage": 0.88,
+            "types": {
+              "integer": 22
+            }
+          },
+          {
+            "column": "customer",
+            "table_count": 19,
+            "coverage": 0.76,
+            "types": {
+              "text": 19
+            }
+          },
+          {
+            "column": "model",
+            "table_count": 19,
+            "coverage": 0.76,
+            "types": {
+              "text": 19
+            }
+          }
+        ],
+        "variant_columns": [
+          {
+            "column": "ams_acos",
+            "table_count": 16,
+            "coverage": 0.64,
+            "types": {
+              "numeric(65,10)": 16
+            }
+          },
+          {
+            "column": "ams_cvr",
+            "table_count": 16,
+            "coverage": 0.64,
+            "types": {
+              "numeric(65,10)": 16
+            }
+          },
+          {
+            "column": "ams_orders",
+            "table_count": 16,
+            "coverage": 0.64,
+            "types": {
+              "numeric(65,10)": 16
+            }
+          },
+          {
+            "column": "ams_same_sku_sales",
+            "table_count": 16,
+            "coverage": 0.64,
+            "types": {
+              "numeric(65,10)": 16
+            }
+          },
+          {
+            "column": "ams_same_sku_units",
+            "table_count": 16,
+            "coverage": 0.64,
+            "types": {
+              "numeric(65,10)": 16
+            }
+          },
+          {
+            "column": "ams_type",
+            "table_count": 16,
+            "coverage": 0.64,
+            "types": {
+              "text": 16
+            }
+          },
+          {
+            "column": "bidding_strategy",
+            "table_count": 16,
+            "coverage": 0.64,
+            "types": {
+              "text": 16
+            }
+          },
+          {
+            "column": "budget",
+            "table_count": 16,
+            "coverage": 0.64,
+            "types": {
+              "numeric(65,10)": 16
+            }
+          },
+          {
+            "column": "budget_currency_code",
+            "table_count": 16,
+            "coverage": 0.64,
+            "types": {
+              "text": 16
+            }
+          },
+          {
+            "column": "campaign_budget_type",
+            "table_count": 16,
+            "coverage": 0.64,
+            "types": {
+              "text": 16
+            }
+          },
+          {
+            "column": "campaign_id",
+            "table_count": 16,
+            "coverage": 0.64,
+            "types": {
+              "text": 16
+            }
+          },
+          {
+            "column": "report_date",
+            "table_count": 16,
+            "coverage": 0.64,
+            "types": {
+              "date": 16
+            }
+          },
+          {
+            "column": "report_type",
+            "table_count": 16,
+            "coverage": 0.64,
+            "types": {
+              "text": 16
+            }
+          },
+          {
+            "column": "segment_name",
+            "table_count": 16,
+            "coverage": 0.64,
+            "types": {
+              "text": 16
+            }
+          },
+          {
+            "column": "status",
+            "table_count": 16,
+            "coverage": 0.64,
+            "types": {
+              "text": 16
+            }
+          },
+          {
+            "column": "time",
+            "table_count": 9,
+            "coverage": 0.36,
+            "types": {
+              "date": 6,
+              "text": 3
+            }
+          },
+          {
+            "column": "ads_type",
+            "table_count": 6,
+            "coverage": 0.24,
+            "types": {
+              "text": 6
+            }
+          },
+          {
+            "column": "ams_dpv",
+            "table_count": 6,
+            "coverage": 0.24,
+            "types": {
+              "numeric": 6
+            }
+          },
+          {
+            "column": "ams_order",
+            "table_count": 6,
+            "coverage": 0.24,
+            "types": {
+              "numeric": 6
+            }
+          },
+          {
+            "column": "campaign_tag",
+            "table_count": 6,
+            "coverage": 0.24,
+            "types": {
+              "text": 6
+            }
+          },
+          {
+            "column": "campaign_type",
+            "table_count": 6,
+            "coverage": 0.24,
+            "types": {
+              "text": 6
+            }
+          },
+          {
+            "column": "country",
+            "table_count": 6,
+            "coverage": 0.24,
+            "types": {
+              "text": 6
+            }
+          },
+          {
+            "column": "customer_name",
+            "table_count": 6,
+            "coverage": 0.24,
+            "types": {
+              "text": 6
+            }
+          },
+          {
+            "column": "p_type",
+            "table_count": 6,
+            "coverage": 0.24,
+            "types": {
+              "text": 6
+            }
+          },
+          {
+            "column": "advertiser_name",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "text": 3
+            }
+          },
+          {
+            "column": "atc",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "numeric": 3
+            }
+          },
+          {
+            "column": "country_code",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "text": 3
+            }
+          },
+          {
+            "column": "dpv",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "numeric": 3
+            }
+          },
+          {
+            "column": "dsp_click",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "numeric": 3
+            }
+          },
+          {
+            "column": "dsp_cost",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "double precision": 2,
+              "numeric": 1
+            }
+          },
+          {
+            "column": "dsp_ctr",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "double precision": 3
+            }
+          },
+          {
+            "column": "dsp_impression",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "numeric": 3
+            }
+          },
+          {
+            "column": "dsp_purchases",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "numeric": 3
+            }
+          },
+          {
+            "column": "dsp_roas",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "double precision": 2,
+              "text": 1
+            }
+          },
+          {
+            "column": "dsp_sales",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "double precision": 2,
+              "numeric": 1
+            }
+          },
+          {
+            "column": "dsp_total_purchases",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "numeric": 3
+            }
+          },
+          {
+            "column": "dsp_total_sales",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "double precision": 2,
+              "numeric": 1
+            }
+          },
+          {
+            "column": "dsp_total_units_sold",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "numeric": 3
+            }
+          },
+          {
+            "column": "dsp_units_sold",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "numeric": 3
+            }
+          },
+          {
+            "column": "line_item_name",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "text": 3
+            }
+          },
+          {
+            "column": "new_to_brand_purchases",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "numeric": 3
+            }
+          },
+          {
+            "column": "order_name",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "text": 3
+            }
+          },
+          {
+            "column": "order_tag",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "text": 3
+            }
+          },
+          {
+            "column": "product_name",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "text": 3
+            }
+          },
+          {
+            "column": "total_sn_ss",
+            "table_count": 3,
+            "coverage": 0.12,
+            "types": {
+              "numeric": 3
+            }
+          },
+          {
+            "column": "rn",
+            "table_count": 1,
+            "coverage": 0.04,
+            "types": {
+              "bigint": 1
+            }
+          }
+        ]
+      },
+      "amazon_intermediate": {
+        "table_count": 5,
+        "common_columns": [
+          {
+            "column": "ams_order",
+            "table_count": 5,
+            "coverage": 1.0,
+            "types": {
+              "bigint": 4,
+              "numeric": 1
+            }
+          },
+          {
+            "column": "ams_spend",
+            "table_count": 5,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 5
+            }
+          },
+          {
+            "column": "country_code",
+            "table_count": 5,
+            "coverage": 1.0,
+            "types": {
+              "character varying(500)": 5
+            }
+          },
+          {
+            "column": "p_type",
+            "table_count": 5,
+            "coverage": 1.0,
+            "types": {
+              "text": 5
+            }
+          }
+        ],
+        "majority_columns": [
+          {
+            "column": "ad_type",
+            "table_count": 4,
+            "coverage": 0.8,
+            "types": {
+              "text": 4
+            }
+          },
+          {
+            "column": "ams_click",
+            "table_count": 4,
+            "coverage": 0.8,
+            "types": {
+              "bigint": 4
+            }
+          },
+          {
+            "column": "ams_impression",
+            "table_count": 4,
+            "coverage": 0.8,
+            "types": {
+              "bigint": 4
+            }
+          },
+          {
+            "column": "ams_sales",
+            "table_count": 4,
+            "coverage": 0.8,
+            "types": {
+              "numeric": 4
+            }
+          },
+          {
+            "column": "ams_units",
+            "table_count": 4,
+            "coverage": 0.8,
+            "types": {
+              "bigint": 4
+            }
+          },
+          {
+            "column": "bussines_units",
+            "table_count": 4,
+            "coverage": 0.8,
+            "types": {
+              "text": 4
+            }
+          },
+          {
+            "column": "campaign_name",
+            "table_count": 4,
+            "coverage": 0.8,
+            "types": {
+              "text": 4
+            }
+          },
+          {
+            "column": "campaign_tag",
+            "table_count": 4,
+            "coverage": 0.8,
+            "types": {
+              "text": 4
+            }
+          },
+          {
+            "column": "campaign_type",
+            "table_count": 4,
+            "coverage": 0.8,
+            "types": {
+              "text": 4
+            }
+          },
+          {
+            "column": "country_code_request",
+            "table_count": 4,
+            "coverage": 0.8,
+            "types": {
+              "text": 4
+            }
+          },
+          {
+            "column": "dpv14d",
+            "table_count": 4,
+            "coverage": 0.8,
+            "types": {
+              "numeric": 4
+            }
+          },
+          {
+            "column": "roas14d",
+            "table_count": 4,
+            "coverage": 0.8,
+            "types": {
+              "numeric": 4
+            }
+          },
+          {
+            "column": "subcategory",
+            "table_count": 4,
+            "coverage": 0.8,
+            "types": {
+              "text": 4
+            }
+          },
+          {
+            "column": "time",
+            "table_count": 4,
+            "coverage": 0.8,
+            "types": {
+              "timestamp without time zone": 4
+            }
+          },
+          {
+            "column": "time_window_start",
+            "table_count": 4,
+            "coverage": 0.8,
+            "types": {
+              "timestamp with time zone": 3,
+              "timestamp without time zone": 1
+            }
+          },
+          {
+            "column": "vcp_category",
+            "table_count": 4,
+            "coverage": 0.8,
+            "types": {
+              "text": 4
+            }
+          }
+        ],
+        "variant_columns": [
+          {
+            "column": "brand",
+            "table_count": 3,
+            "coverage": 0.6,
+            "types": {
+              "text": 3
+            }
+          },
+          {
+            "column": "cpc",
+            "table_count": 3,
+            "coverage": 0.6,
+            "types": {
+              "numeric": 3
+            }
+          },
+          {
+            "column": "ctr",
+            "table_count": 3,
+            "coverage": 0.6,
+            "types": {
+              "bigint": 3
+            }
+          },
+          {
+            "column": "customer_name",
+            "table_count": 3,
+            "coverage": 0.6,
+            "types": {
+              "text": 3
+            }
+          },
+          {
+            "column": "month",
+            "table_count": 3,
+            "coverage": 0.6,
+            "types": {
+              "integer": 3
+            }
+          },
+          {
+            "column": "p_distribution",
+            "table_count": 3,
+            "coverage": 0.6,
+            "types": {
+              "text": 3
+            }
+          },
+          {
+            "column": "quarter",
+            "table_count": 3,
+            "coverage": 0.6,
+            "types": {
+              "integer": 3
+            }
+          },
+          {
+            "column": "year",
+            "table_count": 3,
+            "coverage": 0.6,
+            "types": {
+              "integer": 3
+            }
+          },
+          {
+            "column": "ams_same_sales",
+            "table_count": 2,
+            "coverage": 0.4,
+            "types": {
+              "numeric": 2
+            }
+          },
+          {
+            "column": "ams_cpc",
+            "table_count": 1,
+            "coverage": 0.2,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "ams_ctr",
+            "table_count": 1,
+            "coverage": 0.2,
+            "types": {
+              "bigint": 1
+            }
+          },
+          {
+            "column": "asin",
+            "table_count": 1,
+            "coverage": 0.2,
+            "types": {
+              "text": 1
+            }
+          },
+          {
+            "column": "date",
+            "table_count": 1,
+            "coverage": 0.2,
+            "types": {
+              "date": 1
+            }
+          },
+          {
+            "column": "date_time",
+            "table_count": 1,
+            "coverage": 0.2,
+            "types": {
+              "timestamp without time zone": 1
+            }
+          },
+          {
+            "column": "id",
+            "table_count": 1,
+            "coverage": 0.2,
+            "types": {
+              "integer": 1
+            }
+          },
+          {
+            "column": "sku",
+            "table_count": 1,
+            "coverage": 0.2,
+            "types": {
+              "text": 1
+            }
+          },
+          {
+            "column": "subcategory_lev2",
+            "table_count": 1,
+            "coverage": 0.2,
+            "types": {
+              "text": 1
+            }
+          },
+          {
+            "column": "time_of_day",
+            "table_count": 1,
+            "coverage": 0.2,
+            "types": {
+              "time without time zone": 1
+            }
+          }
+        ]
+      },
+      "ams_advertised_product": {
+        "table_count": 46,
+        "common_columns": [
+          {
+            "column": "ams_click",
+            "table_count": 46,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 46
+            }
+          },
+          {
+            "column": "ams_cpc",
+            "table_count": 46,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 29,
+              "double precision": 17
+            }
+          },
+          {
+            "column": "ams_ctr",
+            "table_count": 46,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 29,
+              "double precision": 17
+            }
+          },
+          {
+            "column": "ams_impression",
+            "table_count": 46,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 46
+            }
+          },
+          {
+            "column": "ams_sales",
+            "table_count": 46,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 30,
+              "double precision": 16
+            }
+          },
+          {
+            "column": "ams_spend",
+            "table_count": 46,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 30,
+              "double precision": 16
+            }
+          },
+          {
+            "column": "ams_units",
+            "table_count": 46,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 46
+            }
+          },
+          {
+            "column": "brand",
+            "table_count": 46,
+            "coverage": 1.0,
+            "types": {
+              "text": 45,
+              "character varying(50)": 1
+            }
+          },
+          {
+            "column": "country_code",
+            "table_count": 46,
+            "coverage": 1.0,
+            "types": {
+              "text": 46
+            }
+          },
+          {
+            "column": "customer",
+            "table_count": 46,
+            "coverage": 1.0,
+            "types": {
+              "text": 46
+            }
+          },
+          {
+            "column": "model",
+            "table_count": 46,
+            "coverage": 1.0,
+            "types": {
+              "text": 46
+            }
+          },
+          {
+            "column": "product_name",
+            "table_count": 46,
+            "coverage": 1.0,
+            "types": {
+              "character varying(500)": 45,
+              "text": 1
+            }
+          },
+          {
+            "column": "profile_name",
+            "table_count": 46,
+            "coverage": 1.0,
+            "types": {
+              "text": 46
+            }
+          }
+        ],
+        "majority_columns": [
+          {
+            "column": "category",
+            "table_count": 45,
+            "coverage": 0.9783,
+            "types": {
+              "character varying(100)": 45
+            }
+          },
+          {
+            "column": "month",
+            "table_count": 45,
+            "coverage": 0.9783,
+            "types": {
+              "integer": 45
+            }
+          },
+          {
+            "column": "quarter",
+            "table_count": 45,
+            "coverage": 0.9783,
+            "types": {
+              "integer": 45
+            }
+          },
+          {
+            "column": "year",
+            "table_count": 45,
+            "coverage": 0.9783,
+            "types": {
+              "integer": 45
+            }
+          },
+          {
+            "column": "ad_group_name",
+            "table_count": 40,
+            "coverage": 0.8696,
+            "types": {
+              "text": 40
+            }
+          },
+          {
+            "column": "advertised_asin",
+            "table_count": 40,
+            "coverage": 0.8696,
+            "types": {
+              "text": 40
+            }
+          },
+          {
+            "column": "advertised_sku",
+            "table_count": 40,
+            "coverage": 0.8696,
+            "types": {
+              "text": 40
+            }
+          },
+          {
+            "column": "ams_acos",
+            "table_count": 40,
+            "coverage": 0.8696,
+            "types": {
+              "numeric": 29,
+              "double precision": 11
+            }
+          },
+          {
+            "column": "ams_cvr",
+            "table_count": 40,
+            "coverage": 0.8696,
+            "types": {
+              "numeric": 40
+            }
+          },
+          {
+            "column": "ams_ntb_orders",
+            "table_count": 40,
+            "coverage": 0.8696,
+            "types": {
+              "numeric": 40
+            }
+          },
+          {
+            "column": "ams_ntb_sales",
+            "table_count": 40,
+            "coverage": 0.8696,
+            "types": {
+              "numeric": 39,
+              "double precision": 1
+            }
+          },
+          {
+            "column": "ams_ntb_units",
+            "table_count": 40,
+            "coverage": 0.8696,
+            "types": {
+              "numeric": 40
+            }
+          },
+          {
+            "column": "ams_orders",
+            "table_count": 40,
+            "coverage": 0.8696,
+            "types": {
+              "numeric": 40
+            }
+          },
+          {
+            "column": "ams_roas",
+            "table_count": 40,
+            "coverage": 0.8696,
+            "types": {
+              "numeric": 29,
+              "double precision": 11
+            }
+          },
+          {
+            "column": "ams_same_sku_orders",
+            "table_count": 40,
+            "coverage": 0.8696,
+            "types": {
+              "numeric": 40
+            }
+          },
+          {
+            "column": "ams_same_sku_sales",
+            "table_count": 40,
+            "coverage": 0.8696,
+            "types": {
+              "numeric": 29,
+              "double precision": 11
+            }
+          },
+          {
+            "column": "ams_same_sku_units",
+            "table_count": 40,
+            "coverage": 0.8696,
+            "types": {
+              "numeric": 40
+            }
+          },
+          {
+            "column": "ams_type",
+            "table_count": 40,
+            "coverage": 0.8696,
+            "types": {
+              "text": 40
+            }
+          },
+          {
+            "column": "budget_currency_code",
+            "table_count": 40,
+            "coverage": 0.8696,
+            "types": {
+              "text": 40
+            }
+          },
+          {
+            "column": "camapign_name",
+            "table_count": 40,
+            "coverage": 0.8696,
+            "types": {
+              "text": 40
+            }
+          },
+          {
+            "column": "campaign_id",
+            "table_count": 40,
+            "coverage": 0.8696,
+            "types": {
+              "numeric": 40
+            }
+          },
+          {
+            "column": "report_date",
+            "table_count": 40,
+            "coverage": 0.8696,
+            "types": {
+              "text": 40
+            }
+          },
+          {
+            "column": "report_type",
+            "table_count": 40,
+            "coverage": 0.8696,
+            "types": {
+              "text": 40
+            }
+          }
+        ],
+        "variant_columns": [
+          {
+            "column": "ams_other_sku_orders",
+            "table_count": 31,
+            "coverage": 0.6739,
+            "types": {
+              "numeric": 22,
+              "double precision": 9
+            }
+          },
+          {
+            "column": "ams_other_sku_sales",
+            "table_count": 31,
+            "coverage": 0.6739,
+            "types": {
+              "numeric": 21,
+              "double precision": 10
+            }
+          },
+          {
+            "column": "ams_other_sku_units",
+            "table_count": 31,
+            "coverage": 0.6739,
+            "types": {
+              "numeric": 31
+            }
+          },
+          {
+            "column": "acos14d",
+            "table_count": 6,
+            "coverage": 0.1304,
+            "types": {
+              "double precision": 6
+            }
+          },
+          {
+            "column": "ad_name",
+            "table_count": 6,
+            "coverage": 0.1304,
+            "types": {
+              "text": 6
+            }
+          },
+          {
+            "column": "ams_order",
+            "table_count": 6,
+            "coverage": 0.1304,
+            "types": {
+              "numeric": 6
+            }
+          },
+          {
+            "column": "asin",
+            "table_count": 6,
+            "coverage": 0.1304,
+            "types": {
+              "text": 6
+            }
+          },
+          {
+            "column": "campaign_name",
+            "table_count": 6,
+            "coverage": 0.1304,
+            "types": {
+              "text": 6
+            }
+          },
+          {
+            "column": "ntb_order",
+            "table_count": 6,
+            "coverage": 0.1304,
+            "types": {
+              "numeric": 6
+            }
+          },
+          {
+            "column": "roas14d",
+            "table_count": 6,
+            "coverage": 0.1304,
+            "types": {
+              "double precision": 6
+            }
+          },
+          {
+            "column": "same_sku_sales14d",
+            "table_count": 6,
+            "coverage": 0.1304,
+            "types": {
+              "double precision": 6
+            }
+          },
+          {
+            "column": "same_sku_units14d",
+            "table_count": 6,
+            "coverage": 0.1304,
+            "types": {
+              "numeric": 6
+            }
+          },
+          {
+            "column": "time",
+            "table_count": 6,
+            "coverage": 0.1304,
+            "types": {
+              "text": 6
+            }
+          }
+        ]
+      },
+      "ams_campaigns": {
+        "table_count": 35,
+        "common_columns": [
+          {
+            "column": "ad_type",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "text": 35
+            }
+          },
+          {
+            "column": "ams_acos",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 35
+            }
+          },
+          {
+            "column": "ams_click",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 35
+            }
+          },
+          {
+            "column": "ams_cpc",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 35
+            }
+          },
+          {
+            "column": "ams_ctr",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 35
+            }
+          },
+          {
+            "column": "ams_cvr",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 35
+            }
+          },
+          {
+            "column": "ams_dpv",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 35
+            }
+          },
+          {
+            "column": "ams_impression",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 35
+            }
+          },
+          {
+            "column": "ams_orders",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 35
+            }
+          },
+          {
+            "column": "ams_roas",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 35
+            }
+          },
+          {
+            "column": "ams_sales",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 34,
+              "double precision": 1
+            }
+          },
+          {
+            "column": "ams_spend",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 34,
+              "double precision": 1
+            }
+          },
+          {
+            "column": "ams_units",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 35
+            }
+          },
+          {
+            "column": "brand",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "text": 35
+            }
+          },
+          {
+            "column": "budget_currency_code",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "text": 35
+            }
+          },
+          {
+            "column": "campaign_id",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 35
+            }
+          },
+          {
+            "column": "campaign_name",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "text": 35
+            }
+          },
+          {
+            "column": "campaign_tag",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "text": 35
+            }
+          },
+          {
+            "column": "campaign_type",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "text": 35
+            }
+          },
+          {
+            "column": "country",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "text": 35
+            }
+          },
+          {
+            "column": "customer_name",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "text": 35
+            }
+          },
+          {
+            "column": "month",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "integer": 35
+            }
+          },
+          {
+            "column": "profile_name",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "text": 35
+            }
+          },
+          {
+            "column": "quarter",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "integer": 35
+            }
+          },
+          {
+            "column": "report_date",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "date": 35
+            }
+          },
+          {
+            "column": "report_type",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "text": 35
+            }
+          },
+          {
+            "column": "year",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "integer": 35
+            }
+          }
+        ],
+        "majority_columns": [
+          {
+            "column": "model",
+            "table_count": 31,
+            "coverage": 0.8857,
+            "types": {
+              "text": 31
+            }
+          }
+        ],
+        "variant_columns": []
+      },
+      "ams_placement": {
+        "table_count": 32,
+        "common_columns": [],
+        "majority_columns": [
+          {
+            "column": "ams_acos",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "numeric": 31
+            }
+          },
+          {
+            "column": "ams_click",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "numeric(65,10)": 31
+            }
+          },
+          {
+            "column": "ams_cpc",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "numeric(65,10)": 31
+            }
+          },
+          {
+            "column": "ams_ctr",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "numeric(65,10)": 31
+            }
+          },
+          {
+            "column": "ams_cvr",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "numeric": 31
+            }
+          },
+          {
+            "column": "ams_dpv",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "numeric(65,10)": 31
+            }
+          },
+          {
+            "column": "ams_impression",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "numeric(65,10)": 31
+            }
+          },
+          {
+            "column": "ams_orders",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "numeric(65,10)": 31
+            }
+          },
+          {
+            "column": "ams_roas",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "numeric(65,10)": 31
+            }
+          },
+          {
+            "column": "ams_sales",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "numeric(65,10)": 31
+            }
+          },
+          {
+            "column": "ams_same_sku_orders",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "numeric": 31
+            }
+          },
+          {
+            "column": "ams_same_sku_sales",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "double precision": 24,
+              "numeric": 7
+            }
+          },
+          {
+            "column": "ams_same_sku_units",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "numeric": 31
+            }
+          },
+          {
+            "column": "ams_spend",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "numeric(65,10)": 31
+            }
+          },
+          {
+            "column": "ams_top_of_search_impression_share",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "numeric": 31
+            }
+          },
+          {
+            "column": "ams_type",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "text": 31
+            }
+          },
+          {
+            "column": "ams_units",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "numeric(65,10)": 31
+            }
+          },
+          {
+            "column": "brand",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "text": 31
+            }
+          },
+          {
+            "column": "budget_currency_code",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "text": 31
+            }
+          },
+          {
+            "column": "campaign_id",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "text": 31
+            }
+          },
+          {
+            "column": "campaign_name",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "text": 31
+            }
+          },
+          {
+            "column": "customer",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "text": 31
+            }
+          },
+          {
+            "column": "model",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "text": 31
+            }
+          },
+          {
+            "column": "month",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "integer": 31
+            }
+          },
+          {
+            "column": "placement_classification",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "text": 31
+            }
+          },
+          {
+            "column": "profile_name",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "text": 31
+            }
+          },
+          {
+            "column": "quarter",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "integer": 31
+            }
+          },
+          {
+            "column": "report_date",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "date": 31
+            }
+          },
+          {
+            "column": "report_type",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "text": 31
+            }
+          },
+          {
+            "column": "year",
+            "table_count": 31,
+            "coverage": 0.9688,
+            "types": {
+              "integer": 31
+            }
+          }
+        ],
+        "variant_columns": [
+          {
+            "column": "adType",
+            "table_count": 1,
+            "coverage": 0.0312,
+            "types": {
+              "text": 1
+            }
+          },
+          {
+            "column": "campaignName",
+            "table_count": 1,
+            "coverage": 0.0312,
+            "types": {
+              "text": 1
+            }
+          },
+          {
+            "column": "click",
+            "table_count": 1,
+            "coverage": 0.0312,
+            "types": {
+              "bigint": 1
+            }
+          },
+          {
+            "column": "date",
+            "table_count": 1,
+            "coverage": 0.0312,
+            "types": {
+              "date": 1
+            }
+          },
+          {
+            "column": "impression",
+            "table_count": 1,
+            "coverage": 0.0312,
+            "types": {
+              "bigint": 1
+            }
+          },
+          {
+            "column": "order",
+            "table_count": 1,
+            "coverage": 0.0312,
+            "types": {
+              "bigint": 1
+            }
+          },
+          {
+            "column": "placement",
+            "table_count": 1,
+            "coverage": 0.0312,
+            "types": {
+              "text": 1
+            }
+          },
+          {
+            "column": "row_id",
+            "table_count": 1,
+            "coverage": 0.0312,
+            "types": {
+              "bigint": 1
+            }
+          },
+          {
+            "column": "sales",
+            "table_count": 1,
+            "coverage": 0.0312,
+            "types": {
+              "numeric(18,6)": 1
+            }
+          },
+          {
+            "column": "site",
+            "table_count": 1,
+            "coverage": 0.0312,
+            "types": {
+              "text": 1
+            }
+          },
+          {
+            "column": "spend",
+            "table_count": 1,
+            "coverage": 0.0312,
+            "types": {
+              "numeric(18,6)": 1
+            }
+          },
+          {
+            "column": "subcategory",
+            "table_count": 1,
+            "coverage": 0.0312,
+            "types": {
+              "text": 1
+            }
+          },
+          {
+            "column": "trafficType",
+            "table_count": 1,
+            "coverage": 0.0312,
+            "types": {
+              "text": 1
+            }
+          },
+          {
+            "column": "vcp",
+            "table_count": 1,
+            "coverage": 0.0312,
+            "types": {
+              "text": 1
+            }
+          }
+        ]
+      },
+      "ams_search_terms": {
+        "table_count": 34,
+        "common_columns": [
+          {
+            "column": "ad_order",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 34
+            }
+          },
+          {
+            "column": "ad_type",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "text": 34
+            }
+          },
+          {
+            "column": "ams_click",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 34
+            }
+          },
+          {
+            "column": "ams_ctr",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "double precision": 34
+            }
+          },
+          {
+            "column": "ams_impression",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 34
+            }
+          },
+          {
+            "column": "ams_roas",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "double precision": 34
+            }
+          },
+          {
+            "column": "ams_sales",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "double precision": 34
+            }
+          },
+          {
+            "column": "ams_spend",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "double precision": 34
+            }
+          },
+          {
+            "column": "ams_units",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 34
+            }
+          },
+          {
+            "column": "brand",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "text": 34
+            }
+          },
+          {
+            "column": "country",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "text": 34
+            }
+          },
+          {
+            "column": "customer",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "text": 34
+            }
+          },
+          {
+            "column": "month",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "integer": 34
+            }
+          },
+          {
+            "column": "quarter",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "integer": 34
+            }
+          },
+          {
+            "column": "search_term",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "text": 34
+            }
+          },
+          {
+            "column": "year",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "integer": 34
+            }
+          }
+        ],
+        "majority_columns": [
+          {
+            "column": "ad_group_name",
+            "table_count": 29,
+            "coverage": 0.8529,
+            "types": {
+              "text": 29
+            }
+          },
+          {
+            "column": "ams_acos",
+            "table_count": 29,
+            "coverage": 0.8529,
+            "types": {
+              "numeric": 29
+            }
+          },
+          {
+            "column": "ams_cvr",
+            "table_count": 29,
+            "coverage": 0.8529,
+            "types": {
+              "numeric": 29
+            }
+          },
+          {
+            "column": "ams_dpv",
+            "table_count": 29,
+            "coverage": 0.8529,
+            "types": {
+              "numeric": 29
+            }
+          },
+          {
+            "column": "ams_other_sku_orders",
+            "table_count": 29,
+            "coverage": 0.8529,
+            "types": {
+              "double precision": 29
+            }
+          },
+          {
+            "column": "ams_other_sku_sales",
+            "table_count": 29,
+            "coverage": 0.8529,
+            "types": {
+              "double precision": 29
+            }
+          },
+          {
+            "column": "ams_other_sku_units",
+            "table_count": 29,
+            "coverage": 0.8529,
+            "types": {
+              "numeric": 29
+            }
+          },
+          {
+            "column": "ams_same_sku_orders",
+            "table_count": 29,
+            "coverage": 0.8529,
+            "types": {
+              "numeric": 29
+            }
+          },
+          {
+            "column": "ams_same_sku_sales",
+            "table_count": 29,
+            "coverage": 0.8529,
+            "types": {
+              "double precision": 29
+            }
+          },
+          {
+            "column": "ams_same_sku_units",
+            "table_count": 29,
+            "coverage": 0.8529,
+            "types": {
+              "numeric": 29
+            }
+          },
+          {
+            "column": "budget_currency_code",
+            "table_count": 29,
+            "coverage": 0.8529,
+            "types": {
+              "text": 29
+            }
+          },
+          {
+            "column": "campaign_id",
+            "table_count": 29,
+            "coverage": 0.8529,
+            "types": {
+              "numeric": 29
+            }
+          },
+          {
+            "column": "campaign_name",
+            "table_count": 29,
+            "coverage": 0.8529,
+            "types": {
+              "text": 29
+            }
+          },
+          {
+            "column": "model",
+            "table_count": 29,
+            "coverage": 0.8529,
+            "types": {
+              "text": 29
+            }
+          },
+          {
+            "column": "profile_name",
+            "table_count": 29,
+            "coverage": 0.8529,
+            "types": {
+              "text": 29
+            }
+          },
+          {
+            "column": "report_date",
+            "table_count": 29,
+            "coverage": 0.8529,
+            "types": {
+              "date": 29
+            }
+          },
+          {
+            "column": "search_term_tag",
+            "table_count": 29,
+            "coverage": 0.8529,
+            "types": {
+              "text": 29
+            }
+          }
+        ],
+        "variant_columns": [
+          {
+            "column": "ams_spend_usd",
+            "table_count": 5,
+            "coverage": 0.1471,
+            "types": {
+              "double precision": 5
+            }
+          },
+          {
+            "column": "term_category",
+            "table_count": 5,
+            "coverage": 0.1471,
+            "types": {
+              "text": 5
+            }
+          },
+          {
+            "column": "time",
+            "table_count": 5,
+            "coverage": 0.1471,
+            "types": {
+              "date": 5
+            }
+          }
+        ]
+      },
+      "ams_targeting": {
+        "table_count": 29,
+        "common_columns": [
+          {
+            "column": "ad_group_name",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "text": 29
+            }
+          },
+          {
+            "column": "ams_acos",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 29
+            }
+          },
+          {
+            "column": "ams_atc",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 29
+            }
+          },
+          {
+            "column": "ams_click",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 29
+            }
+          },
+          {
+            "column": "ams_cpc",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 29
+            }
+          },
+          {
+            "column": "ams_ctr",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 29
+            }
+          },
+          {
+            "column": "ams_cvr",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 29
+            }
+          },
+          {
+            "column": "ams_dpv",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 29
+            }
+          },
+          {
+            "column": "ams_impression",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 29
+            }
+          },
+          {
+            "column": "ams_ntb_order",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 29
+            }
+          },
+          {
+            "column": "ams_ntb_sales",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 28,
+              "double precision": 1
+            }
+          },
+          {
+            "column": "ams_ntb_units",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 29
+            }
+          },
+          {
+            "column": "ams_orders",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 29
+            }
+          },
+          {
+            "column": "ams_other_sku_sales",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 19,
+              "double precision": 10
+            }
+          },
+          {
+            "column": "ams_other_sku_units",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 29
+            }
+          },
+          {
+            "column": "ams_roas",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 29
+            }
+          },
+          {
+            "column": "ams_sales",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 27,
+              "double precision": 1,
+              "numeric": 1
+            }
+          },
+          {
+            "column": "ams_same_sku_orders",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 29
+            }
+          },
+          {
+            "column": "ams_same_sku_sales",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 19,
+              "double precision": 10
+            }
+          },
+          {
+            "column": "ams_same_sku_units",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 29
+            }
+          },
+          {
+            "column": "ams_spend",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 27,
+              "double precision": 1,
+              "numeric": 1
+            }
+          },
+          {
+            "column": "ams_tos_impression_share",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 19,
+              "double precision": 10
+            }
+          },
+          {
+            "column": "ams_type",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "text": 29
+            }
+          },
+          {
+            "column": "ams_units",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "numeric(65,10)": 29
+            }
+          },
+          {
+            "column": "brand",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "text": 29
+            }
+          },
+          {
+            "column": "budget_currency_code",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "text": 29
+            }
+          },
+          {
+            "column": "campaign_id",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "text": 24,
+              "numeric": 5
+            }
+          },
+          {
+            "column": "campaign_name",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "text": 29
+            }
+          },
+          {
+            "column": "customer",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "text": 29
+            }
+          },
+          {
+            "column": "model",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "text": 29
+            }
+          },
+          {
+            "column": "month",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "integer": 29
+            }
+          },
+          {
+            "column": "profile_name",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "text": 29
+            }
+          },
+          {
+            "column": "quarter",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "integer": 29
+            }
+          },
+          {
+            "column": "report_date",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "date": 29
+            }
+          },
+          {
+            "column": "report_type",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "text": 29
+            }
+          },
+          {
+            "column": "targeting",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "text": 29
+            }
+          },
+          {
+            "column": "targeting_tag",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "text": 29
+            }
+          },
+          {
+            "column": "year",
+            "table_count": 29,
+            "coverage": 1.0,
+            "types": {
+              "integer": 29
+            }
+          }
+        ],
+        "majority_columns": [],
+        "variant_columns": []
+      },
+      "business_report": {
+        "table_count": 34,
+        "common_columns": [
+          {
+            "column": "asin",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "character varying(50)": 34
+            }
+          },
+          {
+            "column": "brand",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "text": 34
+            }
+          },
+          {
+            "column": "country_code",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "character varying(10)": 34
+            }
+          },
+          {
+            "column": "customer",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "text": 33,
+              "character varying(50)": 1
+            }
+          },
+          {
+            "column": "model",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "text": 34
+            }
+          },
+          {
+            "column": "month",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "integer": 34
+            }
+          },
+          {
+            "column": "product_name",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "character varying(500)": 33,
+              "character varying(100)": 1
+            }
+          },
+          {
+            "column": "quarter",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "integer": 34
+            }
+          },
+          {
+            "column": "report_date",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "date": 34
+            }
+          },
+          {
+            "column": "salesbyasin_orderedproductsales_amount",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "numeric(18,4)": 33,
+              "numeric": 1
+            }
+          },
+          {
+            "column": "salesbyasin_orderedproductsales_currencycode",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "character varying(50)": 34
+            }
+          },
+          {
+            "column": "salesbyasin_totalorderitems",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "bigint": 34
+            }
+          },
+          {
+            "column": "salesbyasin_unitsordered",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "bigint": 34
+            }
+          },
+          {
+            "column": "salesbyasin_unitsorderedb2b",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "bigint": 34
+            }
+          },
+          {
+            "column": "trafficbyasin_browserpageviews",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "bigint": 34
+            }
+          },
+          {
+            "column": "trafficbyasin_browsersessionpercentage",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "numeric(18,4)": 34
+            }
+          },
+          {
+            "column": "trafficbyasin_browsersessions",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "bigint": 34
+            }
+          },
+          {
+            "column": "trafficbyasin_buyboxpercentage",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "numeric(18,4)": 34
+            }
+          },
+          {
+            "column": "trafficbyasin_mobileapppageviews",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "bigint": 34
+            }
+          },
+          {
+            "column": "trafficbyasin_mobileappsessions",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "bigint": 34
+            }
+          },
+          {
+            "column": "trafficbyasin_pageviews",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "bigint": 34
+            }
+          },
+          {
+            "column": "trafficbyasin_sessions",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "bigint": 34
+            }
+          },
+          {
+            "column": "trafficbyasin_unitsessionpercentage",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "numeric(18,4)": 34
+            }
+          },
+          {
+            "column": "year",
+            "table_count": 34,
+            "coverage": 1.0,
+            "types": {
+              "integer": 34
+            }
+          }
+        ],
+        "majority_columns": [
+          {
+            "column": "category",
+            "table_count": 33,
+            "coverage": 0.9706,
+            "types": {
+              "character varying(100)": 33
+            }
+          }
+        ],
+        "variant_columns": []
+      },
+      "dsp": {
+        "table_count": 160,
+        "common_columns": [
+          {
+            "column": "ads_type",
+            "table_count": 160,
+            "coverage": 1.0,
+            "types": {
+              "text": 160
+            }
+          },
+          {
+            "column": "brand",
+            "table_count": 160,
+            "coverage": 1.0,
+            "types": {
+              "text": 160
+            }
+          },
+          {
+            "column": "currency_code",
+            "table_count": 160,
+            "coverage": 1.0,
+            "types": {
+              "text": 160
+            }
+          },
+          {
+            "column": "customer",
+            "table_count": 160,
+            "coverage": 1.0,
+            "types": {
+              "text": 160
+            }
+          },
+          {
+            "column": "dsp_ntb_purchases",
+            "table_count": 160,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 160
+            }
+          },
+          {
+            "column": "dsp_purchases",
+            "table_count": 160,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 160
+            }
+          },
+          {
+            "column": "model",
+            "table_count": 160,
+            "coverage": 1.0,
+            "types": {
+              "text": 160
+            }
+          },
+          {
+            "column": "month",
+            "table_count": 160,
+            "coverage": 1.0,
+            "types": {
+              "integer": 160
+            }
+          },
+          {
+            "column": "profile_name",
+            "table_count": 160,
+            "coverage": 1.0,
+            "types": {
+              "text": 160
+            }
+          },
+          {
+            "column": "quarter",
+            "table_count": 160,
+            "coverage": 1.0,
+            "types": {
+              "integer": 160
+            }
+          },
+          {
+            "column": "report_date",
+            "table_count": 160,
+            "coverage": 1.0,
+            "types": {
+              "date": 160
+            }
+          },
+          {
+            "column": "report_type",
+            "table_count": 160,
+            "coverage": 1.0,
+            "types": {
+              "text": 160
+            }
+          },
+          {
+            "column": "vcc",
+            "table_count": 160,
+            "coverage": 1.0,
+            "types": {
+              "text": 160
+            }
+          },
+          {
+            "column": "year",
+            "table_count": 160,
+            "coverage": 1.0,
+            "types": {
+              "integer": 160
+            }
+          }
+        ],
+        "majority_columns": [
+          {
+            "column": "advertiser_name",
+            "table_count": 136,
+            "coverage": 0.85,
+            "types": {
+              "text": 136
+            }
+          },
+          {
+            "column": "order_name",
+            "table_count": 135,
+            "coverage": 0.8438,
+            "types": {
+              "text": 135
+            }
+          },
+          {
+            "column": "dsp_click",
+            "table_count": 130,
+            "coverage": 0.8125,
+            "types": {
+              "numeric": 130
+            }
+          },
+          {
+            "column": "dsp_cost",
+            "table_count": 130,
+            "coverage": 0.8125,
+            "types": {
+              "numeric": 119,
+              "double precision": 11
+            }
+          },
+          {
+            "column": "dsp_dpv",
+            "table_count": 130,
+            "coverage": 0.8125,
+            "types": {
+              "numeric": 130
+            }
+          },
+          {
+            "column": "dsp_impression",
+            "table_count": 130,
+            "coverage": 0.8125,
+            "types": {
+              "numeric": 130
+            }
+          }
+        ],
+        "variant_columns": [
+          {
+            "column": "dsp_sales",
+            "table_count": 111,
+            "coverage": 0.6937,
+            "types": {
+              "numeric": 100,
+              "double precision": 11
+            }
+          },
+          {
+            "column": "dsp_total_ntb_purchases",
+            "table_count": 111,
+            "coverage": 0.6937,
+            "types": {
+              "numeric": 111
+            }
+          },
+          {
+            "column": "dsp_total_purchases",
+            "table_count": 111,
+            "coverage": 0.6937,
+            "types": {
+              "numeric": 111
+            }
+          },
+          {
+            "column": "dsp_total_sales",
+            "table_count": 111,
+            "coverage": 0.6937,
+            "types": {
+              "numeric": 100,
+              "double precision": 11
+            }
+          },
+          {
+            "column": "dsp_atc",
+            "table_count": 105,
+            "coverage": 0.6562,
+            "types": {
+              "numeric": 105
+            }
+          },
+          {
+            "column": "dsp_branded_searches",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 81
+            }
+          },
+          {
+            "column": "dsp_branded_searches_rate",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 67,
+              "double precision": 14
+            }
+          },
+          {
+            "column": "dsp_cpm",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 77,
+              "double precision": 4
+            }
+          },
+          {
+            "column": "dsp_ctr",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 81
+            }
+          },
+          {
+            "column": "dsp_dpvr",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 67,
+              "double precision": 14
+            }
+          },
+          {
+            "column": "dsp_ecp_branded_search",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 67,
+              "double precision": 13,
+              "text": 1
+            }
+          },
+          {
+            "column": "dsp_ecpatc",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 67,
+              "double precision": 13,
+              "text": 1
+            }
+          },
+          {
+            "column": "dsp_ecpc",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 77,
+              "double precision": 4
+            }
+          },
+          {
+            "column": "dsp_ecpdpv",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 40,
+              "integer": 27,
+              "double precision": 14
+            }
+          },
+          {
+            "column": "dsp_ecpsnss",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 44,
+              "text": 28,
+              "double precision": 9
+            }
+          },
+          {
+            "column": "dsp_purchase_rate",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 67,
+              "double precision": 14
+            }
+          },
+          {
+            "column": "dsp_roas",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 67,
+              "double precision": 13,
+              "text": 1
+            }
+          },
+          {
+            "column": "dsp_snss",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 81
+            }
+          },
+          {
+            "column": "dsp_total_atc",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 81
+            }
+          },
+          {
+            "column": "dsp_total_dpv",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 81
+            }
+          },
+          {
+            "column": "dsp_total_dpvr",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 67,
+              "double precision": 14
+            }
+          },
+          {
+            "column": "dsp_total_ecpatc",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 67,
+              "double precision": 13,
+              "text": 1
+            }
+          },
+          {
+            "column": "dsp_total_ecpdpv",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 68,
+              "double precision": 13
+            }
+          },
+          {
+            "column": "dsp_total_ecpsnss",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 44,
+              "text": 28,
+              "double precision": 9
+            }
+          },
+          {
+            "column": "dsp_total_purchase_rate",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 67,
+              "double precision": 14
+            }
+          },
+          {
+            "column": "dsp_total_roas",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 81
+            }
+          },
+          {
+            "column": "dsp_total_snss",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 81
+            }
+          },
+          {
+            "column": "dsp_total_units_sold",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 81
+            }
+          },
+          {
+            "column": "dsp_units_sold",
+            "table_count": 81,
+            "coverage": 0.5062,
+            "types": {
+              "numeric": 81
+            }
+          },
+          {
+            "column": "entity_id",
+            "table_count": 80,
+            "coverage": 0.5,
+            "types": {
+              "text": 80
+            }
+          },
+          {
+            "column": "dsp_ntb",
+            "table_count": 54,
+            "coverage": 0.3375,
+            "types": {
+              "numeric": 50,
+              "double precision": 4
+            }
+          },
+          {
+            "column": "dsp_total_ntb",
+            "table_count": 54,
+            "coverage": 0.3375,
+            "types": {
+              "numeric": 50,
+              "double precision": 4
+            }
+          },
+          {
+            "column": "line_item_name",
+            "table_count": 52,
+            "coverage": 0.325,
+            "types": {
+              "text": 52
+            }
+          },
+          {
+            "column": "segment_name",
+            "table_count": 49,
+            "coverage": 0.3063,
+            "types": {
+              "text": 49
+            }
+          },
+          {
+            "column": "targeting_method",
+            "table_count": 49,
+            "coverage": 0.3063,
+            "types": {
+              "text": 49
+            }
+          },
+          {
+            "column": "advertiser_id",
+            "table_count": 32,
+            "coverage": 0.2,
+            "types": {
+              "numeric": 25,
+              "text": 7
+            }
+          },
+          {
+            "column": "asin",
+            "table_count": 30,
+            "coverage": 0.1875,
+            "types": {
+              "text": 30
+            }
+          },
+          {
+            "column": "dsp_conversion_type",
+            "table_count": 30,
+            "coverage": 0.1875,
+            "types": {
+              "text": 30
+            }
+          },
+          {
+            "column": "parent_asin",
+            "table_count": 30,
+            "coverage": 0.1875,
+            "types": {
+              "text": 30
+            }
+          },
+          {
+            "column": "product_name",
+            "table_count": 30,
+            "coverage": 0.1875,
+            "types": {
+              "text": 30
+            }
+          },
+          {
+            "column": "report_granularity",
+            "table_count": 30,
+            "coverage": 0.1875,
+            "types": {
+              "text": 30
+            }
+          },
+          {
+            "column": "total_units_sold",
+            "table_count": 30,
+            "coverage": 0.1875,
+            "types": {
+              "numeric": 30
+            }
+          },
+          {
+            "column": "units_sold",
+            "table_count": 30,
+            "coverage": 0.1875,
+            "types": {
+              "numeric": 30
+            }
+          },
+          {
+            "column": "audience",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "text": 27
+            }
+          },
+          {
+            "column": "audience_details",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "text": 27
+            }
+          },
+          {
+            "column": "creative_asin",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "text": 27
+            }
+          },
+          {
+            "column": "creative_creation_time",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "text": 27
+            }
+          },
+          {
+            "column": "creative_custom_field1",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "text": 27
+            }
+          },
+          {
+            "column": "creative_custom_field2",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "text": 27
+            }
+          },
+          {
+            "column": "creative_name",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "text": 27
+            }
+          },
+          {
+            "column": "creative_product_brand",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "text": 27
+            }
+          },
+          {
+            "column": "creative_product_category",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "text": 27
+            }
+          },
+          {
+            "column": "creative_resolution",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "text": 27
+            }
+          },
+          {
+            "column": "creative_tag",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "text": 27
+            }
+          },
+          {
+            "column": "creative_type",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "text": 27
+            }
+          },
+          {
+            "column": "device",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "text": 27
+            }
+          },
+          {
+            "column": "dsp_ntb_percentage",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "numeric": 17,
+              "double precision": 10
+            }
+          },
+          {
+            "column": "dsp_total_ntb_percentage",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "numeric": 17,
+              "double precision": 9,
+              "text": 1
+            }
+          },
+          {
+            "column": "inventory",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "text": 27
+            }
+          },
+          {
+            "column": "order_brand",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "text": 27
+            }
+          },
+          {
+            "column": "order_country",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "text": 27
+            }
+          },
+          {
+            "column": "order_funnel",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "text": 27
+            }
+          },
+          {
+            "column": "order_time",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "text": 27
+            }
+          },
+          {
+            "column": "product_category",
+            "table_count": 27,
+            "coverage": 0.1688,
+            "types": {
+              "text": 27
+            }
+          },
+          {
+            "column": "date",
+            "table_count": 1,
+            "coverage": 0.0063,
+            "types": {
+              "date": 1
+            }
+          }
+        ]
+      },
+      "inventory_days": {
+        "table_count": 1,
+        "common_columns": [
+          {
+            "column": "all_available_inventory_days",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "asin",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "text": 1
+            }
+          },
+          {
+            "column": "available_inventory_days",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "available_quantity",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "avg_30d_units",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "brand",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "text": 1
+            }
+          },
+          {
+            "column": "customer_name",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "text": 1
+            }
+          },
+          {
+            "column": "inbound_quantity",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "inbound_received_quantity",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "inbound_shipped_quantity",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "inbound_working_quantity",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "inv_age_0_to_30_days",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "inv_age_0_to_90_days",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "inv_age_181_to_270_days",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "inv_age_181_to_330_days",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "inv_age_271_to_365_days",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "inv_age_31_to_60_days",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "inv_age_331_to_365_days",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "inv_age_366_to_455_days",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "inv_age_456_plus_days",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "inv_age_61_to_90_days",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "inv_age_91_to_180_days",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 1
+            }
+          },
+          {
+            "column": "model",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "text": 1
+            }
+          },
+          {
+            "column": "report_date",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "text": 1
+            }
+          },
+          {
+            "column": "sku",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "text": 1
+            }
+          },
+          {
+            "column": "vcc",
+            "table_count": 1,
+            "coverage": 1.0,
+            "types": {
+              "text": 1
+            }
+          }
+        ],
+        "majority_columns": [],
+        "variant_columns": []
+      },
+      "orders": {
+        "table_count": 35,
+        "common_columns": [
+          {
+            "column": "order_items",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "bigint": 35
+            }
+          },
+          {
+            "column": "ordered_revenue",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 35
+            }
+          },
+          {
+            "column": "ordered_units",
+            "table_count": 35,
+            "coverage": 1.0,
+            "types": {
+              "numeric": 35
+            }
+          }
+        ],
+        "majority_columns": [
+          {
+            "column": "asin",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "character varying(50)": 34
+            }
+          },
+          {
+            "column": "brand",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "text": 33,
+              "character varying(50)": 1
+            }
+          },
+          {
+            "column": "category",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "character varying(100)": 31,
+              "text": 3
+            }
+          },
+          {
+            "column": "country_code",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "text": 34
+            }
+          },
+          {
+            "column": "customer_name",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "text": 34
+            }
+          },
+          {
+            "column": "fulfillment_channel",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "character varying(50)": 34
+            }
+          },
+          {
+            "column": "item_tax",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "numeric": 34
+            }
+          },
+          {
+            "column": "local_currency",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "character varying(50)": 23,
+              "text": 11
+            }
+          },
+          {
+            "column": "model",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "text": 34
+            }
+          },
+          {
+            "column": "month",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "integer": 34
+            }
+          },
+          {
+            "column": "order_status",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "character varying(50)": 34
+            }
+          },
+          {
+            "column": "product_name",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "text": 34
+            }
+          },
+          {
+            "column": "product_priority",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "character varying": 34
+            }
+          },
+          {
+            "column": "quarter",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "integer": 34
+            }
+          },
+          {
+            "column": "report_date",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "date": 34
+            }
+          },
+          {
+            "column": "sales_channel",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "character varying(50)": 34
+            }
+          },
+          {
+            "column": "self_definition_tag",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "character varying": 34
+            }
+          },
+          {
+            "column": "shipped_revenue",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "numeric": 34
+            }
+          },
+          {
+            "column": "shipping_tax",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "numeric": 34
+            }
+          },
+          {
+            "column": "sku",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "character varying(50)": 32,
+              "character varying(80)": 1,
+              "character varying": 1
+            }
+          },
+          {
+            "column": "year",
+            "table_count": 34,
+            "coverage": 0.9714,
+            "types": {
+              "integer": 34
+            }
+          }
+        ],
+        "variant_columns": [
+          {
+            "column": "state",
+            "table_count": 1,
+            "coverage": 0.0286,
+            "types": {
+              "text": 1
+            }
+          },
+          {
+            "column": "week_key",
+            "table_count": 1,
+            "coverage": 0.0286,
+            "types": {
+              "text": 1
+            }
+          }
+        ]
+      },
+      "returns": {
+        "table_count": 8,
+        "common_columns": [
+          {
+            "column": "asin",
+            "table_count": 8,
+            "coverage": 1.0,
+            "types": {
+              "character varying(20)": 8
+            }
+          },
+          {
+            "column": "brand",
+            "table_count": 8,
+            "coverage": 1.0,
+            "types": {
+              "text": 8
+            }
+          },
+          {
+            "column": "country_code",
+            "table_count": 8,
+            "coverage": 1.0,
+            "types": {
+              "character varying(10)": 8
+            }
+          },
+          {
+            "column": "customer",
+            "table_count": 8,
+            "coverage": 1.0,
+            "types": {
+              "text": 8
+            }
+          },
+          {
+            "column": "customer_comments",
+            "table_count": 8,
+            "coverage": 1.0,
+            "types": {
+              "text": 8
+            }
+          },
+          {
+            "column": "model",
+            "table_count": 8,
+            "coverage": 1.0,
+            "types": {
+              "text": 8
+            }
+          },
+          {
+            "column": "month",
+            "table_count": 8,
+            "coverage": 1.0,
+            "types": {
+              "integer": 8
+            }
+          },
+          {
+            "column": "order_id",
+            "table_count": 8,
+            "coverage": 1.0,
+            "types": {
+              "character varying(100)": 8
+            }
+          },
+          {
+            "column": "product_name",
+            "table_count": 8,
+            "coverage": 1.0,
+            "types": {
+              "text": 8
+            }
+          },
+          {
+            "column": "quarter",
+            "table_count": 8,
+            "coverage": 1.0,
+            "types": {
+              "integer": 8
+            }
+          },
+          {
+            "column": "reason",
+            "table_count": 8,
+            "coverage": 1.0,
+            "types": {
+              "character varying(50)": 8
+            }
+          },
+          {
+            "column": "report_type",
+            "table_count": 8,
+            "coverage": 1.0,
+            "types": {
+              "text": 8
+            }
+          },
+          {
+            "column": "return_date",
+            "table_count": 8,
+            "coverage": 1.0,
+            "types": {
+              "date": 8
+            }
+          },
+          {
+            "column": "return_units",
+            "table_count": 8,
+            "coverage": 1.0,
+            "types": {
+              "bigint": 8
+            }
+          },
+          {
+            "column": "sku",
+            "table_count": 8,
+            "coverage": 1.0,
+            "types": {
+              "character varying(50)": 8
+            }
+          },
+          {
+            "column": "status",
+            "table_count": 8,
+            "coverage": 1.0,
+            "types": {
+              "character varying(50)": 8
+            }
+          },
+          {
+            "column": "year",
+            "table_count": 8,
+            "coverage": 1.0,
+            "types": {
+              "integer": 8
+            }
+          }
+        ],
+        "majority_columns": [
+          {
+            "column": "vcc",
+            "table_count": 7,
+            "coverage": 0.875,
+            "types": {
+              "text": 7
+            }
+          }
+        ],
+        "variant_columns": []
+      }
+    },
+    "scope_specific_columns": [
+      {
+        "domain": "ads_audience_campaign",
+        "scope": "vitalproteinsbv",
+        "columns": [
+          "rn"
+        ]
+      },
+      {
+        "domain": "amazon_intermediate",
+        "scope": "ams_time",
+        "columns": [
+          "date",
+          "time_of_day"
+        ]
+      },
+      {
+        "domain": "amazon_intermediate",
+        "scope": "philips",
+        "columns": [
+          "ams_cpc",
+          "ams_ctr",
+          "ams_same_sales",
+          "asin",
+          "date_time",
+          "id",
+          "sku",
+          "subcategory_lev2"
+        ]
+      },
+      {
+        "domain": "amazon_intermediate",
+        "scope": "philips_view_2",
+        "columns": [
+          "ams_same_sales"
+        ]
+      },
+      {
+        "domain": "ams_placement",
+        "scope": "philips_dashboard_m",
+        "columns": [
+          "adType",
+          "campaignName",
+          "click",
+          "date",
+          "impression",
+          "order",
+          "placement",
+          "row_id",
+          "sales",
+          "site",
+          "spend",
+          "subcategory",
+          "trafficType",
+          "vcp"
+        ]
+      },
+      {
+        "domain": "dsp",
+        "scope": "bestqi",
+        "columns": [
+          "date"
+        ]
+      },
+      {
+        "domain": "inventory_days",
+        "scope": "blueland",
+        "columns": [
+          "all_available_inventory_days",
+          "asin",
+          "available_inventory_days",
+          "available_quantity",
+          "avg_30d_units",
+          "brand",
+          "customer_name",
+          "inbound_quantity",
+          "inbound_received_quantity",
+          "inbound_shipped_quantity",
+          "inbound_working_quantity",
+          "inv_age_0_to_30_days",
+          "inv_age_0_to_90_days",
+          "inv_age_181_to_270_days",
+          "inv_age_181_to_330_days",
+          "inv_age_271_to_365_days",
+          "inv_age_31_to_60_days",
+          "inv_age_331_to_365_days",
+          "inv_age_366_to_455_days",
+          "inv_age_456_plus_days",
+          "inv_age_61_to_90_days",
+          "inv_age_91_to_180_days",
+          "model",
+          "report_date",
+          "sku",
+          "vcc"
+        ]
+      },
+      {
+        "domain": "orders",
+        "scope": "vp_us_weekly_state",
+        "columns": [
+          "state",
+          "week_key"
+        ]
+      }
+    ]
+  },
+  "enum_summary": {
+    "attempted_table_columns": 114,
+    "by_status": {
+      "ok": 73,
+      "timeout": 36,
+      "no_values": 5
+    },
+    "by_domain": {
+      "orders": 16,
+      "returns": 16,
+      "ams_campaigns": 14,
+      "ams_advertised_product": 12,
+      "ams_placement": 12,
+      "ads_audience_campaign": 10,
+      "ams_search_terms": 10,
+      "ams_targeting": 10,
+      "business_report": 10,
+      "inventory_days": 4
+    },
+    "by_column": {
+      "brand": 19,
+      "model": 18,
+      "customer": 13,
+      "country_code": 9,
+      "report_type": 9,
+      "customer_name": 6,
+      "category": 6,
+      "country": 5,
+      "ams_type": 5,
+      "ad_type": 4,
+      "campaign_type": 3,
+      "vcc": 3,
+      "placement_classification": 2,
+      "fulfillment_channel": 2,
+      "order_status": 2,
+      "sales_channel": 2,
+      "reason": 2,
+      "status": 2,
+      "ads_type": 1,
+      "p_type": 1
+    },
+    "skipped_candidate_reasons": {
+      "non-categorical data type": 240,
+      "high-cardinality business key": 145,
+      "date/time field": 16,
+      "no categorical hint": 13
+    }
+  },
+  "field_values": [
+    {
+      "table": "intermediate_amazon_ads_ad_campaign_brumate_view",
+      "domain": "ads_audience_campaign",
+      "scope": "brumate",
+      "column": "ads_type",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "SP",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ads_ad_campaign_brumate_view",
+      "domain": "ads_audience_campaign",
+      "scope": "brumate",
+      "column": "brand",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "BrüMate",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ads_ad_campaign_brumate_view",
+      "domain": "ads_audience_campaign",
+      "scope": "brumate",
+      "column": "campaign_type",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "Sponsored product",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ads_ad_campaign_brumate_view",
+      "domain": "ads_audience_campaign",
+      "scope": "brumate",
+      "column": "country",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "US",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ads_ad_campaign_brumate_view",
+      "domain": "ads_audience_campaign",
+      "scope": "brumate",
+      "column": "customer_name",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "BrüMate",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ads_ad_campaign_brumate_view",
+      "domain": "ads_audience_campaign",
+      "scope": "brumate",
+      "column": "p_type",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "3P",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ads_dsp_campaign_ad_brumate_view",
+      "domain": "ads_audience_campaign",
+      "scope": "brumate",
+      "column": "brand",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "BrüMate-US-US",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ads_dsp_campaign_ad_brumate_view",
+      "domain": "ads_audience_campaign",
+      "scope": "brumate",
+      "column": "country_code",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "US",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ads_dsp_campaign_ad_brumate_view",
+      "domain": "ads_audience_campaign",
+      "scope": "brumate",
+      "column": "customer",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "BrüMate",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ads_dsp_campaign_ad_brumate_view",
+      "domain": "ads_audience_campaign",
+      "scope": "brumate",
+      "column": "model",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "3P",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_advertised_product_innerbrightness_view",
+      "domain": "ams_advertised_product",
+      "scope": "innerbrightness",
+      "column": "ams_type",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "SP",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_advertised_product_innerbrightness_view",
+      "domain": "ams_advertised_product",
+      "scope": "innerbrightness",
+      "column": "brand",
+      "data_type": "text",
+      "status": "no_values",
+      "distinct_in_sample": 0,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_ams_advertised_product_innerbrightness_view",
+      "domain": "ams_advertised_product",
+      "scope": "innerbrightness",
+      "column": "country_code",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "US",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_advertised_product_innerbrightness_view",
+      "domain": "ams_advertised_product",
+      "scope": "innerbrightness",
+      "column": "customer",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "Inner brightness-New",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_advertised_product_innerbrightness_view",
+      "domain": "ams_advertised_product",
+      "scope": "innerbrightness",
+      "column": "model",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "3P",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_advertised_product_innerbrightness_view",
+      "domain": "ams_advertised_product",
+      "scope": "innerbrightness",
+      "column": "report_type",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "spAdvertisedProduct",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_advertised_product_innerbrightness_view",
+      "domain": "ams_advertised_product",
+      "scope": "innerbrightness",
+      "column": "category",
+      "data_type": "character varying(100)",
+      "status": "no_values",
+      "distinct_in_sample": 0,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_ads_sp_sd_advertised_brumate_view",
+      "domain": "ams_advertised_product",
+      "scope": "brumate",
+      "column": "brand",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "BrüMate",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ads_sp_sd_advertised_brumate_view",
+      "domain": "ams_advertised_product",
+      "scope": "brumate",
+      "column": "country_code",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "US",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ads_sp_sd_advertised_brumate_view",
+      "domain": "ams_advertised_product",
+      "scope": "brumate",
+      "column": "customer",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "BrüMate",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ads_sp_sd_advertised_brumate_view",
+      "domain": "ams_advertised_product",
+      "scope": "brumate",
+      "column": "model",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "3P",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ads_sp_sd_advertised_brumate_view",
+      "domain": "ams_advertised_product",
+      "scope": "brumate",
+      "column": "category",
+      "data_type": "character varying(100)",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "Kitchen & Dining",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_innerbrightness_view",
+      "domain": "ams_campaigns",
+      "scope": "innerbrightness",
+      "column": "ad_type",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "SP",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_innerbrightness_view",
+      "domain": "ams_campaigns",
+      "scope": "innerbrightness",
+      "column": "brand",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "Inner brightness",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_innerbrightness_view",
+      "domain": "ams_campaigns",
+      "scope": "innerbrightness",
+      "column": "campaign_type",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "Sponsored product",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_innerbrightness_view",
+      "domain": "ams_campaigns",
+      "scope": "innerbrightness",
+      "column": "country",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "US",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_innerbrightness_view",
+      "domain": "ams_campaigns",
+      "scope": "innerbrightness",
+      "column": "customer_name",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "Inner brightness-New",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_innerbrightness_view",
+      "domain": "ams_campaigns",
+      "scope": "innerbrightness",
+      "column": "model",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "3P",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_innerbrightness_view",
+      "domain": "ams_campaigns",
+      "scope": "innerbrightness",
+      "column": "report_type",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "spCampaigns",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_brumate_view",
+      "domain": "ams_campaigns",
+      "scope": "brumate",
+      "column": "ad_type",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "SP",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_brumate_view",
+      "domain": "ams_campaigns",
+      "scope": "brumate",
+      "column": "brand",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "BrüMate",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_brumate_view",
+      "domain": "ams_campaigns",
+      "scope": "brumate",
+      "column": "campaign_type",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "Sponsored product",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_brumate_view",
+      "domain": "ams_campaigns",
+      "scope": "brumate",
+      "column": "country",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "US",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_brumate_view",
+      "domain": "ams_campaigns",
+      "scope": "brumate",
+      "column": "customer_name",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "BrüMate-US-US",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_brumate_view",
+      "domain": "ams_campaigns",
+      "scope": "brumate",
+      "column": "model",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "3P",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_brumate_view",
+      "domain": "ams_campaigns",
+      "scope": "brumate",
+      "column": "report_type",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "spCampaigns",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_placement_brumate_view",
+      "domain": "ams_placement",
+      "scope": "brumate",
+      "column": "ams_type",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "SP",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_placement_brumate_view",
+      "domain": "ams_placement",
+      "scope": "brumate",
+      "column": "brand",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "BrüMate",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_placement_brumate_view",
+      "domain": "ams_placement",
+      "scope": "brumate",
+      "column": "customer",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "BrüMate-US-US",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_placement_brumate_view",
+      "domain": "ams_placement",
+      "scope": "brumate",
+      "column": "model",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "3P",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_placement_brumate_view",
+      "domain": "ams_placement",
+      "scope": "brumate",
+      "column": "report_type",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "spCampaign_placement",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_placement_brumate_view",
+      "domain": "ams_placement",
+      "scope": "brumate",
+      "column": "placement_classification",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 4,
+      "values": [
+        {
+          "value": "Other on-Amazon",
+          "rows": 613
+        },
+        {
+          "value": "Detail Page on-Amazon",
+          "rows": 591
+        },
+        {
+          "value": "Top of Search on-Amazon",
+          "rows": 543
+        },
+        {
+          "value": "Off Amazon",
+          "rows": 253
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_placement_blueland_view",
+      "domain": "ams_placement",
+      "scope": "blueland",
+      "column": "ams_type",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "SP",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_placement_blueland_view",
+      "domain": "ams_placement",
+      "scope": "blueland",
+      "column": "brand",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "Blueland",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_placement_blueland_view",
+      "domain": "ams_placement",
+      "scope": "blueland",
+      "column": "customer",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "Blueland_US-US-US-US",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_placement_blueland_view",
+      "domain": "ams_placement",
+      "scope": "blueland",
+      "column": "model",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "3P",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_placement_blueland_view",
+      "domain": "ams_placement",
+      "scope": "blueland",
+      "column": "report_type",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "spCampaign_placement",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_campaigns_placement_blueland_view",
+      "domain": "ams_placement",
+      "scope": "blueland",
+      "column": "placement_classification",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 4,
+      "values": [
+        {
+          "value": "Other on-Amazon",
+          "rows": 680
+        },
+        {
+          "value": "Detail Page on-Amazon",
+          "rows": 663
+        },
+        {
+          "value": "Top of Search on-Amazon",
+          "rows": 564
+        },
+        {
+          "value": "Off Amazon",
+          "rows": 93
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_search_term_innerbrightness_view",
+      "domain": "ams_search_terms",
+      "scope": "innerbrightness",
+      "column": "ad_type",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "SP",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_search_term_innerbrightness_view",
+      "domain": "ams_search_terms",
+      "scope": "innerbrightness",
+      "column": "brand",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "Inner brightness",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_search_term_innerbrightness_view",
+      "domain": "ams_search_terms",
+      "scope": "innerbrightness",
+      "column": "country",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "US",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_search_term_innerbrightness_view",
+      "domain": "ams_search_terms",
+      "scope": "innerbrightness",
+      "column": "customer",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "Inner brightness-New",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_search_term_innerbrightness_view",
+      "domain": "ams_search_terms",
+      "scope": "innerbrightness",
+      "column": "model",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "3P",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_search_term_brumate_view",
+      "domain": "ams_search_terms",
+      "scope": "brumate",
+      "column": "ad_type",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_ams_search_term_brumate_view",
+      "domain": "ams_search_terms",
+      "scope": "brumate",
+      "column": "brand",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_ams_search_term_brumate_view",
+      "domain": "ams_search_terms",
+      "scope": "brumate",
+      "column": "country",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_ams_search_term_brumate_view",
+      "domain": "ams_search_terms",
+      "scope": "brumate",
+      "column": "customer",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_ams_search_term_brumate_view",
+      "domain": "ams_search_terms",
+      "scope": "brumate",
+      "column": "model",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_ams_targeting_innerbrightness_view",
+      "domain": "ams_targeting",
+      "scope": "innerbrightness",
+      "column": "ams_type",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "SP",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_targeting_innerbrightness_view",
+      "domain": "ams_targeting",
+      "scope": "innerbrightness",
+      "column": "brand",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "Inner brightness",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_targeting_innerbrightness_view",
+      "domain": "ams_targeting",
+      "scope": "innerbrightness",
+      "column": "customer",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "Inner brightness-New",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_targeting_innerbrightness_view",
+      "domain": "ams_targeting",
+      "scope": "innerbrightness",
+      "column": "model",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "3P",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_targeting_innerbrightness_view",
+      "domain": "ams_targeting",
+      "scope": "innerbrightness",
+      "column": "report_type",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "spTargeting",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_ams_targeting_brumate_view",
+      "domain": "ams_targeting",
+      "scope": "brumate",
+      "column": "ams_type",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_ams_targeting_brumate_view",
+      "domain": "ams_targeting",
+      "scope": "brumate",
+      "column": "brand",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_ams_targeting_brumate_view",
+      "domain": "ams_targeting",
+      "scope": "brumate",
+      "column": "customer",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_ams_targeting_brumate_view",
+      "domain": "ams_targeting",
+      "scope": "brumate",
+      "column": "model",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_ams_targeting_brumate_view",
+      "domain": "ams_targeting",
+      "scope": "brumate",
+      "column": "report_type",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_3p_sales_and_traffic_innerbrightness_view",
+      "domain": "business_report",
+      "scope": "innerbrightness",
+      "column": "brand",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "Inner brightness-New",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_3p_sales_and_traffic_innerbrightness_view",
+      "domain": "business_report",
+      "scope": "innerbrightness",
+      "column": "country_code",
+      "data_type": "character varying(10)",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "US",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_3p_sales_and_traffic_innerbrightness_view",
+      "domain": "business_report",
+      "scope": "innerbrightness",
+      "column": "customer",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "Inner brightness-New",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_3p_sales_and_traffic_innerbrightness_view",
+      "domain": "business_report",
+      "scope": "innerbrightness",
+      "column": "model",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "3P",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_3p_sales_and_traffic_innerbrightness_view",
+      "domain": "business_report",
+      "scope": "innerbrightness",
+      "column": "category",
+      "data_type": "character varying(100)",
+      "status": "no_values",
+      "distinct_in_sample": 0,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_3p_sales_and_traffic_brumate_view",
+      "domain": "business_report",
+      "scope": "brumate",
+      "column": "brand",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "BrüMate",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_3p_sales_and_traffic_brumate_view",
+      "domain": "business_report",
+      "scope": "brumate",
+      "column": "country_code",
+      "data_type": "character varying(10)",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "US",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_3p_sales_and_traffic_brumate_view",
+      "domain": "business_report",
+      "scope": "brumate",
+      "column": "customer",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "BrüMate-US-US",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_3p_sales_and_traffic_brumate_view",
+      "domain": "business_report",
+      "scope": "brumate",
+      "column": "model",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "3P",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_3p_sales_and_traffic_brumate_view",
+      "domain": "business_report",
+      "scope": "brumate",
+      "column": "category",
+      "data_type": "character varying(100)",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "Kitchen & Dining",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_fba_inventory_days_blueland_view",
+      "domain": "inventory_days",
+      "scope": "blueland",
+      "column": "brand",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_fba_inventory_days_blueland_view",
+      "domain": "inventory_days",
+      "scope": "blueland",
+      "column": "customer_name",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_fba_inventory_days_blueland_view",
+      "domain": "inventory_days",
+      "scope": "blueland",
+      "column": "model",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_fba_inventory_days_blueland_view",
+      "domain": "inventory_days",
+      "scope": "blueland",
+      "column": "vcc",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_3p_orders_innerbrightness_view",
+      "domain": "orders",
+      "scope": "innerbrightness",
+      "column": "brand",
+      "data_type": "text",
+      "status": "no_values",
+      "distinct_in_sample": 0,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_3p_orders_innerbrightness_view",
+      "domain": "orders",
+      "scope": "innerbrightness",
+      "column": "country_code",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_3p_orders_innerbrightness_view",
+      "domain": "orders",
+      "scope": "innerbrightness",
+      "column": "customer_name",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_3p_orders_innerbrightness_view",
+      "domain": "orders",
+      "scope": "innerbrightness",
+      "column": "fulfillment_channel",
+      "data_type": "character varying(50)",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_3p_orders_innerbrightness_view",
+      "domain": "orders",
+      "scope": "innerbrightness",
+      "column": "model",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_3p_orders_innerbrightness_view",
+      "domain": "orders",
+      "scope": "innerbrightness",
+      "column": "order_status",
+      "data_type": "character varying(50)",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_3p_orders_innerbrightness_view",
+      "domain": "orders",
+      "scope": "innerbrightness",
+      "column": "sales_channel",
+      "data_type": "character varying(50)",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_3p_orders_innerbrightness_view",
+      "domain": "orders",
+      "scope": "innerbrightness",
+      "column": "category",
+      "data_type": "character varying(100)",
+      "status": "no_values",
+      "distinct_in_sample": 0,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_3p_orders_brumate_view",
+      "domain": "orders",
+      "scope": "brumate",
+      "column": "brand",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_3p_orders_brumate_view",
+      "domain": "orders",
+      "scope": "brumate",
+      "column": "country_code",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_3p_orders_brumate_view",
+      "domain": "orders",
+      "scope": "brumate",
+      "column": "customer_name",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_3p_orders_brumate_view",
+      "domain": "orders",
+      "scope": "brumate",
+      "column": "fulfillment_channel",
+      "data_type": "character varying(50)",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_3p_orders_brumate_view",
+      "domain": "orders",
+      "scope": "brumate",
+      "column": "model",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_3p_orders_brumate_view",
+      "domain": "orders",
+      "scope": "brumate",
+      "column": "order_status",
+      "data_type": "character varying(50)",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_3p_orders_brumate_view",
+      "domain": "orders",
+      "scope": "brumate",
+      "column": "sales_channel",
+      "data_type": "character varying(50)",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_3p_orders_brumate_view",
+      "domain": "orders",
+      "scope": "brumate",
+      "column": "category",
+      "data_type": "character varying(100)",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_fba_returns_brumate_view",
+      "domain": "returns",
+      "scope": "brumate",
+      "column": "brand",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_fba_returns_brumate_view",
+      "domain": "returns",
+      "scope": "brumate",
+      "column": "country_code",
+      "data_type": "character varying(10)",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_fba_returns_brumate_view",
+      "domain": "returns",
+      "scope": "brumate",
+      "column": "customer",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_fba_returns_brumate_view",
+      "domain": "returns",
+      "scope": "brumate",
+      "column": "model",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_fba_returns_brumate_view",
+      "domain": "returns",
+      "scope": "brumate",
+      "column": "reason",
+      "data_type": "character varying(50)",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_fba_returns_brumate_view",
+      "domain": "returns",
+      "scope": "brumate",
+      "column": "report_type",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_fba_returns_brumate_view",
+      "domain": "returns",
+      "scope": "brumate",
+      "column": "status",
+      "data_type": "character varying(50)",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_fba_returns_brumate_view",
+      "domain": "returns",
+      "scope": "brumate",
+      "column": "vcc",
+      "data_type": "text",
+      "status": "timeout",
+      "distinct_in_sample": null,
+      "values": []
+    },
+    {
+      "table": "intermediate_amazon_fba_returns_blueland_view",
+      "domain": "returns",
+      "scope": "blueland",
+      "column": "brand",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "Blueland",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_fba_returns_blueland_view",
+      "domain": "returns",
+      "scope": "blueland",
+      "column": "country_code",
+      "data_type": "character varying(10)",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "US",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_fba_returns_blueland_view",
+      "domain": "returns",
+      "scope": "blueland",
+      "column": "customer",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "Blueland_US-US-US-US",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_fba_returns_blueland_view",
+      "domain": "returns",
+      "scope": "blueland",
+      "column": "model",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "3p",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_fba_returns_blueland_view",
+      "domain": "returns",
+      "scope": "blueland",
+      "column": "reason",
+      "data_type": "character varying(50)",
+      "status": "ok",
+      "distinct_in_sample": 20,
+      "values": [
+        {
+          "value": "ORDERED_WRONG_ITEM",
+          "rows": 366
+        },
+        {
+          "value": "DEFECTIVE",
+          "rows": 297
+        },
+        {
+          "value": "UNWANTED_ITEM",
+          "rows": 272
+        },
+        {
+          "value": "UNDELIVERABLE_UNKNOWN",
+          "rows": 261
+        },
+        {
+          "value": "FOUND_BETTER_PRICE",
+          "rows": 174
+        },
+        {
+          "value": "NOT_AS_DESCRIBED",
+          "rows": 150
+        },
+        {
+          "value": "DAMAGED_BY_FC",
+          "rows": 106
+        },
+        {
+          "value": "SWITCHEROO",
+          "rows": 86
+        },
+        {
+          "value": "UNDELIVERABLE_REFUSED",
+          "rows": 52
+        },
+        {
+          "value": "QUALITY_UNACCEPTABLE",
+          "rows": 43
+        },
+        {
+          "value": "UNAUTHORIZED_PURCHASE",
+          "rows": 38
+        },
+        {
+          "value": "MISSING_PARTS",
+          "rows": 32
+        },
+        {
+          "value": "NO_REASON_GIVEN",
+          "rows": 32
+        },
+        {
+          "value": "DAMAGED_BY_CARRIER",
+          "rows": 30
+        },
+        {
+          "value": "NEVER_ARRIVED",
+          "rows": 27
+        },
+        {
+          "value": "MISSED_ESTIMATED_DELIVERY",
+          "rows": 26
+        },
+        {
+          "value": "APPAREL_TOO_SMALL",
+          "rows": 3
+        },
+        {
+          "value": "APPAREL_TOO_LARGE",
+          "rows": 2
+        },
+        {
+          "value": "POOR_FIT",
+          "rows": 2
+        },
+        {
+          "value": "EXTRA_ITEM",
+          "rows": 1
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_fba_returns_blueland_view",
+      "domain": "returns",
+      "scope": "blueland",
+      "column": "report_type",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "return",
+          "rows": 2000
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_fba_returns_blueland_view",
+      "domain": "returns",
+      "scope": "blueland",
+      "column": "status",
+      "data_type": "character varying(50)",
+      "status": "ok",
+      "distinct_in_sample": 4,
+      "values": [
+        {
+          "value": "Unit returned to inventory",
+          "rows": 1143
+        },
+        {
+          "value": "IMMEDIATE_DISPOSAL",
+          "rows": 415
+        },
+        {
+          "value": "IMMEDIATE_DONATION",
+          "rows": 409
+        },
+        {
+          "value": "Reimbursed",
+          "rows": 33
+        }
+      ]
+    },
+    {
+      "table": "intermediate_amazon_fba_returns_blueland_view",
+      "domain": "returns",
+      "scope": "blueland",
+      "column": "vcc",
+      "data_type": "text",
+      "status": "ok",
+      "distinct_in_sample": 1,
+      "values": [
+        {
+          "value": "VCC-家居生活_Blueland",
+          "rows": 2000
+        }
+      ]
+    }
+  ]
+}

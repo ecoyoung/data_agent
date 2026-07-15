@@ -2,6 +2,41 @@
 
 ---
 
+# 中间表字段值枚举画像计划
+
+## Spec
+
+目标：对 `intermediate_amazon_` 开头的中间表做结构画像，帮助理解表类型、共性字段、品牌/店铺差异字段和低基数字段取值。先统计主要表类型和字段分布，再对适合枚举的字段查询 distinct/top values。
+
+边界：
+- 不枚举 ASIN、SKU、订单号、campaign id、keyword text 等高基数或敏感明细字段。
+- 只使用中间表，不回退旧表。
+- 查询要限制样本、超时和 distinct 阈值，避免拖垮数据库。
+- 输出为文档和机器可读 JSON，后续可用于丰富 Data Catalog。
+
+## Checklist
+
+- [x] 确认现有 Catalog、数据库连接和中间表覆盖范围
+- [x] 设计低基数字段枚举策略和排除规则
+- [x] 执行数据库采样/聚合查询并生成画像文档
+- [x] 验证脚本和结果，更新 Catalog 后续建议
+- [ ] 提交并 push
+
+## Review
+
+- 已确认当前账号可 SELECT 的 `intermediate_amazon_` 对象为 462 张，全部来自中间表层。
+- 主类型统计：`dsp` 160、`ams_advertised_product` 46、`orders` 35、`ams_campaigns` 35、`business_report` 34、`ams_search_terms` 34、`ams_placement` 32、`ams_targeting` 29、`ads_audience_campaign` 25、`1p_orders` 18、`returns` 8、`amazon_intermediate` 5、`inventory_days` 1。
+- 新增 `scripts/profile_intermediate_field_values.py`：全量统计字段结构；字段值只采样低基数维度字段；排除 ASIN、SKU、ID、name、search term、targeting text、URL 等高基数明细。
+- 已生成 `docs/intermediate_amazon_field_values.md` 和 `docs/intermediate_amazon_field_values.json`。
+- 结构统计覆盖 462 张表；值枚举对 19 张代表表、114 个字段执行采样，73 个字段成功返回枚举值，36 个字段因视图较慢记录为 timeout，5 个字段无值。
+- 已确认枚举结果没有导出 ASIN/SKU/search term 这类字段值。
+- 发现的结构启发：`brand/year/month/quarter/model/report_date/customer/profile_name/report_type` 是跨域高频字段；订单表的核心指标字段是 `ordered_revenue/ordered_units/order_items`；Business Report 核心流量字段集中在 `trafficbyasin_*`；AMS 通用指标集中在 `ams_spend/ams_sales/ams_click/ams_impression/ams_orders`；DSP 有统一的 `dsp_*` 指标族但域内字段变体最多。
+- 品牌/店铺差异上，`orders` 中 `vp_us_weekly_state` 有 `state/week_key`，`ams_placement` 中 `philips_dashboard_m` 是明显非标准字段集合，`amazon_intermediate` 的 Philips/AMS time 表结构也明显偏特例。
+- 后续 Catalog 建议：把 `brand/customer/customer_name` 的真实枚举差异沉淀到 scope aliases；把 `ams_type/ad_type/ads_type/report_type/campaign_type/placement_classification/status/reason` 作为可提示的过滤字段；DSP 和 1P 值枚举需要单独更保守的慢查询方案。
+- 验证通过：新增测试 3 passed；全量测试 156 passed；业务 SQL 回归 13 passed。
+
+---
+
 # 冗余文件清理计划
 
 ## Spec
