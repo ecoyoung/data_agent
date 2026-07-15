@@ -20,8 +20,8 @@
 - [x] 重整 README 架构说明
 - [x] 恢复项目计划书文档
 - [x] 运行全量测试和业务 SQL 回归
-- [ ] 初始化 Git 并提交
-- [ ] 创建/连接 GitHub 仓库并 push
+- [x] 初始化 Git 并提交
+- [x] 创建/连接 GitHub 仓库并 push
 
 ## Review
 
@@ -30,6 +30,8 @@
 - README 已重写为当前 Data Detector 架构说明，覆盖 progressive disclosure、安全、并发、目录结构、配置、运行和验证命令。
 - `Data Detector项目计划书.md` 已恢复到根目录。
 - 验证通过：全量测试 153 passed，业务 SQL 回归 13 passed。
+- 已创建 GitHub 私有仓库 `ecoyoung/data_agent`，本地 `main` 已跟踪 `origin/main`。
+- 大型生成物 `docs/database_inventory.json` 和 `docs/database_inventory.md` 已排除，不进入首次提交。
 
 ---
 
