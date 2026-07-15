@@ -9,7 +9,11 @@ __pycache__/
 charts/
 *.png
 storage/
+Untitled*.txt
 
 # Generated database inventory exports. Keep source catalogs under src/data_agent/data_catalog tracked.
 docs/database_inventory.json
 docs/database_inventory.md
+
+# Generated review report.
+docs/feedback_review.md

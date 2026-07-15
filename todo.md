@@ -2,6 +2,39 @@
 
 ---
 
+# 冗余文件清理计划
+
+## Spec
+
+目标：清理仓库中的冗余文件、未使用文件和本地生成物，保持 GitHub 仓库轻量，同时不误删运行所需 Catalog、测试数据或项目文档。
+
+边界：
+- 优先删除明确的本地生成物、缓存、大型数据库 inventory 导出和无内容临时文件。
+- 对已跟踪文件必须先做引用搜索或用途判断，不能仅凭文件名删除。
+- 清理后运行测试验证；必要时同步提交并 push。
+
+## Checklist
+
+- [x] 检查 Git 状态、未跟踪文件、忽略文件和大文件
+- [x] 审计已跟踪文件引用关系
+- [x] 删除明确冗余文件和本地生成物
+- [x] 运行测试验证
+- [ ] 提交并 push 清理结果
+
+## Review
+
+- 初步发现 `Untitled.txt` 为未跟踪临时文件。
+- 初步发现 `docs/database_inventory.json` 和 `docs/database_inventory.md` 是已被 `.gitignore` 排除的大型生成物，仍留在本地磁盘。
+- 初步发现多处 `__pycache__` 和 `.pytest_cache`，均为可删除缓存。
+- 已删除本地 `Untitled.txt`、`docs/database_inventory.json`、`docs/database_inventory.md`、`__pycache__` 和 `.pytest_cache`。
+- 已删除已跟踪的空反馈报告生成物 `docs/feedback_review.md`；该文件可由 `scripts/review_feedback.py` 按需重新生成。
+- 已更新 `.gitignore`，防止 `Untitled*.txt` 和 `docs/feedback_review.md` 再次进入版本控制。
+- 已确认运行时 Catalog 大文件 `tables_columns.json` 和 `table_semantic_index.json` 被代码和测试读取，保留。
+- Secret pattern 扫描未发现可提交文件中存在真实密钥值；只命中 `.env.example` 空占位、代码提示和文档变量名。
+- 验证通过：全量测试 153 passed，业务 SQL 回归 13 passed。
+
+---
+
 # 架构整理与 GitHub 首次发布计划
 
 ## Spec
