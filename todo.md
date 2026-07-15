@@ -20,7 +20,7 @@
 - [x] 增加 scope 字符串过滤机械修复
 - [x] 补强模板/系统规则
 - [x] 补充回归测试覆盖用户 SQL
-- [ ] 运行验证并提交 push
+- [x] 运行验证并提交 push
 
 ## Review
 
@@ -30,6 +30,7 @@
 - 已用用户查询 `0da354def31c43d8900438bc58a08e93` 验证：repair 移除 `brand = 'blueland'`，保留 `LOWER(ams_type) IN ('sp', 'sd', 'sb')`，实际执行返回 5 行。
 - 回归测试已覆盖完整用户 SQL、`LOWER(customer) = LOWER(scope alias)` 移除、非 scope 身份过滤保留。
 - 验证通过：相关测试 36 passed；全量测试 159 passed；业务 SQL 回归 13 passed。
+- 已提交并推送：`cc923d7 Repair redundant scope identity filters`。
 
 ---
 
