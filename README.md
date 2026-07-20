@@ -11,6 +11,7 @@ Feishu user
   -> Feishu encrypted webhook
   -> FastAPI /feishu/webhook
   -> message idempotency + session routing
+  -> deterministic brand/scope alias resolution
   -> clarification / intent detection
   -> progressive disclosure catalog loading
   -> LLM SQL generation
@@ -24,7 +25,7 @@ Key runtime layers:
 
 - `src/data_agent/feishu/`: Feishu webhook handling, card building, and message sending.
 - `src/data_agent/agent/`: LLM client, prompt builder, intent detection, SQL repair, SQL checker, SQL executor, and few-shot retrieval.
-- `src/data_agent/data_catalog/`: machine-readable catalog, metric rules, table metadata, column metadata, templates, relationships, and semantic routing index.
+- `src/data_agent/data_catalog/`: machine-readable catalog, metric rules, table metadata, AI_HINT family rules, join relationships, templates, and semantic routing index.
 - `src/data_agent/session/`: in-memory session history plus SQLite query/feedback logs.
 - `src/data_agent/visualization/`: chart rendering and Feishu-friendly table formatting.
 
@@ -32,12 +33,13 @@ Key runtime layers:
 
 The prompt is built in layers instead of dumping the whole schema:
 
-1. Intent detection: trend, ranking, comparison, detail, summary, or auto.
-2. Structured rules: business defaults, ask-user rules, forbidden SQL rules.
-3. Table routing: keyword score, scope aliases, and lightweight semantic index.
-4. Optional LLM table refinement for wide candidate pools.
-5. Column pruning from `tables_columns.json`.
-6. Conditional relationships, templates, and few-shot examples.
+1. Deterministic brand/scope alias resolution, e.g. `BKN US` -> Beekeeper US scope.
+2. Intent detection: trend, ranking, comparison, detail, summary, or auto.
+3. Structured rules: business defaults, ask-user rules, forbidden SQL rules.
+4. Table routing: keyword score, scope aliases, and lightweight semantic index.
+5. Optional LLM table refinement for wide candidate pools.
+6. Column pruning from `tables_columns.json`.
+7. Conditional relationships, templates, and few-shot examples.
 
 See [docs/progressive_disclosure.md](docs/progressive_disclosure.md) for the full design.
 

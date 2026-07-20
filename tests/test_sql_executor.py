@@ -78,3 +78,42 @@ def test_execute_query_repairs_month_alias_before_business_check(monkeypatch) ->
     assert "GROUP BY 1" in seen["sql"]
     assert "GROUP BY month" not in seen["sql"]
     assert error == "业务规则校验失败：stop before database"
+
+
+def test_execute_query_checks_runtime_select_permission(monkeypatch) -> None:
+    class FakeCursor:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args):
+            return None
+
+        def execute(self, _sql: str, _params=None) -> None:
+            return None
+
+        def fetchone(self):
+            return {"can_select": False}
+
+    class FakeConnection:
+        def cursor(self):
+            return FakeCursor()
+
+        def close(self) -> None:
+            return None
+
+    monkeypatch.setattr("data_agent.agent.sql_executor.validate_business_sql", lambda _sql: (True, ""))
+    monkeypatch.setattr("data_agent.agent.sql_executor.get_connection", lambda: FakeConnection())
+
+    rows, columns, error = execute_query(
+        """
+        SELECT SUM(ordered_revenue)
+        FROM intermediate_amazon_3p_orders_blueland_view
+        WHERE report_date = DATE '2026-07-14'
+        """
+    )
+
+    assert rows == []
+    assert columns == []
+    assert error is not None
+    assert "数据库权限不足" in error
+    assert "intermediate_amazon_3p_orders_blueland_view" in error

@@ -5,7 +5,7 @@ import re
 from functools import lru_cache
 from pathlib import Path
 
-from data_agent.data_catalog import load_catalog_rules
+from data_agent.data_catalog import load_catalog_rules, load_relationships
 
 
 CATALOG_DIR = Path(__file__).resolve().parent.parent / "data_catalog"
@@ -68,6 +68,11 @@ MONTH_TO_CHAR_ALIAS_RE = re.compile(
 GROUP_BY_MONTH_ALIAS_RE = re.compile(
     r"\bgroup\s+by\s+month\b",
     re.IGNORECASE,
+)
+IDENTITY_JOIN_RE = re.compile(
+    r"\bon\b[^;]*(?:\bbrand\b|\bcustomer\b|\bcustomer_name\b|\bprofile_name\b)\s*="
+    r"[^;]*(?:\bbrand\b|\bcustomer\b|\bcustomer_name\b|\bprofile_name\b)",
+    re.IGNORECASE | re.DOTALL,
 )
 
 
@@ -429,6 +434,34 @@ def structured_forbidden_sql_issues(normalized_sql: str, tables: set[str]) -> li
     return issues
 
 
+def relationship_issues(sql: str, tables: set[str]) -> list[str]:
+    if len(tables) < 2:
+        return []
+    normalized = normalize_sql(sql)
+    issues: list[str] = []
+
+    if all(table.startswith("intermediate_amazon_") for table in tables):
+        if IDENTITY_JOIN_RE.search(normalized):
+            issues.append("同一 intermediate_amazon scope 表之间不要用 brand/customer/customer_name/profile_name 作为 JOIN 条件；应使用日期、ASIN 或已定义业务键，并先按共同粒度聚合")
+
+    relationships = load_relationships().get("relationships", [])
+    for relationship in relationships:
+        left_prefix = str(relationship.get("left_prefix", "")).lower()
+        right_prefix = str(relationship.get("right_prefix", "")).lower()
+        if not left_prefix or not right_prefix:
+            continue
+        has_left = any(table.startswith(left_prefix) for table in tables)
+        has_right = any(table.startswith(right_prefix) for table in tables)
+        if not (has_left and has_right):
+            continue
+        required = [str(item).lower() for item in relationship.get("required_preaggregation", [])]
+        if required and not CTE_RE.search(sql):
+            issues.append(
+                f"跨表关系 {relationship.get('id')} 需要先按 {', '.join(required)} 预聚合后再 JOIN"
+            )
+    return issues
+
+
 def check_business_rules(sql: str) -> list[str]:
     normalized = normalize_sql(sql)
     tables = referenced_tables(normalized)
@@ -445,6 +478,7 @@ def check_business_rules(sql: str) -> list[str]:
             issues.append("事实表查询必须包含明确的业务日期过滤")
 
     issues.extend(structured_forbidden_sql_issues(normalized, tables))
+    issues.extend(relationship_issues(sql, tables))
 
     issues.extend(round_division_type_issues(normalized))
     if not any("不能 GROUP BY month" in issue for issue in issues):

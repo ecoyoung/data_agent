@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "source": "intermediate_amazon_ join rules",
+  "relationships": [
+    {
+      "id": "orders_to_ams_advertised_product_by_asin_date_scope",
+      "left_prefix": "intermediate_amazon_3p_orders_",
+      "right_prefix": "intermediate_amazon_ams_advertised_product_",
+      "join_type": "LEFT JOIN",
+      "allowed_conditions": [
+        ["asin", "advertised_asin"],
+        ["report_date", "report_date"]
+      ],
+      "required_preaggregation": ["report_date", "asin"],
+      "notes": [
+        "先将 orders 聚合到 report_date + asin，再将 AMS advertised product 聚合到 report_date + advertised_asin。",
+        "如果 AMS report_date 是 text，比较或 join 时使用 report_date::date。"
+      ],
+      "forbidden_conditions": [
+        "不要用 brand/customer/customer_name/profile_name 作为同 scope 表之间的 JOIN 条件。",
+        "不要在未聚合的订单明细和广告商品明细之间直接 JOIN。"
+      ]
+    },
+    {
+      "id": "orders_to_ams_campaigns_by_date_scope",
+      "left_prefix": "intermediate_amazon_3p_orders_",
+      "right_prefix": "intermediate_amazon_ams_campaigns_",
+      "join_type": "LEFT JOIN",
+      "allowed_conditions": [
+        ["report_date", "report_date"]
+      ],
+      "required_preaggregation": ["report_date"],
+      "notes": [
+        "TACOS 类问题先按日期分别聚合 orders 和 AMS campaigns，再按 report_date JOIN。",
+        "订单销售额分母用 ordered_revenue，广告花费用 ams_spend。"
+      ],
+      "forbidden_conditions": [
+        "不要把 campaign 粒度直接 JOIN 到 SKU/ASIN 粒度订单后再聚合。",
+        "不要用 campaign_id 连接 orders 表。"
+      ]
+    },
+    {
+      "id": "business_report_to_ams_advertised_product_by_asin_date_scope",
+      "left_prefix": "intermediate_amazon_3p_sales_and_traffic_",
+      "right_prefix": "intermediate_amazon_ams_advertised_product_",
+      "join_type": "LEFT JOIN",
+      "allowed_conditions": [
+        ["asin", "advertised_asin"],
+        ["report_date", "report_date"]
+      ],
+      "required_preaggregation": ["report_date", "asin"],
+      "notes": [
+        "ASIN 级广告与 BR 对比时，先聚合到共同粒度 report_date + asin。",
+        "BR 转化率仍使用 SUM(units) / SUM(sessions)，不要 AVG 行级转化率。"
+      ],
+      "forbidden_conditions": [
+        "不要使用 country/customer 作为唯一 JOIN 条件。",
+        "不要把 advertised_sku 和 BR asin 连接。"
+      ]
+    }
+  ]
+}

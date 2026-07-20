@@ -440,3 +440,65 @@ def test_check_column_existence_handles_cte_aliases() -> None:
 def test_check_column_existence_skips_when_allowed_columns_missing(monkeypatch) -> None:
     monkeypatch.setattr("data_agent.agent.sql_checker.allowed_columns", lambda: {})
     assert check_column_existence("SELECT t.fake_col FROM intermediate_amazon_ams_campaigns_innerbrightness_view t") == []
+
+
+def test_relationship_checker_rejects_scope_identity_join() -> None:
+    valid, error = validate_business_sql(
+        """
+        SELECT o.report_date, SUM(o.ordered_revenue), SUM(a.ams_spend)
+        FROM intermediate_amazon_3p_orders_brumate_view o
+        JOIN intermediate_amazon_ams_campaigns_brumate_view a
+          ON o.customer_name = a.customer
+         AND o.report_date = a.report_date::date
+        WHERE o.report_date = DATE '2026-06-01'
+        GROUP BY o.report_date
+        """
+    )
+
+    assert valid is False
+    assert "不要用 brand/customer" in error
+
+
+def test_relationship_checker_rejects_direct_orders_campaign_join_without_preaggregation() -> None:
+    valid, error = validate_business_sql(
+        """
+        SELECT o.report_date, SUM(o.ordered_revenue), SUM(a.ams_spend)
+        FROM intermediate_amazon_3p_orders_brumate_view o
+        JOIN intermediate_amazon_ams_campaigns_brumate_view a
+          ON o.report_date = a.report_date::date
+        WHERE o.report_date >= DATE '2026-06-01'
+          AND o.report_date < DATE '2026-06-02'
+        GROUP BY o.report_date
+        """
+    )
+
+    assert valid is False
+    assert "需要先按 report_date 预聚合" in error
+
+
+def test_relationship_checker_allows_preaggregated_tacos_join() -> None:
+    valid, error = validate_business_sql(
+        """
+        WITH sales AS (
+            SELECT report_date, SUM(ordered_revenue) AS revenue
+            FROM intermediate_amazon_3p_orders_brumate_view
+            WHERE report_date >= DATE '2026-06-01'
+              AND report_date < DATE '2026-06-02'
+            GROUP BY report_date
+        ),
+        ads AS (
+            SELECT report_date::date AS report_date, SUM(ams_spend) AS spend
+            FROM intermediate_amazon_ams_campaigns_brumate_view
+            WHERE report_date::date >= DATE '2026-06-01'
+              AND report_date::date < DATE '2026-06-02'
+            GROUP BY report_date::date
+        )
+        SELECT s.report_date, ROUND((a.spend / NULLIF(s.revenue, 0))::numeric, 4) AS tacos
+        FROM sales s
+        LEFT JOIN ads a ON a.report_date = s.report_date
+        ORDER BY s.report_date
+        """
+    )
+
+    assert valid is True
+    assert error == ""

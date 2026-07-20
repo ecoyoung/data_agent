@@ -281,6 +281,45 @@ def test_handle_user_query_reports_retry_error_when_repaired_sql_fails(monkeypat
     assert "不存在的列：country" in rendered
 
 
+def test_handle_user_query_does_not_retry_permission_errors(monkeypatch) -> None:
+    monkeypatch.setattr(webhook, "chat", lambda _messages: "```sql\nSELECT bad_sql\n```")
+    monkeypatch.setattr(webhook, "_maybe_refine_tables_via_llm", lambda *_args, **_kwargs: None)
+    monkeypatch.setattr(webhook, "_maybe_find_few_shot_examples", lambda *_args, **_kwargs: [])
+
+    executed: list[str] = []
+
+    def fake_execute(sql: str):
+        executed.append(sql)
+        return [], [], "数据库权限不足：当前数据库用户没有 SELECT 权限：intermediate_amazon_3p_orders_blueland_view"
+
+    def fail_repair(**_kwargs):
+        raise AssertionError("permission errors should not be sent to LLM repair")
+
+    monkeypatch.setattr(webhook, "execute_query", fake_execute)
+    monkeypatch.setattr(webhook, "_repair_sql_via_llm", fail_repair)
+
+    card = webhook._handle_user_query("s1", "blueland 2026-07-14 店铺销售额、销量")
+
+    rendered = str(card)
+    assert executed == ["SELECT bad_sql"]
+    assert "数据库权限不足" in rendered
+    assert "重试 SQL 仍出错" not in rendered
+
+
+def test_handle_user_query_clarifies_ambiguous_scope_alias(monkeypatch) -> None:
+    def fail_chat(_messages):
+        raise AssertionError("ambiguous scope should be clarified before LLM")
+
+    monkeypatch.setattr(webhook, "chat", fail_chat)
+
+    card = webhook._handle_user_query("s1", "BKN 2026-07-14 销售额")
+
+    rendered = str(card)
+    assert "对应多个可查询范围" in rendered
+    assert "US" in rendered
+    assert "CA" in rendered
+
+
 def test_handle_user_query_updates_query_log(monkeypatch, tmp_path) -> None:
     monkeypatch.setattr(get_settings(), "query_log_db_path", str(tmp_path / "query_logs.sqlite3"))
     query_id = create_query_event(

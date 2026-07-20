@@ -20,6 +20,7 @@ from data_agent.agent.prompt_builder import (
     refine_tables_via_llm,
     select_catalog_table_docs,
 )
+from data_agent.agent.scope_resolver import resolve_scope
 from data_agent.agent.sql_executor import execute_query
 from data_agent.config import get_settings
 from data_agent.feishu.card_builder import (
@@ -395,9 +396,28 @@ def _handle_user_query(session_id: str, user_text: str, query_id: str | None = N
             )
         return build_clarification_card(clarification.question, session_id=session_id)
 
+    scope_resolution = resolve_scope(user_text, history)
+    if scope_resolution.ambiguous:
+        add_to_history(session_id, "user", user_text)
+        add_to_history(session_id, "assistant", scope_resolution.question)
+        if query_id:
+            update_query_event(
+                query_id,
+                status="clarification",
+                clarification_reason=scope_resolution.reason,
+                clarification_question=scope_resolution.question,
+                duration_ms=int((time.monotonic() - started) * 1000),
+            )
+        return build_clarification_card(scope_resolution.question, session_id=session_id)
+
     selected_docs = select_catalog_table_docs(user_text, history)
     candidate_tables = sorted(_tables_referenced_by_docs(selected_docs))
-    selected_tables = _maybe_refine_tables_via_llm(user_text, candidate_tables)
+    if scope_resolution.resolved:
+        scoped_tables = sorted(set(candidate_tables) & set(scope_resolution.tables))
+        candidate_tables = scoped_tables or list(scope_resolution.tables)
+    selected_tables = _maybe_refine_tables_via_llm(user_text, candidate_tables) or (
+        candidate_tables if scope_resolution.resolved else None
+    )
     few_shot_examples = _maybe_find_few_shot_examples(user_text)
     try:
         ai_response = chat(
@@ -449,7 +469,7 @@ def _handle_user_query(session_id: str, user_text: str, query_id: str | None = N
 
     data_rows, columns, error = execute_query(sql)
     repair_response = ""
-    if error:
+    if error and not _is_permission_error(error):
         repaired_sql, repair_response = _repair_sql_via_llm(
             user_text=user_text,
             sql=sql,
@@ -549,6 +569,11 @@ def _handle_user_query(session_id: str, user_text: str, query_id: str | None = N
         columns=columns,
         table_max_rows=table_max_rows,
     )
+
+
+def _is_permission_error(error: str) -> bool:
+    text = error.lower()
+    return "permission denied" in text or "数据库权限不足" in error or "没有 select 权限" in text
 
 
 def _extract_user_text(message: dict) -> str:

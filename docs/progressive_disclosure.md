@@ -4,8 +4,8 @@
 
 参考：[Pinterest Text-to-SQL](https://medium.com/pinterest-engineering/how-we-built-text-to-sql-at-pinterest-30bad30dabff)、[PSM-SQL](https://arxiv.org/html/2502.05237v1)、[RSL-SQL](https://arxiv.org/html/2411.00073v1)。
 
-**最后更新**：2026-07-14  
-**当前全量测试**：153 passed
+**最后更新**：2026-07-20  
+**当前全量测试**：167 passed
 
 ---
 
@@ -15,11 +15,15 @@
 用户问题
    │
    ▼
+[PD-0] 确定性品牌/项目 Alias Resolver
+   │   scope_resolver / scope_aliases.json
+   │   命中唯一 scope → 收窄候选表；命中多个市场/店铺 → 先澄清
+   ▼
 [Intent] 查询意图识别
    │   trend / ranking / comparison / detail / summary / auto
    ▼
 [Rules] 结构化业务规则
-   │   business_rule / ask_user_about / auto_mapping / forbidden_sql
+   │   business_rule / ask_user_about / auto_mapping / forbidden_sql / AI_HINT
    ▼
 [Layer 1] 关键词 + scope alias + 本地语义索引粗筛表
    │   select_catalog_table_docs / _score_table / table_semantic_index.json
@@ -40,7 +44,7 @@ LLM 生成 SQL
    │   ROUND numeric cast / GROUP BY month -> GROUP BY 1
    ▼
 [Checker] 安全、Schema、业务规则校验
-   │   validate_sql / check_column_existence / check_business_rules
+   │   validate_sql / check_column_existence / check_business_rules / relationship_issues
    ▼
 执行 SQL
    │
@@ -58,6 +62,32 @@ LLM 生成 SQL
 ---
 
 ## 已完成能力
+
+### PD-0：确定性品牌/项目 Alias Resolver
+
+目标：用户不一定会说出数据库中的完整品牌/项目名。常见简称、大小写写法、品牌别名必须先由确定性规则解析，再进入表路由和 SQL 生成，避免让 LLM 自由猜 scope。
+
+关键文件：
+- `src/data_agent/agent/scope_resolver.py`
+- `src/data_agent/data_catalog/scope_aliases.json`
+- `scripts/build_scope_aliases.py`
+- `src/data_agent/feishu/webhook.py`
+- `src/data_agent/agent/prompt_builder.py`
+
+当前策略：
+- `scope_aliases.json` 是运行时权威 registry，记录 scope token、market、aliases、domains 和对应表。
+- `scope_resolver.resolve_scope()` 在 LLM 前执行，只接受 registry 中的 alias；不会根据相似文本自由猜品牌。
+- 精确 alias + 明确市场/店铺时，直接收窄候选表。例如 `BKN US` 会收窄到 Beekeeper US 相关 scope，`BKN CA` 会收窄到 Beekeeper CA。
+- 精确 alias 但对应多个 scope 时先澄清。例如 `BKN 2026-07-14 销售额` 会追问 US、CA 还是整体范围。
+- 短 alias（如 `BKN`）必须按 token 边界匹配，避免误命中普通单词片段。
+- Feishu webhook 在常规 clarifier 后、表选择前执行 resolver：需要澄清则不调用 LLM；已解析则只把解析到的 scope 表交给后续 table ranking / PD-2。
+- `build_messages()` 在直接调用时也会使用 resolver，保证测试、脚本和非 Feishu 入口与线上路径一致。
+- 当前数据库权限仍由 SQL executor 在执行前实时校验。Alias resolver 负责确定业务 scope，不做网络权限查询；Catalog 过期时也会在执行前返回清晰权限错误。
+
+维护规则：
+- 新简称必须写入 `scripts/build_scope_aliases.py` 的 `KNOWN_ALIASES`，并同步生成/更新 `scope_aliases.json`。
+- 一个 alias 如果可能对应多个市场、店铺或聚合 scope，应保留多映射并让 resolver 澄清，不要人为设默认 scope。
+- 每个新增 alias 至少补三类测试：无市场澄清、明确市场收窄、短 alias 边界。
 
 ### PD-1：列级裁剪
 
@@ -163,8 +193,13 @@ LLM 生成 SQL
 
 关键文件：
 - `src/data_agent/data_catalog/rules.json`
+- `src/data_agent/data_catalog/hints.json`
+- `src/data_agent/data_catalog/relationships.json`
 - `src/data_agent/data_catalog/__init__.py:load_catalog_rules`
+- `src/data_agent/data_catalog/__init__.py:load_catalog_hints`
+- `src/data_agent/data_catalog/__init__.py:load_relationships`
 - `src/data_agent/data_catalog/__init__.py:render_catalog_rules_for_prompt`
+- `src/data_agent/data_catalog/__init__.py:render_catalog_hints_for_prompt`
 - `src/data_agent/agent/clarifier.py`
 - `src/data_agent/agent/sql_checker.py`
 
@@ -173,6 +208,14 @@ LLM 生成 SQL
 - `ask_user_about`：缺时间、广告范围不清、库存口径不清。
 - `forbidden_sql`：PII、`GROUP BY month`、BR AVG 转化率。
 - `auto_mappings`：Brumate、Belli Welli、Innerbrightness scope token。
+- `family_hints`：按 Amazon 中间表族维护 AI_HINT，而不是按 PDF 中 Shopify 表照搬。当前覆盖 3P orders、Business Report、AMS advertised product、AMS campaigns 和 scope identity。每条 hint 可以包含 trigger、prompt、negative_examples 和 exclude_patterns。
+- `exclude_patterns`：参与表路由减分。例如用户明确问 sessions/转化率时压低 orders 表；泛销售且未提 BR/流量/转化时压低 Business Report 表；TACOS 作为跨域指标保留 orders + AMS campaigns。
+- `relationships`：机器可读 JOIN 说明书。当前覆盖 orders + AMS advertised product、orders + AMS campaigns、Business Report + AMS advertised product。SQL checker 会拦截未按共同粒度预聚合的关键跨表 JOIN，以及同 scope 中间表之间用 brand/customer/customer_name/profile_name 作为 JOIN 条件。
+
+设计约束：
+- AI_HINT 只表达当前 `intermediate_amazon_` 表族真实口径，不迁移 PDF 中 Shopify、会员、站点等规则。
+- prompt 渲染按本轮用户问题和候选表裁剪 hints；不全量灌入所有规则，避免 context 污染。
+- 规则必须能被 deterministic checker 或回归测试证明；纯说明性规则放文档，执行性规则进入 JSON。
 
 ### 查询意图与展示策略
 
@@ -201,6 +244,7 @@ LLM 生成 SQL
 - 订单日趋势。
 - Business Report ASIN 排名。
 - AMS 排名。
+- AMS advertised ASIN 按广告类型汇总。
 - TACOS 趋势。
 
 ---
@@ -250,7 +294,11 @@ LLM 生成 SQL
 # 3. 重新生成中间表 scope alias（表范围变化时）
 .venv/bin/python scripts/build_scope_aliases.py
 
-# 4. 重新生成本地语义索引（PD-4-lite）
+# 4. 更新/检查中间表 AI_HINT 和 JOIN 关系（业务规则变化时）
+$EDITOR src/data_agent/data_catalog/hints.json
+$EDITOR src/data_agent/data_catalog/relationships.json
+
+# 5. 重新生成本地语义索引（PD-4-lite）
 .venv/bin/python scripts/build_table_semantic_index.py
 ```
 
@@ -318,4 +366,4 @@ docker compose up -d --force-recreate data-agent
 | structured rules | `tests/test_catalog_rules.py` |
 | regression candidates / promote | `tests/test_generate_regression_candidates.py`, `tests/test_promote_regression_candidate.py` |
 | business SQL eval runner | `tests/test_business_sql_regression.py` |
-| **当前全量** | **153 passed** |
+| **当前全量** | **174 passed** |

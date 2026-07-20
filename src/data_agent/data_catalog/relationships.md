@@ -59,4 +59,6 @@ dsp_product.asin = business_report.asin
 
 ## Permission Notes
 
-当前账号对 `intermediate_amazon_` 开头的中间表有 SELECT 权限；结构化 Catalog 中 `select_permission=true` 的表可直接用于 SQL。
+数据库中存在的 `intermediate_amazon_` 对象不等于当前应用账号都有 SELECT 权限。运行时会在 SQL 执行前用当前 DB 用户做实时权限预检；没有 SELECT 权限时直接返回权限错误，不进入 LLM retry。
+
+结构化 Catalog 的 `select_permission=true` 是生成时快照；数据库授权变化后必须重新生成 Catalog，或依赖运行时权限预检兜底。当前内测账号可能只开放部分 scope（例如 Beekeeper 系列）。

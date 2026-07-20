@@ -8,7 +8,11 @@ from pathlib import Path
 from typing import Any
 
 from data_agent.agent.intent import render_intent_prompt
-from data_agent.data_catalog import render_catalog_rules_for_prompt
+from data_agent.data_catalog import (
+    load_catalog_hints,
+    render_catalog_hints_for_prompt,
+    render_catalog_rules_for_prompt,
+)
 
 
 _SEMANTIC_ASCII_RE = re.compile(r"[a-z0-9_]{2,}")
@@ -129,6 +133,23 @@ def _semantic_score_table(table_name: str, query: str) -> int:
 
     normalized = raw_score / max(float(table_index.get("norm", 1.0)), 1.0)
     return min(18, int(raw_score // 4) + int(normalized * 10))
+
+
+def _hint_exclude_penalty(table_name: str, query: str) -> int:
+    penalty = 0
+    for hint in load_catalog_hints().get("family_hints", []):
+        prefixes = tuple(str(prefix).lower() for prefix in hint.get("table_prefixes", []))
+        if prefixes and not table_name.startswith(prefixes):
+            continue
+        for pattern in hint.get("exclude_patterns", []):
+            keywords = [str(keyword).lower() for keyword in pattern.get("keywords", [])]
+            if not keywords or not any(keyword in query for keyword in keywords):
+                continue
+            unless = [str(keyword).lower() for keyword in pattern.get("unless_keywords", [])]
+            if unless and any(keyword in query for keyword in unless):
+                continue
+            penalty += int(pattern.get("penalty", 0) or 0)
+    return penalty
 
 
 def _metadata_summary(
@@ -343,6 +364,7 @@ def _score_table(table: dict[str, Any], query: str) -> int:
         score += 8
 
     score += _semantic_score_table(table_name, query)
+    score -= _hint_exclude_penalty(table_name, query)
 
     return score
 
@@ -629,8 +651,16 @@ def load_data_catalog(
 
     metadata = _load_table_metadata()
     selected_tables = explicit_selected_tables or _tables_referenced_by_docs(selected_table_docs)
-    if selected_tables is not None and len(selected_tables) > 12:
+    if selected_tables is not None and len(selected_tables) > 6:
         selected_tables = set(_refine_top_tables(sorted(selected_tables), user_text, max_tables=6))
+
+    structured_hints = render_catalog_hints_for_prompt(
+        user_text=user_text,
+        selected_tables=selected_tables,
+    )
+    if structured_hints:
+        parts.append("\n\n" + structured_hints)
+
     metadata_summary = _metadata_summary(metadata, selected_tables=selected_tables)
     if metadata_summary:
         parts.append("\n\n# ===== Data Catalog: table metadata =====")
@@ -698,6 +728,12 @@ def build_messages(
         successful queries (PD-5). Rendered at the end of the system prompt.
     """
     selected_table_docs = select_catalog_table_docs(new_user_message, session_history)
+    if selected_tables is None:
+        from data_agent.agent.scope_resolver import resolve_scope
+
+        scope_resolution = resolve_scope(new_user_message, session_history)
+        if scope_resolution.resolved:
+            selected_tables = list(scope_resolution.tables)
     explicit_selected = set(selected_tables) if selected_tables else None
     system_prompt = load_data_catalog(
         selected_table_docs,

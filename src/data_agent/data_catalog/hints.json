@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "source": "intermediate_amazon_ table family rules",
+  "family_hints": [
+    {
+      "id": "orders_default_sales",
+      "table_prefixes": ["intermediate_amazon_3p_orders_"],
+      "type": "business_rule",
+      "description": "3P orders 是通用订单销售额、销量和订单项的默认来源。",
+      "triggers": ["销售额", "销售", "销量", "订单", "gmv", "revenue"],
+      "prompt": "用户只问销售额/销量/订单且没有 Business Report、sessions、流量、转化率或广告上下文时，使用 3P orders 表；销售额用 `SUM(ordered_revenue)`，销量用 `SUM(ordered_units)`，订单项用 `SUM(order_items)`。",
+      "negative_examples": [
+        "不要在通用销售额问题中改用 Business Report 销售额，除非用户明确说 Business Report、sessions、流量或转化率。",
+        "不要把广告归因销售额 `ams_sales` 当成店铺总销售额。"
+      ],
+      "exclude_patterns": [
+        {
+          "id": "exclude_orders_for_br_traffic",
+          "keywords": ["business report", "sessions", "session", "page views", "流量", "转化率", "购物车"],
+          "penalty": 18,
+          "reason": "用户明确问 BR/流量/转化时，不应优先选择 orders 表。"
+        },
+        {
+          "id": "exclude_orders_for_ads_only",
+          "keywords": ["广告花费", "广告销售", "acos", "roas", "campaign", "搜索词", "targeting", "placement"],
+          "unless_keywords": ["tacos"],
+          "penalty": 14,
+          "reason": "用户只问广告表现时，不应优先选择 orders 表。"
+        }
+      ]
+    },
+    {
+      "id": "business_report_traffic_conversion",
+      "table_prefixes": ["intermediate_amazon_3p_sales_and_traffic_"],
+      "type": "business_rule",
+      "description": "Business Report 用于 sessions、page views、转化率和 BR 销售额。",
+      "triggers": ["business report", "sessions", "page views", "流量", "转化率", "购物车"],
+      "prompt": "Business Report 转化率必须用 `SUM(salesbyasin_unitsordered) / NULLIF(SUM(trafficbyasin_sessions), 0)`；不要用 `AVG(trafficbyasin_unitsessionpercentage)`。",
+      "negative_examples": [
+        "不要直接平均 `trafficbyasin_unitsessionpercentage`。",
+        "不要用 orders 表回答 sessions、page views 或转化率问题。"
+      ],
+      "exclude_patterns": [
+        {
+          "id": "exclude_br_for_generic_sales",
+          "keywords": ["销售额", "销售", "销量", "gmv", "revenue"],
+          "unless_keywords": ["business report", "sessions", "session", "page views", "流量", "转化率", "购物车"],
+          "penalty": 10,
+          "reason": "泛销售问题默认 orders，BR 只有在用户明确 BR/流量/转化上下文时使用。"
+        }
+      ]
+    },
+    {
+      "id": "ams_advertised_product_type_filter",
+      "table_prefixes": ["intermediate_amazon_ams_advertised_product_"],
+      "type": "business_rule",
+      "description": "AMS advertised product 是广告商品 ASIN/SKU 粒度表。",
+      "triggers": ["广告asin", "广告商品", "advertised asin", "sp", "sd", "sb", "广告花费", "广告销售"],
+      "prompt": "产品 ASIN 广告表现用 `advertised_asin`；SP/SD/SB 过滤使用真实广告类型字段，若表有 `ams_type` 则写 `LOWER(ams_type) IN (...)`；广告花费用 `SUM(ams_spend)`，广告销售用 `SUM(ams_sales)`。",
+      "negative_examples": [
+        "不要幻觉 `campaign_type`。",
+        "不要用 `asin` 代替 `advertised_asin` 做广告商品 ASIN 粒度，除非该表真实存在 `asin` 且用户明确要求。"
+      ]
+    },
+    {
+      "id": "ams_campaigns_ad_metrics",
+      "table_prefixes": ["intermediate_amazon_ams_campaigns_"],
+      "type": "business_rule",
+      "description": "AMS campaigns 是 Campaign 粒度广告表现表。",
+      "triggers": ["campaign", "广告活动", "acos", "roas", "广告花费", "广告销售"],
+      "prompt": "Campaign 粒度广告表现使用 AMS campaigns 表；花费用 `SUM(ams_spend)`，广告销售用 `SUM(ams_sales)`，ACoS 用 `SUM(ams_spend) / NULLIF(SUM(ams_sales), 0)`，ROAS 用 `SUM(ams_sales) / NULLIF(SUM(ams_spend), 0)`。",
+      "negative_examples": [
+        "不要把 campaign 表用于 ASIN/SKU 粒度广告商品排行。",
+        "不要用预计算行级 `ams_acos` 做简单 AVG。"
+      ]
+    },
+    {
+      "id": "scope_identity_filter",
+      "table_prefixes": ["intermediate_amazon_"],
+      "type": "business_rule",
+      "description": "表名 scope 已限定品牌/店铺，不能重复猜 brand/customer 过滤。",
+      "triggers": ["brand", "customer", "scope"],
+      "prompt": "表名中的 scope token 已限定品牌/店铺；不要再猜 `brand/customer/customer_name/profile_name = '<scope>'`。只有用户明确给出字段真实值或 Catalog 提供真实枚举时才加这些过滤；字符串过滤优先 `LOWER(field) = LOWER(value)`。",
+      "negative_examples": [
+        "不要在 `intermediate_amazon_..._blueland_view` 上追加 `brand = 'blueland'`。",
+        "不要把 scope token 当成真实 `customer` 字段值。"
+      ]
+    }
+  ]
+}

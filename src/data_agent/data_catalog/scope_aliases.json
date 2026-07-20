@@ -163,6 +163,8 @@
       "base_scope": "beekeeper",
       "market": "CA",
       "aliases": [
+        "bkn",
+        "bkn ca",
         "beekeeper",
         "beekeeper ca",
         "beekeepers ca"
@@ -207,6 +209,8 @@
       "base_scope": "beekeeper",
       "market": "US",
       "aliases": [
+        "bkn",
+        "bkn us",
         "beekeeper",
         "beekeeper us",
         "beekeepers us"
@@ -272,6 +276,7 @@
       "base_scope": "beekeepersnaturals",
       "market": null,
       "aliases": [
+        "bkn",
         "beekeeper",
         "beekeepers naturals",
         "beekeepersnaturals"

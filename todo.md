@@ -2,6 +2,300 @@
 
 ---
 
+# 推送当前项目到远程仓库计划
+
+## Spec
+
+目标：将当前 Data Agent 项目变更提交并推送到 `origin/main`。
+
+边界：
+- 提交前检查 git 状态、remote、敏感文件和未跟踪文件。
+- 不提交 `.env` 等 ignore 的本地配置。
+- 保留用户要求恢复的参考 PDF，并随当前项目状态一并入库。
+- 推送前运行验证；如果远端有冲突或本地明显落后，先处理再推送。
+
+## Checklist
+
+- [x] 检查当前分支、remote 和待提交文件
+- [x] 检查远端同步状态
+- [x] 运行验证
+- [x] 创建提交
+- [ ] 推送到远程仓库
+- [ ] 记录 Review
+
+## Review
+
+- `git fetch origin` 后确认 `origin/main...HEAD` 为 `0 0`，本地和远端提交基线一致。
+- 验证通过：全量测试 174 passed，2 warnings。
+- 已创建提交 `75b3b84`：`Improve data catalog routing and permission handling`。
+
+---
+
+# 恢复参考 PDF 与 metric catalog 文档处理计划
+
+## Spec
+
+目标：恢复用户要求保留的 `为什么数据分析PA和数探查数这么准.pdf`，并将 `docs/metric_catalog.md` 纳入本轮文档更新范围；若该文档与当前架构冲突或过时严重，则删除。
+
+边界：
+- 参考 PDF 是用户资料，不能删除；先尽力从本机副本恢复。
+- `docs/metric_catalog.md` 不再排除在更新范围之外；必须审查并决定更新或删除。
+- 只删除确认无用或明显冲突的文档，不删除当前实现所需代码/配置/测试。
+
+## Checklist
+
+- [x] 尝试恢复参考 PDF
+- [x] 审查 `docs/metric_catalog.md`
+- [x] 更新或删除冲突/过时文档
+- [x] 运行验证
+- [x] 记录 Review
+
+## Review
+
+- 已从 `/Users/ethan/Downloads/为什么数据分析PA和数探查数这么准.pdf` 恢复参考 PDF 到项目根目录；该文件是用户资料，后续清理不能删除。
+- 已将 `docs/metric_catalog.md` 纳入本轮更新范围。该文档仍被 `src/data_agent/data_catalog/system_prompt.md` 引用，不删除。
+- 已更新 `docs/metric_catalog.md`：明确人工口径文档与运行时 JSON Catalog 的边界，补充 `hints.json`、`relationships.json`、`scope_aliases.json`、权限预检和 BKN alias 追问规则。
+- 验证通过：相关测试 51 passed；参考 PDF 已恢复为有效 PDF 文件。
+
+---
+
+# 冗余文件删除与架构文档同步计划
+
+## Spec
+
+目标：删除本轮不再需要的临时/参考文件，并确保相关项目文档与当前 alias resolver、AI_HINT、relationships、权限预检等实现保持一致。
+
+边界：
+- `docs/metric_catalog.md` 已重新纳入更新范围；若与当前架构冲突或过时严重则删除，否则更新。
+- 删除前先审计文件来源和引用关系。
+- 文档同步聚焦当前架构变更，不做无关重写。
+
+## Checklist
+
+- [x] 审计当前 git 状态和未跟踪文件
+- [x] 删除明确不用的临时/参考文件
+- [x] 检查并更新相关架构/运行文档
+- [x] 运行验证
+- [x] 记录 Review
+
+## Review
+
+- 已恢复上一条误删的根目录参考 PDF `为什么数据分析PA和数探查数这么准.pdf`；该文件是用户资料，不能作为冗余文件删除。
+- 已确认临时抽取目录 `tmp/pdf_extract` 已清理；临时抽取物、Untitled 文件和 log 文件扫描为空。参考 PDF 已恢复并保留。
+- 未删除 `docs/metric_catalog.md`，该文件为用户已有改动，本轮不判定为冗余。
+- 已更新 `docs/progressive_disclosure.md`：补充 AMS advertised ASIN 模板、hints/relationships 维护步骤，并把当前全量测试更新为 174 passed。
+- 已更新 `src/data_agent/data_catalog/relationships.md`：修正旧权限说明，明确 `select_permission` 是生成时快照，运行时会做 DB 用户 SELECT 权限预检。
+- 已更新 `docs/数据分析PA精准性探因.md`：追加 Data Agent 2026-07-20 落地状态，说明当前按 `intermediate_amazon_` 中间表族定制 AI_HINT / relationships / scope resolver / checker，不照搬 Shopify 规则。
+- 已确认 README、docs、src、tests 中没有旧 `153 passed`、旧“当前账号对所有中间表有 SELECT 权限”说明或参考 PDF 可删除的过期结论。
+- 验证通过：相关测试 51 passed。
+- Docker `data-agent` 保持 healthy，`GET http://127.0.0.1:8010/health` 返回 ok。
+
+---
+
+# 中间表定制 AI_HINT / 排除规则 / 关系校验实施计划
+
+## Spec
+
+目标：借鉴 PDF 中“正确的表 x 正确的规则 x 消除歧义的澄清”思想，但按本项目 `intermediate_amazon_` 中间表族落地，不照搬 Shopify/PA 的字段和流程。优先把当前内测最影响准确率的表路由、业务规则、负例和跨表 JOIN 规则结构化。
+
+边界：
+- 不引入独立 LLM reviewer，先用 deterministic schema/rule/checker 降低风险。
+- 不把 PDF 中 Shopify 字段、会员、站点等规则搬进本项目。
+- 规则必须围绕当前表族：3P orders、Business Report、AMS advertised product/campaign/search/targeting/placement、DSP、FBA returns/inventory。
+- 先做能被测试证明的薄切片：hint schema、exclude patterns、negative examples、关系 JSON 和 JOIN 校验。
+- 保留现有 prompt/rules/checker 行为，避免大规模重写。
+
+## Checklist
+
+- [x] 审查现有 rules、metadata、relationships、query templates 和中间表族
+- [x] 设计中间表定制 hints schema
+- [x] 实现 hints 渲染到 prompt
+- [x] 实现 exclude_patterns 影响表路由
+- [x] 实现 relationships JSON 与关键 JOIN 校验
+- [x] 补充回归测试
+- [x] 更新架构文档
+- [x] 运行验证并记录 Review
+
+## Review
+
+- 已按当前 `intermediate_amazon_` 中间表族落地，不迁移 PDF 中 Shopify/会员/站点等规则。
+- 新增 `src/data_agent/data_catalog/hints.json`：按表族维护 AI_HINT，包括 3P orders、Business Report、AMS advertised product、AMS campaigns、scope identity。每条 hint 可包含 `triggers`、`prompt`、`negative_examples`、`exclude_patterns`。
+- 新增 `src/data_agent/data_catalog/relationships.json`：机器可读 JOIN 关系，覆盖 orders + AMS advertised product、orders + AMS campaigns、Business Report + AMS advertised product。
+- `data_catalog/__init__.py` 新增 `load_catalog_hints`、`load_relationships`、`render_catalog_hints_for_prompt`。Prompt 渲染会按当前用户问题和候选表裁剪 hints，不全量灌入。
+- `prompt_builder.py` 接入 hints：`exclude_patterns` 参与表路由减分；用户问 sessions/转化率时压低 orders，泛销售且未提 BR/流量/转化时压低 BR，TACOS 保留 orders + AMS campaigns。
+- `prompt_builder.py` 将 selected table 池裁剪阈值从 12 调到 6，避免 resolved scope 带入过多 metadata；`BKN US` prompt 从 22k 降到约 16.7k。
+- `sql_checker.py` 接入 relationships：拦截同 scope 中间表之间用 `brand/customer/customer_name/profile_name` 做 JOIN 条件；拦截 orders + AMS campaigns 等关键跨表关系未预聚合直接 JOIN。
+- 已补充测试：hints loader/render、relationships loader、sessions 路由排除 orders、JOIN 关系校验、预聚合 TACOS JOIN 放行。
+- 文档已更新：`docs/progressive_disclosure.md` 记录 AI_HINT / relationships / exclude_patterns 的中间表定制设计；`README.md` 更新 data_catalog 描述。
+- 验证通过：相关测试 75 passed；全量测试 174 passed，2 warnings。
+- Smoke：`Belli Welli sessions/转化率` 渲染 BR 表；`Belli Welli TACOS` 渲染 AMS campaigns + orders；`BKN US 销售额/销量` 渲染 beekeeper_us orders。
+- Docker `data-agent` 已重启，`GET http://127.0.0.1:8010/health` 返回 ok。
+
+---
+
+# PA/数探查数准确性 PDF 架构借鉴评审
+
+## Spec
+
+目标：阅读 `为什么数据分析PA和数探查数这么准.pdf`，提炼可迁移到当前 Data Agent 架构的机制，重点服务内测阶段查数准确度。
+
+边界：
+- 本轮只做架构评审和优先级建议，不直接改代码。
+- 重点比较当前 Data Agent 已有能力与 PDF 中 Data Catalog / AI_HINT / relationships / checker / 澄清机制的差距。
+
+## Checklist
+
+- [x] 抽取 PDF 正文并定位关键章节
+- [x] 总结文档中的准确性机制
+- [x] 映射到当前 Data Agent 架构
+- [x] 给出可落地优先级
+
+## Review
+
+- PDF 核心公式：准确率 = 正确的表 x 正确的规则 x 消除歧义的澄清。
+- 核心机制：两层 Data Catalog、AI_HINT 三类标签、relationships.json、正反示例、独立 sql-checker、先探索后澄清、错误预防闭环。
+- 当前 Data Agent 已具备 progressive disclosure、结构化 rules、scope alias resolver、SQL checker、query log regression，但还缺少更显式的 AI_HINT 标签体系、exclude_patterns、relationships 机器可读 JSON、独立 checker agent 和字段事实驱动澄清。
+
+---
+
+# 确定性品牌 Alias Resolver 设计与实现计划
+
+## Spec
+
+目标：在 LLM 生成 SQL 前增加确定性品牌/项目别名解析层，支持用户用简称（如 `BKN`）表达品牌，并根据权限、市场和 scope 收窄候选表或触发澄清，提升内测阶段查数准确度。
+
+边界：
+- 不让 LLM 自由猜品牌/项目简称；别名必须来自结构化 registry。
+- 不确定市场/店铺时优先澄清，不默认猜 US/CA/整体。
+- 如果解析到的 scope 当前无权限，提前提示权限问题，不生成 SQL。
+- 尽量复用现有 `scope_aliases.json` 和 table metadata，不引入数据库写操作。
+- 同步更新项目架构相关文档，说明 alias resolver 在 progressive disclosure 前置层的位置。
+
+## Checklist
+
+- [x] 审查现有 scope alias、prompt table selection、clarifier 流程
+- [x] 设计/实现 canonical scope resolver
+- [x] 接入 table selection 和 webhook 澄清/权限提示路径
+- [x] 增加 BKN / market / permission / low-confidence 回归测试
+- [x] 更新架构文档
+- [x] 运行验证并记录 Review
+
+## Review
+
+- 新增 `src/data_agent/agent/scope_resolver.py`：在 LLM 前确定性解析 scope alias，支持 resolved / ambiguous / none 三种状态。
+- `BKN` 已加入 Beekeeper 相关 alias registry：裸 `BKN` 命中 `beekeeper_us`、`beekeeper_ca`、`beekeepersnaturals`，会先追问 US、CA 还是整体；`BKN US` 收窄到 `beekeeper_us`；`BKN CA` 收窄到 `beekeeper_ca`。
+- 短 alias 使用 token boundary 匹配，避免 `notebook` 之类文本误命中 `bkn`。
+- `webhook.py` 已接入 resolver：常规澄清后、表路由前执行；ambiguous scope 不调用 LLM，直接返回澄清卡片；resolved scope 只把对应 scope 的表交给后续 ranking / PD-2。
+- `prompt_builder.build_messages()` 在直接调用时也会使用 resolver，保证测试、脚本和非 Feishu 入口与线上路径一致。
+- `scripts/build_scope_aliases.py` 已同步 BKN alias，避免后续重建 `scope_aliases.json` 丢失简称。
+- `docs/progressive_disclosure.md` 已新增 PD-0 Alias Resolver 设计，README 架构图和 progressive disclosure 层级已同步。
+- 保留上一步权限修复：SQL executor 运行时 SELECT 权限预检；权限错误不再触发 LLM retry。
+- 验证通过：全量测试 167 passed，2 warnings。
+- Smoke：`BKN US 2026-07-14 店铺销售额、销量` 渲染 `intermediate_amazon_3p_orders_beekeeper_us_view`；`BKN CA 2026-07-14 广告花费` 渲染 `intermediate_amazon_ams_campaigns_beekeeper_ca_view`。
+- Docker `data-agent` 已重启。
+
+---
+
+# Blueland 3P orders 权限报错日志排查计划
+
+## 可访问 suffix 复核
+
+- [x] 列出 `pgethan` 当前可 SELECT 的所有 `intermediate_amazon_%` 对象
+- [x] 按 suffix/品牌店铺汇总可访问范围
+- [x] 单独列出 Beekeeper 相关可访问表族
+
+结果：
+- 当前 `pgethan` 可 SELECT 的 `intermediate_amazon_%` 对象共 25 张。
+- 可访问 suffix 全部为 Beekeeper 相关：`beekeeper_ca`、`beekeeper_us`、`beekeepersnaturals`，另有数据库对象名本身带特殊后缀 `beekeepersnaturals_vie`、`dsp_lineitem_name_beekeeper_us`、`funnel_beekeeper_us`。
+- `beekeeper_ca` 可访问 10 张：3P orders、BR、AMS advertised product、AMS audience、AMS campaigns、AMS placement、AMS search term、AMS targeting、DSP creative name、FBA returns。
+- `beekeeper_us` 可访问 10 张：3P orders、BR、AMS advertised product、AMS audience、AMS campaigns、AMS placement、AMS search term、AMS targeting、DSP creative name、FBA returns。
+- `beekeepersnaturals` 可访问 2 张：3P orders、AMS campaigns。
+- 特殊对象：`intermediate_amazon_3p_sales_and_traffic_beekeepersnaturals_vie`、`intermediate_amazon_dsp_lineitem_name_beekeeper_us_view`、`intermediate_amazon_dsp_order_funnel_beekeeper_us_view`。
+
+## Recheck 2026-07-20
+
+- [x] 直接使用 Docker 容器内应用配置复核 DB 用户和权限
+- [x] 检查 view 本身授权、owner、security_invoker、role membership
+- [x] 直接执行目标 SQL/最小 SELECT 验证错误来源
+- [x] 更新最终复核结论
+
+复核结论：
+- 直接在 Docker `data-agent` 容器内读取应用配置，确认实际连接为 `pg_user='pgethan'`、`pg_database='postgres'`。
+- 容器内数据库身份为 `current_user='pgethan'`、`session_user='pgethan'`。
+- `intermediate_amazon_3p_orders_blueland_view`：owner 为 `owpostgre`，`security_invoker=false`，ACL 中没有 `pgethan=r`，`has_table_privilege(..., 'SELECT') = false`，直接 `SELECT 1` 报 `permission denied for view intermediate_amazon_3p_orders_blueland_view`。
+- `intermediate_amazon_ams_advertised_product_blueland_view`：同样没有 `pgethan=r`，直接 SELECT 报 permission denied。
+- `intermediate_amazon_3p_orders_brumate_view`：同样没有 `pgethan=r`，直接 SELECT 报 permission denied。
+- 对照样本 `intermediate_amazon_3p_orders_beekeeper_us_view` 的 ACL 明确包含 `pgethan=r/owpostgre`，`has_table_privilege = true`；该 view 的最小查询因视图慢触发 statement timeout，但不是权限错误。
+- `pgethan` 不属于 `pgara/pgcindy/pgyana/pgreno/pgserver/pgserverlisting/pgcyrus/owpostgre` 等 ACL 中有权限的角色。
+- 当前 `pg_catalog` 统计仍是 462 个 `intermediate_amazon_%` 对象里只有 25 个对 `pgethan` 可 SELECT。
+
+## Spec
+
+目标：排查最近一次查询报错 `permission denied for view intermediate_amazon_3p_orders_blueland_view` 的日志链路，确认根因并提出或实施最小修复。
+
+边界：
+- 先检查 Docker 服务日志和持久化 query log，不猜测原因。
+- 区分数据库权限缺失、LLM 选错不可访问视图、SQL retry 未切换表、错误展示不清晰等不同问题。
+- 不触碰用户已有改动 `docs/metric_catalog.md`。
+
+## Checklist
+
+- [x] 检查 Docker 服务最近错误日志
+- [x] 检查本地 query log 中最近失败查询和 SQL
+- [x] 定位代码/catalog 中是否把不可访问视图暴露给 LLM
+- [x] 给出根因和修复方案，必要时实施最小改动
+- [x] 验证结果并记录 Review
+
+## Review
+
+- 最近失败 query_id：`0dd1fb683a844428a99a9ec251659f59`。
+- 用户原始问题：`blueland 2026-07-14 店铺销售额、销量`。
+- 生成 SQL 使用 `intermediate_amazon_3p_orders_blueland_view`，首次执行报 `permission denied for view intermediate_amazon_3p_orders_blueland_view`，LLM retry 仍使用同一无权限视图并再次失败。
+- Docker 日志显示 PD-2 将 462 张候选表 refine 到 `intermediate_amazon_3p_orders_blueland_view`。
+- SQLite query log 显示同类 Blueland 订单查询在 `2026-07-14`、`2026-07-15` 曾成功，说明此次更像数据库授权变化而不是 SQL 语法错误。
+- 用应用数据库用户 `pgethan` 验证：`intermediate_amazon_3p_orders_blueland_view`、`intermediate_amazon_ams_advertised_product_blueland_view`、`intermediate_amazon_3p_orders_brumate_view` 当前均无 SELECT 权限。
+- 从 `pg_catalog` 统计：数据库仍有 462 个 `intermediate_amazon_%` 对象，但当前用户只有 25 个有 SELECT 权限；当前可访问样本集中在 Beekeeper 系列。
+- Catalog 中 `intermediate_amazon_3p_orders_blueland_view` 仍是旧快照 `select_permission: true`，因此仍会被选表逻辑暴露给 LLM。
+- 已加运行时 SELECT 权限预检：即使 Catalog 过期，执行前也会返回 `数据库权限不足：当前数据库用户没有 SELECT 权限：...`，不再直接打到 PostgreSQL permission denied。
+- 已修改 webhook：权限类错误不再进入 LLM SQL repair，避免同一无权限 SQL 重试后出现重复报错。
+- 验证通过：`tests/test_sql_executor.py tests/test_feishu_webhook.py` 30 passed。
+- 真实 DB smoke 通过：同一 SQL 现在返回清晰权限错误 `数据库权限不足：当前数据库用户没有 SELECT 权限：intermediate_amazon_3p_orders_blueland_view`。
+- 已重启 Docker `data-agent` 容器，`GET http://127.0.0.1:8010/health` 返回 `{"status":"ok","service":"shu-tan"}`。
+- 真正恢复 Blueland 查询还需要数据库侧重新授予 `pgethan` 对 Blueland 相关中间视图的 SELECT 权限，或重建 Catalog 只暴露当前 25 张可访问表。
+
+---
+
+# 启动服务计划
+
+## Spec
+
+目标：检查 Data Detector 服务是否已在 Docker 容器中运行，并验证健康检查可访问。
+
+边界：
+- 以 Docker Compose 容器状态和端口映射为准。
+- 不修改业务代码或用户已有改动。
+- 启动后必须用 `/health` 验证服务状态。
+
+## Checklist
+
+- [x] 检查 Docker 容器、端口映射和当前服务状态
+- [x] 停止误启动的本地 `uvicorn` 进程
+- [x] 验证健康检查
+- [x] 记录启动结果
+
+## Review
+
+- `.env` 存在。
+- 工作区已有用户改动 `docs/metric_catalog.md`，本次不触碰。
+- 用户指出服务已在 Docker 容器中启动后，已停止我误启动的本地 `uvicorn` 进程。
+- `docker compose ps` 确认 `data-agent` 容器运行中且 healthy，端口映射为 `0.0.0.0:8010->8000/tcp`。
+- `data-agent-cloudflared` 容器运行中。
+- 本机 `8000` 端口属于另一个 `tk_video2-analyzer-1` 容器，不是 Data Detector；请求 `127.0.0.1:8000/health` 返回 Prism 页面。
+- 当前 Data Detector 服务地址：`http://127.0.0.1:8010`。
+- 健康检查通过：`GET http://127.0.0.1:8010/health` 返回 `{"status":"ok","service":"shu-tan"}`。
+
+---
+
 # Scope 品牌过滤误用修复计划
 
 ## Spec

@@ -1,6 +1,8 @@
 ﻿# Lessons
 
 - 用户明确提醒“todo 和 lessons 要同步更新”时，后续每个非平凡推进都必须先检查并同步这两个文件：`todo.md` 记录计划/进度/结果，`lessons.md` 记录用户纠正或流程偏差的防复发规则。
+- 启动/检查服务时必须先用 `docker compose ps`、`docker ps` 和端口映射确认目标服务来源；本项目 Docker 对外端口是 `8010->8000`，不能直接假设 `127.0.0.1:8000` 就是 Data Detector，也不能在已有 Docker 服务时额外启动本地 uvicorn。
+- 用户提供的参考 PDF/资料即使是未跟踪文件，也不能因“不是运行资产”擅自删除；除非用户明确说删除该资料。清理前应把参考资料和临时抽取物区分开，临时文件可删，用户资料默认保留。
 - 当用户指定重点表范围时，必须立即收窄上下文和 Data Catalog 工作范围；不要继续围绕全库或示例表泛化推进。
 - 当数据库账号权限从单品牌扩展为多品牌/多店铺时，必须重新识别主数据源和表族关系；不要沿用旧的 Innerbrightness 专用表假设。若用户确认中间表是最全数据源，应同步 Prompt、Catalog、SQL Checker、evals 和 few-shot 示例到 `intermediate_amazon_` 中间表。
 - 用户纠正“销售额一般使用 ordered_revenue”后，通用“销售额/销售”不再追问订单/BR/广告口径；默认用 `intermediate_amazon_3p_orders_*_view` 的 `SUM(ordered_revenue)`。只有用户明确说 Business Report、sessions、流量、转化率或广告归因销售额时，才切到 BR/广告口径。

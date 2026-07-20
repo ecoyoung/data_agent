@@ -55,6 +55,16 @@ def test_catalog_routes_questions_to_intermediate_doc_and_relevant_tables() -> N
     assert len(system) < 20_000
 
 
+def test_catalog_exclude_patterns_route_sessions_away_from_orders() -> None:
+    system = build_messages([], "Belli Welli 2026年7月 sessions 和转化率")[0]["content"]
+    rendered = _rendered_tables(system)
+
+    assert rendered == [
+        "intermediate_amazon_3p_sales_and_traffic_belliwelli_view"
+    ]
+    assert "intermediate_amazon_3p_orders_belliwelli_view" not in rendered
+
+
 def test_catalog_guides_generic_month_sales_to_order_revenue_monthly() -> None:
     messages = build_messages([], "Belli Welli 2026年6月销售额和销量")
     system = messages[0]["content"]
@@ -118,6 +128,15 @@ def test_catalog_routes_scope_aliases_to_matching_intermediate_tables() -> None:
     assert _rendered_tables(inner_system) == [
         "intermediate_amazon_ams_campaigns_innerbrightness_view"
     ]
+
+
+def test_catalog_routes_bkn_us_alias_before_llm_table_refine() -> None:
+    system = build_messages([], "BKN US 2026-07-14 店铺销售额、销量")[0]["content"]
+
+    assert _rendered_tables(system) == [
+        "intermediate_amazon_3p_orders_beekeeper_us_view"
+    ]
+    assert "intermediate_amazon_3p_orders_beekeeper_ca_view" not in system
 
 
 def test_catalog_falls_back_to_intermediate_doc_for_generic_questions() -> None:

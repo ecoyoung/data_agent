@@ -4,6 +4,21 @@
 
 ---
 
+## Data Agent 落地状态（2026-07-20）
+
+本文档总结的是 PA/数探准确性方法论。当前 Data Agent 没有照搬其中 Shopify、会员、站点等业务规则，而是按本项目 `intermediate_amazon_` Amazon 中间表族做了定制落地：
+
+- `src/data_agent/data_catalog/hints.json`：按表族维护 AI_HINT，当前覆盖 3P orders、Business Report、AMS advertised product、AMS campaigns 和 scope identity。
+- `src/data_agent/data_catalog/relationships.json`：机器可读 JOIN 关系，当前覆盖 orders + AMS advertised product、orders + AMS campaigns、Business Report + AMS advertised product。
+- `src/data_agent/agent/scope_resolver.py`：LLM 前确定性解析品牌/项目别名，例如 `BKN US` -> `beekeeper_us`，裸 `BKN` 先澄清 US/CA/整体。
+- `src/data_agent/agent/prompt_builder.py`：按用户问题和候选表裁剪 AI_HINT，并用 `exclude_patterns` 做表路由减分，避免上下文污染。
+- `src/data_agent/agent/sql_checker.py`：执行前校验中间表 JOIN 关系、字段存在性、业务规则和权限风险。
+- `src/data_agent/agent/sql_executor.py`：运行时用当前 DB 用户做 SELECT 权限预检，Catalog 权限快照过期时也能兜底。
+
+当前项目采用的原则是：方法论可借鉴，业务规则必须来自本项目真实中间表结构和真实失败案例。
+
+---
+
 ## 🧑 User
 
 总结核心内容
