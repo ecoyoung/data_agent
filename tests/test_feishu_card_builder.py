@@ -73,6 +73,48 @@ def test_result_card_uses_structured_table_and_hides_sql_by_default() -> None:
     assert all(action["value"]["query_id"] == "qid_1" for action in feedback)
 
 
+def test_result_card_uses_table_image_when_available() -> None:
+    card = build_result_card(
+        title="title",
+        summary="",
+        table_markdown="| month | sales_change_pct |\n| --- | --- |\n| 2026-06 | -7.00% |",
+        image_key="chart_img",
+        table_image_key="table_img",
+        table_rows=[{"month": "2026-06", "sales_change_pct": -0.0664}],
+        columns=["month", "sales_change_pct"],
+    )
+
+    images = [element for element in card["elements"] if element.get("tag") == "img"]
+    assert [image["img_key"] for image in images] == ["chart_img", "table_img"]
+    assert "column_set" not in [element.get("tag") for element in card["elements"]]
+    body = str(card)
+    assert "原始数据" in body
+    assert "| month | sales_change_pct |" in body
+
+
+def test_result_card_fallback_table_shows_all_columns() -> None:
+    columns = [
+        "month",
+        "sales",
+        "units",
+        "sales_change",
+        "sales_change_pct",
+        "units_change",
+        "units_change_pct",
+    ]
+    card = build_result_card(
+        title="title",
+        summary="",
+        table_markdown="",
+        table_rows=[{column: idx for idx, column in enumerate(columns)}],
+        columns=columns,
+    )
+
+    body = str(card)
+    assert "共 7 列（展示前 6 列）" not in body
+    assert "units change pct" in body
+
+
 def test_result_card_formats_percent_cells() -> None:
     card = build_result_card(
         title="title",
@@ -84,6 +126,27 @@ def test_result_card_formats_percent_cells() -> None:
 
     assert "12.34%" in str(card)
     assert "45.67%" in str(card)
+
+
+def test_result_card_formats_pct_suffix_cells_as_percent() -> None:
+    card = build_result_card(
+        title="title",
+        summary="",
+        table_markdown="",
+        table_rows=[
+            {
+                "month": "2026-06",
+                "sales_mom_change_pct": 0.104,
+                "units_mom_change_pct": 0.08,
+            }
+        ],
+        columns=["month", "sales_mom_change_pct", "units_mom_change_pct"],
+    )
+
+    body = str(card)
+    assert "10.40%" in body
+    assert "8.00%" in body
+    assert "$0.10" not in body
 
 
 def test_result_card_formats_decimal_values_from_postgres_numeric() -> None:

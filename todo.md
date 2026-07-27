@@ -2,6 +2,313 @@
 
 ---
 
+# 双 y 轴月度销售额/销量 recipe 调整计划
+
+## Spec
+
+目标：按用户要求，将 `monthly_mom_sales_units` 专用 recipe 从上下双 panel 调整为双 y 轴组合图：销量用柱子，销售额用折线图。
+
+边界：
+- 只对该专用 recipe 启用双 y 轴；通用自动图表仍避免混单位双轴。
+- 左 y 轴绑定销量和蓝色柱子；右 y 轴绑定销售额和绿色折线。
+- 环比百分比保留为标注，但不能遮挡柱子、折线或数值。
+- 空环比继续隐藏，不显示 `nan%`。
+- 文档必须同步更新，说明双轴只用于明确字段组合和明确用户意图。
+
+## Checklist
+
+- [x] 调整 monthly_mom_sales_units recipe 渲染
+- [x] 更新测试断言和 PNG smoke
+- [x] 更新 chart catalog 文档
+- [x] 运行本地测试
+- [x] 重启 Docker 并容器内验证
+- [x] 记录 Review
+
+## Review
+
+- 已将 `monthly_mom_sales_units` 从上下双 panel 调整为双 y 轴组合图。
+- 左 y 轴展示销量，使用蓝色柱子；右 y 轴展示销售额，使用绿色折线和圆点。
+- 为避免标签重叠，销量值和销量环比放在柱内，销售额值和销售额环比放在线点上方。
+- 首月或空环比继续隐藏，不显示 `nan%`。
+- 通用自动图表仍避免双轴；文档明确只有固定 recipe 且字段组合清晰时才允许双轴。
+- 可视化测试通过：20 passed。
+- 全量测试通过：187 passed，2 warnings。
+- Docker `data-agent` 已 restart 并 healthy；容器内验证样例识别为 `recipe monthly_mom_sales_units ('sales', 'units')`，并返回有效 PNG，`GET /health` 返回 ok。
+
+---
+
+# ggplot-like recipe 可视化架构实施计划
+
+## Spec
+
+目标：建立专门的 Visualization Recipe 模块，按字段组合和业务意图识别专用场景，并用 ggplot-like 风格固定渲染。第一版实现 `monthly_mom_sales_units`，解决销售额+销量+环比只画单一折线的问题。
+
+边界：
+- 不引入 R runtime；第一版用 matplotlib 实现 ggplot-like theme。
+- 保留当前 `chart_policy.json`、表格图片和原始数据展示。
+- LLM 不决定图表类型；recipe matcher 按 schema/字段组合决定。
+- 不使用双轴；销售额和销量使用上下两个 panel。
+- 不混单位，环比 pct 只做标注。
+
+## Checklist
+
+- [x] 新增 recipe 基础结构
+- [x] 实现 ggplot-like theme helper
+- [x] 实现 monthly_mom_sales_units recipe
+- [x] 接入 render_chart / infer_chart_spec
+- [x] 补充回归测试和 PNG smoke
+- [x] 更新文档
+- [x] 运行验证
+- [x] 重启 Docker 并验证
+- [x] 记录 Review
+
+## Review
+
+- 已新增 `src/data_agent/visualization/recipes/`，把专用场景渲染从通用 chart policy 中拆出来。
+- 已新增 ggplot-like theme helper，统一白底、浅网格、固定字体、克制配色和边距。
+- 已实现第一条 recipe：`monthly_mom_sales_units`。当结果同时包含月份、销售额、销量、销售额环比、销量环比字段时，固定渲染为上下两个 panel：销售额柱图 + 销量柱图，并在对应月份上标注 MoM 百分比。
+- 首月或空环比不显示 `nan%`；通用数值格式化和 recipe 颜色判断都会把 `NaN` 当空值处理。
+- 未引入 R runtime；当前用 matplotlib 复刻 ggplot 风格，部署更简单，也避免 Docker 增加 R/ggplot2 依赖。
+- `infer_chart_spec(...)` 会在通用 line/bar 规则前先识别该专用场景；`render_chart(...)` 根据 `recipe` spec 分发到固定渲染代码。
+- 已更新 `docs/chart_catalog.md`，记录 recipe 架构、匹配字段、图形规则、百分比口径和扩展方式。
+- 可视化测试通过：20 passed。
+- 全量测试通过：187 passed，2 warnings。
+- Docker `data-agent` 已 restart 并 healthy；容器内验证 `BKN US 2026年5月和6月销售额销量环比` 样例识别为 `recipe monthly_mom_sales_units ('sales', 'units')`，`NaN` 环比格式化为 `-`，并返回有效 PNG，`GET /health` 返回 ok。
+
+---
+
+# 表格图片下方保留原始数据计划
+
+## Spec
+
+目标：在图片表格之外，结果卡片仍保留原始结果表数据，便于复制、核对和在图片加载失败时查看。
+
+边界：
+- 图片表格继续作为主视觉展示。
+- 原始数据使用同一份格式化后的 `table_markdown`，展示完整返回列和当前 `table_max_rows` 行。
+- 飞书卡片当前不可靠支持真正折叠组件；先用“原始数据”Markdown 区块放在图片表格下方。
+- 避免重新引入 6 列截断。
+
+## Checklist
+
+- [x] 在 table_image_key 路径下追加原始数据表
+- [x] 补充卡片回归测试
+- [x] 运行验证
+- [x] 重启 Docker 并验证
+- [x] 记录 Review
+
+## Review
+
+- `build_result_card(...)` 在 `table_image_key` 路径下会先展示图片表格，再追加 `**原始数据**` Markdown 表。
+- 原始数据使用同一份 `table_markdown`，保持格式化后的金额、数量、百分比和完整列。
+- 已补充回归测试：有表格图片时仍包含原始数据；webhook 真实链路同时包含表格图片和原始 markdown 表。
+- 相关测试通过：58 passed，1 warning。
+- 全量测试通过：186 passed，2 warnings。
+- Docker `data-agent` 已 recreate 并 healthy；容器内验证卡片同时包含 `table_img`、`原始数据` 和 markdown 表，`GET /health` 返回 ok。
+
+---
+
+# 完整网格表格展示计划
+
+## Spec
+
+目标：查询结果不再默认只展示部分列；对小/中型结果生成完整表格图片，展示全部列和可读网格线。
+
+边界：
+- 飞书原生 `column_set` 没有真正网格线，优先用 matplotlib 渲染表格图片。
+- 对返回结果展示全部列；行数仍遵循当前 intent/table_max_rows，避免超大结果图片不可读。
+- 原生 `column_set` 仅作为表格图片上传失败或无图片时的 fallback。
+- 保留图表图片，表格图片可以和图表图片同时出现。
+
+## Checklist
+
+- [x] 实现表格图片渲染
+- [x] 接入 Feishu card 的 table_image_key
+- [x] 删除默认 6 列截断
+- [x] 补充回归测试
+- [x] 更新图表/表格规格文档
+- [x] 运行验证
+- [x] 记录 Review
+
+## Review
+
+- 已新增 `generate_table_image(...)`，使用 matplotlib 渲染完整列、表头底色、斑马纹行和浅色网格线。
+- `build_result_card(...)` 新增 `table_image_key`，可同时展示图表图片和表格图片。
+- `webhook.py` 现在会为查询结果上传表格图片；上传失败时 fallback 到原生表格。
+- 原生 fallback 的 `build_table_elements(...)` 默认不再限制 6 列，会展示全部返回列。
+- 已补充回归测试：7 列不再提示“展示前 6 列”；表格图片返回 PNG；webhook 会上传完整表格图片。
+- 相关测试通过：58 passed，1 warning。
+- 全量测试通过：186 passed，2 warnings。
+- Docker `data-agent` 已 recreate 并 healthy；容器内验证 `generate_table_image(...)` 返回有效 PNG，`GET /health` 返回 ok。
+
+---
+
+# SQL timeout 调整为 2 分钟计划
+
+## Spec
+
+目标：按用户确认，将 SQL 执行超时时间从 30 秒提升到 120 秒，并撤回“分月查询再聚合”的 fallback，避免总耗时更慢。
+
+边界：
+- 保留“超时不进入 LLM repair”的逻辑。
+- 不再对 3P orders 月度环比做 Python 分月 fallback。
+- 更新默认配置、示例 env、测试和文档记录。
+- Docker 服务需重启并验证实际容器配置。
+
+## Checklist
+
+- [x] 调整 SQL_TIMEOUT 默认值和示例配置
+- [x] 删除分月 fallback 代码和测试
+- [x] 更新相关文档/计划记录
+- [x] 运行验证
+- [x] 重启 Docker 并验证
+- [x] 记录 Review
+
+## Review
+
+- 已将默认 `sql_timeout` 从 30 秒调整为 120 秒。
+- 已将 `.env.example` 的 `SQL_TIMEOUT` 从 30 调整为 120。
+- 已将本地 `.env` 的 `SQL_TIMEOUT` 调整为 120；该文件被 ignore，不入库。
+- 已删除 3P orders 月度环比分月 fallback 代码和对应测试；后续这类查询继续由单条 SQL 直接执行。
+- 保留超时不进入 LLM repair 的行为，避免出现“查询超时 + 重试 SQL 仍出错”的混合错误。
+- 相关测试通过：45 passed，1 warning。
+- 全量测试通过：182 passed，2 warnings。
+- Docker `data-agent` 已 recreate 并 healthy；容器内 `get_settings().sql_timeout` 返回 `120`，`GET /health` 返回 ok。
+
+---
+
+# Beekeeper 月度环比查询仍超时排查计划
+
+## Spec
+
+目标：排查用户刚才测试仍报 `查询超时（超过 30 秒）` 的根因，判断是 SQL 写法低效、视图本身慢、日期范围/过滤不足，还是需要调整 SQL timeout。
+
+边界：
+- 先查最新 query log，确认实际 SQL、时间范围、过滤条件和耗时。
+- 已根据实测和用户确认，取消分月 fallback，改为将 SQL timeout 提高到 120 秒。
+- 不执行无上限大查询；若需验证，用 `EXPLAIN` 或缩小范围验证。
+- 保持上一步“不对超时做 LLM repair”的行为。
+
+## Checklist
+
+- [ ] 定位最新超时 query log
+- [ ] 分析 SQL 低效点
+- [ ] 设计/实施更快的月度环比 SQL 模板或规则
+- [ ] 补充回归测试
+- [ ] 运行验证
+- [ ] 重启 Docker 并验证
+- [ ] 记录 Review
+
+## Review
+
+- 待处理。
+
+---
+
+# Beekeeper 查询超时与 retry 校验误判排查计划
+
+## Spec
+
+目标：排查最近一次查询先超时、重试后报 `lag, monthly_data, over` 不存在列的问题，定位 SQL、checker 和 retry 机制的真实根因并修复。
+
+边界：
+- 先查 query log 和服务日志，不猜 SQL。
+- 区分数据库执行超时、SQL repair 生成错误、SQL checker 把窗口函数/CTE 误判为列三类问题。
+- 若是 checker 误判，补完整 SQL 回归测试；若是 retry 生成错误，约束 repair prompt 或跳过不应 retry 的错误。
+
+## Checklist
+
+- [x] 定位最近失败 query log
+- [x] 复盘原始 SQL、retry SQL 和错误
+- [x] 修复 checker / retry 逻辑
+- [x] 补充回归测试
+- [x] 运行验证
+- [x] 记录 Review
+
+## Review
+
+- 失败 query_id：`d009523f89cf441facaf704f2943a1e7`，用户问题是 BKN US 2026 年 1-6 月店铺销售额、销量及环比变化。
+- 原始 SQL 使用 `WITH monthly_data` 聚合 1-6 月订单数据并用 `LAG(...) OVER (ORDER BY month)` 计算环比；数据库执行超时。
+- retry SQL 改成派生表 `FROM (...) monthly_data`，业务规则 checker 对单真实表 SQL 做裸列扫描时把 `lag`、`over`、派生表别名 `monthly_data` 误判为 `intermediate_amazon_3p_orders_beekeeper_us_view` 的列。
+- 已修复 `sql_checker.py`：派生表 SQL 跳过单表裸列扫描，避免把窗口函数/派生表别名误判为真实表列；qualified 列、表名、日期、关系规则仍继续校验。
+- 已修复 `webhook.py`：超时、权限错误、业务规则校验失败不再进入 LLM SQL repair，避免用户看到“查询超时 + 重试 SQL 仍出错”的混合错误。
+- 已补充回归测试：派生表 + `LAG/OVER` 月度环比 SQL 可以通过 checker；查询超时不会触发 repair。
+- 直接复现验证：`validate_business_sql(...)` 对该派生表月度环比 SQL 返回 `(True, '')`。
+- 相关测试通过：57 passed，1 warning。
+- 全量测试通过：182 passed，2 warnings。
+- Docker `data-agent` 已重启并 healthy；容器内复现 `validate_business_sql(...)` 返回 `(True, '')`，`GET /health` 返回 ok。
+
+---
+
+# 截图暴露的结果卡片质量修复计划
+
+## Spec
+
+目标：修复截图中结果卡片的展示问题，保证真实数据表和图表清晰可读，不展示 LLM 伪造/示意结果，不让图表标题因中文字体问题退化成残缺文本。
+
+边界：
+- 不改 SQL 生成口径，本轮只处理结果展示和图表策略。
+- LLM 回复中的 SQL 可保留给“查看 SQL”按钮；正文不展示 LLM 自带 Markdown 表格或执行结果示意。
+- 图表标题由结构化列名生成，避免使用用户长问题作为图内标题。
+- 时间维度结果至少 2 行即可按时间序列处理；明细/列表仍展示表格。
+
+## Checklist
+
+- [x] 清理 LLM 结果摘要中的示意表格
+- [x] 改进图表标题生成
+- [x] 调整月份/日期图表策略
+- [x] 补充回归测试
+- [x] 运行验证
+- [x] 记录 Review
+
+## Review
+
+- 已新增 `_clean_result_summary(...)`，移除 LLM 回复里的“执行结果示意/Markdown 表格/如需更多维度”等展示噪音，卡片正文只保留真实结果表和图。
+- 图表标题不再使用用户原始问题，改由 `chart_title(x_col, y_col)` 生成短英文标题，例如 `Revenue by Month`，避免中文字体缺失导致标题只剩 `us`。
+- 时间维度结果从 2 行起即可按 time series 处理，覆盖 5 月 vs 6 月这类月度对比。
+- 图例标签改为 display label，例如 `Revenue`，不显示原始列名 `revenue`。
+- 已补充 `_pct` / `_percentage` 后缀百分比识别，`sales_mom_change_pct`、`units_mom_change_pct` 会显示为 `10.40%`、`8.00%`，不会误判为金额或数量。
+- 已补充空格列名回归，`sales change pct`、`units change pct` 会显示为百分比；Docker 容器内已验证 `sales change pct -> -7.00%`。
+- 已补充截图场景回归：LLM 示意表格不会出现在卡片中；两个月份销售额对比生成 `Revenue by Month` 折线图。
+- 相关测试通过：53 passed，1 warning。
+- 全量测试通过：180 passed，2 warnings。
+- Docker `data-agent` 已重启并 healthy，`GET http://127.0.0.1:8010/health` 返回 ok。
+
+---
+
+# 固定可视化策略实施计划
+
+## Spec
+
+目标：通过代码固定常见查询结果的可视化效果，保证同类查询在颜色、图形、字体、尺寸、格式、排序和 TopN 上稳定、美观且准确。
+
+边界：
+- 不让 LLM 决定颜色、图形样式或数据格式；LLM 只提供业务解释。
+- 先用现有 matplotlib 渲染链路实现 policy 层，不引入前端重构。
+- 参考成熟 BI 工具的克制风格：白底、浅网格、固定语义色、短标题、少装饰。
+- 数据准确性优先：不画无法准确表达的双轴/混合单位图，不因为美观改变排序、数值或单位。
+
+## Checklist
+
+- [x] 设计 chart policy 配置
+- [x] 实现 chart spec 推断
+- [x] 接入 Feishu 查询结果渲染
+- [x] 补充可视化回归测试
+- [x] 更新图表规格文档
+- [x] 运行验证
+- [x] 记录 Review
+
+## Review
+
+- 已新增 `src/data_agent/visualization/chart_policy.json` 固定视觉策略。
+- 已新增 `src/data_agent/visualization/policy.py`，将查询结果归类为 line/bar/table/kpi spec。
+- 已将 Feishu 查询结果渲染改为 `infer_chart_spec(...) -> render_chart(...)`。
+- 已更新 `docs/chart_catalog.md`，明确 LLM 不决定颜色、样式、TopN 或图表类型。
+- 相关测试通过：50 passed，1 warning。
+- 全量测试通过：180 passed，2 warnings。
+
+---
+
 # 推送当前项目到远程仓库计划
 
 ## Spec

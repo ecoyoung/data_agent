@@ -17,7 +17,7 @@ Feishu user
   -> LLM SQL generation
   -> SQL repair + safety checker + business checker
   -> read-only PostgreSQL execution
-  -> chart/table/card rendering
+  -> policy-driven chart/table/card rendering
   -> query log + feedback loop
 ```
 
@@ -27,7 +27,7 @@ Key runtime layers:
 - `src/data_agent/agent/`: LLM client, prompt builder, intent detection, SQL repair, SQL checker, SQL executor, and few-shot retrieval.
 - `src/data_agent/data_catalog/`: machine-readable catalog, metric rules, table metadata, AI_HINT family rules, join relationships, templates, and semantic routing index.
 - `src/data_agent/session/`: in-memory session history plus SQLite query/feedback logs.
-- `src/data_agent/visualization/`: chart rendering and Feishu-friendly table formatting.
+- `src/data_agent/visualization/`: chart rendering and Feishu-friendly table formatting. Visual style is fixed by `chart_policy.json` (theme palette, chart limits, metric color mapping) and `policy.py` (`infer_chart_spec` → `ChartSpec`); named recipes under `recipes/` (e.g. `monthly_mom_sales_units`) handle specific field combinations before falling back to the generic line/bar/table renderer. The LLM never picks visual style.
 
 ## Progressive Disclosure
 
@@ -67,6 +67,16 @@ The service is designed for a single-container MVP:
 
 See [docs/concurrency_architecture.md](docs/concurrency_architecture.md).
 
+## Visualization Policy
+
+Chart visual style is decoupled from the LLM. Query results flow through:
+
+1. `infer_chart_spec(user_text, data, columns)` classifies the result into `kpi`, `table`, `line`, `bar`, or a named recipe.
+2. Named recipes under `src/data_agent/visualization/recipes/` (e.g. `monthly_mom_sales_units`) match fixed field combinations and own their dedicated dual-axis / annotated rendering.
+3. Otherwise the generic renderer falls back to policy-driven line/bar/table with semantic colors from `chart_policy.json`.
+
+Theme, palette, max series, Top N, font stack, and metric color mapping all live in `chart_policy.json`; the LLM never decides visual style. See [docs/chart_catalog.md](docs/chart_catalog.md).
+
 ## Repository Layout
 
 ```text
@@ -78,7 +88,12 @@ See [docs/concurrency_architecture.md](docs/concurrency_architecture.md).
 │   ├── data_catalog/            # Amazon intermediate catalog and rules
 │   ├── feishu/                  # webhook, cards, sender APIs
 │   ├── session/                 # history and query/feedback logs
-│   └── visualization/           # charts and table formatting
+│   └── visualization/           # charts, table formatting, and policy
+│       ├── chart.py             # matplotlib rendering entrypoint
+│       ├── chart_policy.json    # fixed theme, palette, chart limits
+│       ├── policy.py            # infer_chart_spec → ChartSpec
+│       ├── formatting.py        # metric value/axis formatters
+│       └── recipes/             # named chart recipes (monthly_mom, theme, ...)
 ├── tests/                       # automated tests
 ├── scripts/                     # catalog, regression, metrics, maintenance
 ├── evals/                       # business SQL regression cases

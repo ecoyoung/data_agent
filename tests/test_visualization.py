@@ -3,11 +3,16 @@ from data_agent.visualization.chart import (
     data_to_markdown_table,
     generate_bar_chart,
     generate_line_chart,
+    generate_table_image,
+    infer_chart_spec,
     infer_metric_column,
     is_time_series_chart,
+    metric_color,
     parse_order_by_column,
+    render_chart,
 )
 from data_agent.visualization.formatting import format_metric_value, metric_kind
+from data_agent.visualization.recipes.theme import pct_color
 
 
 def test_data_to_markdown_table_formats_numbers() -> None:
@@ -36,6 +41,15 @@ def test_metric_formatting_detects_common_metric_types() -> None:
     assert format_metric_value(1234.56, "ordered_product_sales_amount") == "$1,234.56"
     assert format_metric_value(0.0912, "ctr") == "9.12%"
     assert format_metric_value(1234, "sessions") == "1,234"
+    assert metric_kind("sales_mom_change_pct") == "percent"
+    assert metric_kind("units_mom_change_pct") == "percent"
+    assert metric_kind("sales change pct") == "percent"
+    assert metric_kind("units change pct") == "percent"
+    assert format_metric_value(0.104, "sales_mom_change_pct") == "10.40%"
+    assert format_metric_value(0.08, "units_mom_change_pct") == "8.00%"
+    assert format_metric_value(-0.07, "sales change pct") == "-7.00%"
+    assert format_metric_value(float("nan"), "sales_change_pct") == "-"
+    assert pct_color(float("nan")) == "#6B7280"
 
 
 def test_choose_chart_columns_uses_text_dimension_and_numeric_metric() -> None:
@@ -134,3 +148,135 @@ def test_generate_line_chart_returns_png_for_daily_trend() -> None:
     )
 
     assert chart.startswith(b"\x89PNG")
+
+
+def test_generate_table_image_returns_png_with_full_columns() -> None:
+    table = generate_table_image(
+        [
+            {
+                "month": "2026-06",
+                "sales": 2798375.54,
+                "units": 172429,
+                "sales_change": -198977.95,
+                "sales_change_pct": -0.0664,
+                "units_change": -9414,
+                "units_change_pct": -0.0518,
+            }
+        ],
+        [
+            "month",
+            "sales",
+            "units",
+            "sales_change",
+            "sales_change_pct",
+            "units_change",
+            "units_change_pct",
+        ],
+    )
+
+    assert table.startswith(b"\x89PNG")
+
+
+def test_infer_chart_spec_uses_policy_for_time_series() -> None:
+    spec = infer_chart_spec(
+        user_text="BKN US 2026年6月销售额趋势",
+        data=[
+            {"report_date": "2026-06-01", "ordered_revenue": 100.0},
+            {"report_date": "2026-06-02", "ordered_revenue": 120.0},
+            {"report_date": "2026-06-03", "ordered_revenue": 90.0},
+        ],
+        columns=["report_date", "ordered_revenue"],
+        preferred_chart="auto",
+        title="Sales Trend",
+    )
+
+    assert spec.chart_type == "line"
+    assert spec.style == "time_series"
+    assert spec.x_col == "report_date"
+    assert spec.y_cols == ("ordered_revenue",)
+    assert spec.table_max_rows == 31
+
+
+def test_infer_chart_spec_uses_time_series_for_two_month_comparison() -> None:
+    spec = infer_chart_spec(
+        user_text="BKN US 2026年5月和6月销售额销量环比",
+        data=[
+            {"month": "2026-05", "revenue": 125000.0, "units": 2500},
+            {"month": "2026-06", "revenue": 138000.0, "units": 2700},
+        ],
+        columns=["month", "revenue", "units"],
+        prefer_y="revenue",
+    )
+
+    assert spec.chart_type == "line"
+    assert spec.x_col == "month"
+    assert spec.y_cols == ("revenue",)
+    assert spec.title == "Revenue by Month"
+
+
+def test_infer_chart_spec_uses_monthly_mom_recipe_for_sales_units_change() -> None:
+    rows = [
+        {
+            "month": "2026-05",
+            "sales": 125000.0,
+            "units": 2500,
+            "sales_change_pct": None,
+            "units_change_pct": None,
+        },
+        {
+            "month": "2026-06",
+            "sales": 138000.0,
+            "units": 2700,
+            "sales_change_pct": 0.104,
+            "units_change_pct": 0.08,
+        },
+    ]
+    spec = infer_chart_spec(
+        user_text="BKN US 2026年5月和6月销售额销量环比",
+        data=rows,
+        columns=["month", "sales", "units", "sales_change_pct", "units_change_pct"],
+        prefer_y="sales",
+    )
+
+    assert spec.chart_type == "recipe"
+    assert spec.style == "monthly_mom_sales_units"
+    assert spec.y_cols == ("sales", "units")
+    assert spec.meta == {
+        "sales_col": "sales",
+        "units_col": "units",
+        "sales_pct_col": "sales_change_pct",
+        "units_pct_col": "units_change_pct",
+    }
+    chart = render_chart(rows, spec)
+    assert chart is not None
+    assert chart.startswith(b"\x89PNG")
+
+
+def test_infer_chart_spec_keeps_detail_requests_as_table() -> None:
+    spec = infer_chart_spec(
+        user_text="BKN US 2026年6月订单明细列表",
+        data=[{"report_date": "2026-06-01", "sku": "SKU-1", "ordered_revenue": 10.0}],
+        columns=["report_date", "sku", "ordered_revenue"],
+    )
+
+    assert spec.chart_type == "table"
+    assert render_chart([{"report_date": "2026-06-01", "ordered_revenue": 10.0}], spec) is None
+
+
+def test_infer_chart_spec_uses_rank_policy_and_metric_color() -> None:
+    spec = infer_chart_spec(
+        user_text="广告花费最高的 ASIN",
+        data=[
+            {"asin": "B001", "ad_spend": 120.0, "br_sales": 500.0},
+            {"asin": "B002", "ad_spend": 80.0, "br_sales": 900.0},
+        ],
+        columns=["asin", "ad_spend", "br_sales"],
+        prefer_y="ad_spend",
+    )
+
+    assert spec.chart_type == "bar"
+    assert spec.style == "category_rank"
+    assert spec.x_col == "asin"
+    assert spec.y_cols == ("ad_spend",)
+    assert metric_color("ad_spend") == "#2563EB"
+    assert metric_color("acos") == "#F97316"

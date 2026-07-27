@@ -630,6 +630,46 @@ def _load_relationship_examples_if_relevant(
     return None
 
 
+def _select_query_templates(user_text: str) -> str:
+    templates = _read(CATALOG_DIR / "query_templates.md")
+    if not templates:
+        return ""
+    if not user_text:
+        return templates
+
+    query = user_text.lower()
+    sections = re.split(r"(?=^## .+$)", templates, flags=re.MULTILINE)
+    selected: list[str] = []
+    for section in sections:
+        title = section.splitlines()[0] if section.strip().startswith("## ") else ""
+        if not title:
+            continue
+        title_lower = title.lower()
+        include = False
+        if "订单月度环比" in title:
+            include = any(keyword in query for keyword in ("环比", "mom", "month over month"))
+        elif "订单月汇总" in title:
+            include = any(keyword in query for keyword in ("销售额", "销量", "订单")) and not any(
+                keyword in query for keyword in ("环比", "趋势", "每天", "每日", "按日", "daily")
+            )
+        elif "订单日趋势" in title:
+            include = any(keyword in query for keyword in ("趋势", "每天", "每日", "按日", "daily"))
+        elif "business report" in title_lower:
+            include = any(keyword in query for keyword in ("business report", "sessions", "转化率", "page views"))
+        elif "ams advertised" in title_lower:
+            include = any(keyword in query for keyword in ("sp", "sd", "sb", "广告商品", "广告asin", "advertised"))
+        elif "ams 排名" in title:
+            include = any(keyword in query for keyword in ("广告", "acos", "roas", "campaign", "搜索词", "targeting"))
+        elif "tacos" in title_lower:
+            include = "tacos" in query
+        if include:
+            selected.append(section.strip())
+
+    if selected:
+        return "# 高频查询模板\n\n" + "\n\n".join(selected)
+    return ""
+
+
 def load_data_catalog(
     selected_table_docs: list[str] | None = None,
     user_text: str = "",
@@ -696,7 +736,7 @@ def load_data_catalog(
         parts.append("\n\n# ===== Data Catalog: cross-domain examples =====")
         parts.append(examples)
 
-    templates = _read(CATALOG_DIR / "query_templates.md")
+    templates = _select_query_templates(user_text)
     if templates:
         parts.append("\n\n# ===== Data Catalog: high-frequency query templates =====")
         parts.append(templates)

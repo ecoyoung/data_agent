@@ -469,7 +469,7 @@ def _handle_user_query(session_id: str, user_text: str, query_id: str | None = N
 
     data_rows, columns, error = execute_query(sql)
     repair_response = ""
-    if error and not _is_permission_error(error):
+    if error and _should_retry_sql_error(error):
         repaired_sql, repair_response = _repair_sql_via_llm(
             user_text=user_text,
             sql=sql,
@@ -502,41 +502,40 @@ def _handle_user_query(session_id: str, user_text: str, query_id: str | None = N
         return build_error_card(f"SQL 执行出错：{error}\n\n```sql\n{sql}\n```")
 
     from data_agent.visualization.chart import (
-        choose_chart_columns,
         data_to_markdown_table,
-        generate_bar_chart,
-        generate_line_chart,
+        generate_table_image,
+        infer_chart_spec,
         infer_metric_column,
-        is_time_series_chart,
         parse_order_by_column,
+        render_chart,
     )
 
     image_key = None
+    table_image_key = None
     intent = infer_query_intent(user_text)
     table_max_rows = intent.table_max_rows
     prefer_y = infer_metric_column(user_text, columns) or parse_order_by_column(sql)
-    chart_cols = choose_chart_columns(data_rows, columns, prefer_y=prefer_y)
-    if chart_cols:
-        x_col, y_col = chart_cols
-        chart_bytes = None
-        if intent.chart_type == "line" or is_time_series_chart(user_text, x_col, len(data_rows)):
-            table_max_rows = 31
-            chart_bytes = generate_line_chart(
-                data_rows,
-                x_col=x_col,
-                y_cols=[y_col],
-                title=user_text[:30],
-            )
-        elif intent.chart_type != "table":
-            chart_bytes = generate_bar_chart(
-                data_rows,
-                x_col=x_col,
-                y_col=y_col,
-                title=user_text[:30],
-                y_label=y_col,
-            )
-        if chart_bytes:
-            image_key = upload_image(chart_bytes)
+    chart_spec = infer_chart_spec(
+        user_text=user_text,
+        data=data_rows,
+        columns=columns,
+        prefer_y=prefer_y,
+        preferred_chart=intent.chart_type,
+        title="",
+    )
+    table_max_rows = max(table_max_rows, chart_spec.table_max_rows)
+    chart_bytes = render_chart(data_rows, chart_spec)
+    if chart_bytes:
+        image_key = upload_image(chart_bytes)
+    if data_rows and columns:
+        table_bytes = generate_table_image(
+            data_rows,
+            columns,
+            title="Result Table",
+            max_rows=table_max_rows,
+        )
+        table_image_key = upload_image(table_bytes)
+    summary = _clean_result_summary(strip_sql_blocks(ai_response))
 
     if query_id:
         update_query_event(
@@ -553,16 +552,17 @@ def _handle_user_query(session_id: str, user_text: str, query_id: str | None = N
     if not data_rows:
         return build_empty_result_card(
             title=user_text[:80] or "查询结果",
-            summary=strip_sql_blocks(ai_response),
+            summary=summary,
             sql=sql,
             query_id=query_id,
         )
 
     return build_result_card(
         title=user_text[:80] or "查询结果",
-        summary=strip_sql_blocks(ai_response),
+        summary=summary,
         table_markdown=data_to_markdown_table(data_rows, columns, max_rows=table_max_rows),
         image_key=image_key,
+        table_image_key=table_image_key,
         sql=sql,
         query_id=query_id,
         table_rows=data_rows,
@@ -574,6 +574,61 @@ def _handle_user_query(session_id: str, user_text: str, query_id: str | None = N
 def _is_permission_error(error: str) -> bool:
     text = error.lower()
     return "permission denied" in text or "数据库权限不足" in error or "没有 select 权限" in text
+
+
+def _should_retry_sql_error(error: str) -> bool:
+    text = error.lower()
+    if _is_permission_error(error):
+        return False
+    non_retryable = (
+        "查询超时",
+        "query timeout",
+        "statement timeout",
+        "canceling statement due to statement timeout",
+        "业务规则校验失败",
+    )
+    return not any(marker in text for marker in non_retryable)
+
+
+def _clean_result_summary(text: str) -> str:
+    if not text:
+        return ""
+
+    cleaned_lines: list[str] = []
+    skip_table = False
+    stop_markers = (
+        "执行结果示意",
+        "查询结果示意",
+        "结果示意",
+        "以下是查询结果",
+        "结果如下",
+    )
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line:
+            skip_table = False
+            continue
+        if any(marker in line for marker in stop_markers):
+            continue
+        if line.startswith("|"):
+            skip_table = True
+            continue
+        if skip_table and set(line) <= {"-", "|", ":", " "}:
+            continue
+        if line.startswith(("-", "*", "•")) and "|" in line:
+            continue
+        if line.startswith(">"):
+            line = line.lstrip("> ").strip()
+        if "如果您需要" in line or "如需" in line:
+            continue
+        if "SQL" in line and ("查询" in line or "如下" in line):
+            continue
+        cleaned_lines.append(line)
+
+    cleaned = "\n".join(cleaned_lines).strip()
+    if "|" in cleaned and "---" in cleaned:
+        return ""
+    return cleaned
 
 
 def _extract_user_text(message: dict) -> str:

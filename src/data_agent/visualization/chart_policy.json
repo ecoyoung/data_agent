@@ -1,0 +1,93 @@
+{
+  "theme": {
+    "font_family": [
+      "Noto Sans CJK SC",
+      "Noto Sans CJK JP",
+      "Noto Sans CJK TC",
+      "PingFang SC",
+      "Arial Unicode MS",
+      "DejaVu Sans",
+      "sans-serif"
+    ],
+    "text_color": "#111827",
+    "muted_text_color": "#6B7280",
+    "grid_color": "#E5E7EB",
+    "background_color": "#FFFFFF",
+    "palette": {
+      "primary": "#2563EB",
+      "secondary": "#14B8A6",
+      "warning": "#F97316",
+      "purple": "#7C3AED",
+      "positive": "#16A34A",
+      "negative": "#DC2626",
+      "neutral": "#475569",
+      "money": "#2563EB",
+      "sales": "#16A34A",
+      "spend": "#2563EB",
+      "rate": "#F97316",
+      "count": "#14B8A6"
+    }
+  },
+  "charts": {
+    "time_series": {
+      "kind": "line",
+      "width": 10.5,
+      "height": 5.2,
+      "line_width": 2.4,
+      "marker_size": 4.4,
+      "max_series": 4,
+      "max_table_rows": 31,
+      "grid_axis": "y"
+    },
+    "category_rank": {
+      "kind": "horizontal_bar",
+      "width": 10.5,
+      "min_height": 4.2,
+      "max_height": 8.5,
+      "height_per_row": 0.42,
+      "top_n": 15,
+      "bar_alpha": 0.92,
+      "grid_axis": "x"
+    },
+    "diverging_rank": {
+      "kind": "horizontal_bar",
+      "width": 10.5,
+      "min_height": 4.2,
+      "max_height": 8.5,
+      "height_per_row": 0.42,
+      "top_n": 15,
+      "bar_alpha": 0.92,
+      "grid_axis": "x"
+    },
+    "table": {
+      "kind": "table",
+      "max_rows": 10
+    },
+    "kpi": {
+      "kind": "kpi",
+      "max_rows": 1
+    }
+  },
+  "metric_colors": [
+    {
+      "keywords": ["acos", "tacos", "roas", "ctr", "cvr", "rate", "ratio", "percent", "percentage", "conversion"],
+      "color": "rate"
+    },
+    {
+      "keywords": ["spend", "cost"],
+      "color": "spend"
+    },
+    {
+      "keywords": ["sales", "revenue", "amount"],
+      "color": "sales"
+    },
+    {
+      "keywords": ["units", "orders", "sessions", "clicks", "impressions", "views"],
+      "color": "count"
+    },
+    {
+      "keywords": ["decline", "drop", "decrease", "loss"],
+      "color": "negative"
+    }
+  ]
+}

@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import math
 from numbers import Number
 from typing import Any
 
 
 PERCENT_KEYWORDS = (
+    "pct",
     "rate",
     "ratio",
     "percent",
@@ -30,6 +32,8 @@ COUNT_KEYWORDS = (
 
 def metric_kind(column: str) -> str:
     normalized = column.lower()
+    if normalized.endswith("_pct") or normalized.endswith("_percentage"):
+        return "percent"
     if any(keyword in normalized for keyword in PERCENT_KEYWORDS):
         return "percent"
     if any(keyword in normalized for keyword in COUNT_KEYWORDS):
@@ -48,6 +52,8 @@ def format_metric_value(value: Any, column: str = "") -> str:
     if isinstance(value, Number):
         kind = metric_kind(column)
         numeric = float(value)
+        if math.isnan(numeric):
+            return "-"
         if kind == "percent":
             return f"{numeric * 100:,.2f}%"
         if kind == "money":

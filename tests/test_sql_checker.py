@@ -114,6 +114,42 @@ def test_business_checker_allows_valid_unqualified_columns_in_single_table_sql()
     assert error == ""
 
 
+def test_business_checker_allows_window_function_over_derived_monthly_data() -> None:
+    valid, error = validate_business_sql(
+        """
+        SELECT
+            month,
+            ROUND(sales::numeric, 2) AS sales,
+            units,
+            ROUND(
+                ((sales - LAG(sales) OVER (ORDER BY month))
+                 / NULLIF(LAG(sales) OVER (ORDER BY month), 0))::numeric,
+                4
+            ) AS sales_mom_change_pct,
+            ROUND(
+                ((units - LAG(units) OVER (ORDER BY month))
+                 / NULLIF(LAG(units) OVER (ORDER BY month)::numeric, 0))::numeric,
+                4
+            ) AS units_mom_change_pct
+        FROM (
+            SELECT
+                to_char(report_date, 'YYYY-MM') AS month,
+                SUM(ordered_revenue) AS sales,
+                SUM(ordered_units) AS units
+            FROM intermediate_amazon_3p_orders_beekeeper_us_view
+            WHERE report_date >= DATE '2026-01-01'
+              AND report_date < DATE '2026-07-01'
+              AND country_code = 'US'
+            GROUP BY 1
+        ) monthly_data
+        ORDER BY month;
+        """
+    )
+
+    assert valid is True
+    assert error == ""
+
+
 def test_business_checker_allows_postgres_filter_aggregate_keyword() -> None:
     valid, error = validate_business_sql(
         """

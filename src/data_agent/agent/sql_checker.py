@@ -19,6 +19,7 @@ DATE_FILTER_RE = re.compile(
     re.IGNORECASE | re.DOTALL,
 )
 CTE_RE = re.compile(r"(?:\bWITH\b|,)\s+([a-zA-Z_][a-zA-Z0-9_]*)\s+AS\s*\(", re.IGNORECASE)
+DERIVED_TABLE_RE = re.compile(r"\b(?:FROM|JOIN)\s*\(", re.IGNORECASE)
 PII_PATTERNS = [
     "buyer_email",
     "buyer_name",
@@ -222,7 +223,7 @@ def _extract_unqualified_refs_for_single_table(sql: str, table: str) -> set[str]
     positives. It catches common LLM hallucinations such as `country = 'US'`
     on a table that only exposes `country_code`.
     """
-    if CTE_RE.search(sql):
+    if CTE_RE.search(sql) or DERIVED_TABLE_RE.search(sql):
         return set()
 
     without_strings = re.sub(r"'(?:''|[^'])*'", " ", sql)

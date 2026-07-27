@@ -34,6 +34,7 @@ def build_result_card(
     summary: str,
     table_markdown: str,
     image_key: str | None = None,
+    table_image_key: str | None = None,
     sql: str | None = None,
     query_id: str | None = None,
     table_rows: list[dict[str, Any]] | None = None,
@@ -63,7 +64,17 @@ def build_result_card(
                 }
             )
 
-        if table_rows is not None and columns:
+        if table_image_key:
+            elements.append(
+                {
+                    "tag": "img",
+                    "img_key": table_image_key,
+                    "alt": {"tag": "plain_text", "content": "数据表格"},
+                    "mode": "fit_horizontal",
+                }
+            )
+            elements.append({"tag": "markdown", "content": f"**原始数据**\n{table_markdown}"})
+        elif table_rows is not None and columns:
             elements.extend(build_table_elements(table_rows, columns, max_rows=table_max_rows))
         else:
             elements.append({"tag": "markdown", "content": f"```text\n{table_markdown}\n```"})
@@ -222,11 +233,12 @@ def _meta_subtitle(
 
 
 def build_table_elements(
-    data: list[dict[str, Any]], columns: list[str], max_rows: int = 10, max_columns: int = 6
+    data: list[dict[str, Any]], columns: list[str], max_rows: int = 10, max_columns: int | None = None
 ) -> list[dict]:
     if not data:
         return [{"tag": "markdown", "content": "（无数据）"}]
 
+    max_columns = max_columns or len(columns)
     visible_columns = columns[:max_columns]
     elements: list[dict] = []
 

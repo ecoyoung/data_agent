@@ -71,7 +71,7 @@ class Settings(BaseSettings):
 
     app_port: int = 8000
     debug: bool = True
-    sql_timeout: int = 30
+    sql_timeout: int = 120
     max_rows: int = Field(default=500, ge=1, le=5000)
     max_concurrent_queries: int = Field(default=4, ge=1, le=32)
     query_log_db_path: str = str(BASE_DIR / "storage" / "query_logs.sqlite3")

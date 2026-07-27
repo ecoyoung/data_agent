@@ -22,6 +22,31 @@ ORDER BY 1;
 
 规则：不要 `GROUP BY month`；不要按 `report_date` 展开；不要用 Business Report 销售额。
 
+## 订单月度环比
+
+适用：`2026年1到6月 销售额/销量 环比`。
+
+```sql
+WITH monthly_data AS (
+    SELECT to_char(report_date, 'YYYY-MM') AS month,
+           SUM(ordered_revenue) AS sales,
+           SUM(ordered_units) AS units
+    FROM intermediate_amazon_3p_orders_<scope>_view
+    WHERE report_date >= DATE '<start_month>'
+      AND report_date < DATE '<next_month_after_end>'
+      AND country_code = '<country_code>'
+    GROUP BY 1
+)
+SELECT
+    month, ROUND(sales::numeric, 2) AS sales, units,
+    ROUND(((sales - LAG(sales) OVER (ORDER BY month)) / NULLIF(LAG(sales) OVER (ORDER BY month), 0))::numeric, 4) AS sales_mom_change_pct,
+    ROUND(((units - LAG(units) OVER (ORDER BY month)) / NULLIF(LAG(units) OVER (ORDER BY month)::numeric, 0))::numeric, 4) AS units_mom_change_pct
+FROM monthly_data
+ORDER BY month;
+```
+
+规则：`*_pct` 返回比例值如 `0.104`，不要 `* 100`；展示层会显示 `10.40%`。
+
 ## 订单日趋势
 
 适用：`销售额趋势/销量趋势/每天销售额/每日订单`。

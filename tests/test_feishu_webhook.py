@@ -184,6 +184,7 @@ def test_handle_user_query_uses_line_chart_and_full_table_for_daily_trend(monkey
 
     monkeypatch.setattr("data_agent.visualization.chart.generate_line_chart", fake_line_chart)
     monkeypatch.setattr("data_agent.visualization.chart.generate_bar_chart", fake_bar_chart)
+    monkeypatch.setattr("data_agent.visualization.chart.generate_table_image", lambda *_args, **_kwargs: b"table_png")
     monkeypatch.setattr(webhook, "upload_image", lambda chart_bytes: chart_bytes.decode())
 
     card = webhook._handle_user_query("s1", "Brumate 2026年6月份订单销售额趋势")
@@ -191,12 +192,103 @@ def test_handle_user_query_uses_line_chart_and_full_table_for_daily_trend(monkey
 
     assert called == {"line": True, "bar": False}
     assert "line_png" in card_text
-    assert "2026-06-30" in card_text
+    assert "table_png" in card_text
     assert "展示前 10 行" not in card_text
 
 
-def test_handle_user_query_skips_chart_for_detail_intent(monkeypatch) -> None:
-    called = {"chart": False}
+def test_handle_user_query_removes_llm_demo_table_from_summary(monkeypatch) -> None:
+    monkeypatch.setattr(
+        webhook,
+        "chat",
+        lambda _messages: (
+            "根据您的确认，以下 SQL 查询 2026 年 5 月和 6 月的店铺订单销售额和销量。\n"
+            "执行结果示意：\n\n"
+            "| month | revenue | units |\n"
+            "| --- | --- | --- |\n"
+            "| 2026-05 | 125,000.00 | 2,500 |\n"
+            "如果您需要查看更多维度，请随时说明。\n"
+            "```sql\nSELECT '2026-05' AS month, 1 AS revenue, 2 AS units\n```"
+        ),
+    )
+    monkeypatch.setattr(
+        webhook,
+        "execute_query",
+        lambda _sql: (
+            [
+                {"month": "2026-05", "revenue": 125000.0, "units": 2500},
+                {"month": "2026-06", "revenue": 138000.0, "units": 2700},
+            ],
+            ["month", "revenue", "units"],
+            None,
+        ),
+    )
+    monkeypatch.setattr(webhook, "upload_image", lambda _bytes: None)
+
+    card = webhook._handle_user_query("s1", "BKN US 2026年5月和6月销售额销量环比")
+    body = str(card)
+
+    assert "执行结果示意" not in body
+    assert "如果您需要" not in body
+    assert "| month | revenue | units |" not in body
+    assert "$125,000.00" in body
+    assert "2,700" in body
+
+
+def test_handle_user_query_uploads_chart_and_full_table_images(monkeypatch) -> None:
+    monkeypatch.setattr(
+        webhook,
+        "chat",
+        lambda _messages: "```sql\nSELECT '2026-06' AS month, 1 AS sales, 2 AS units\n```",
+    )
+    monkeypatch.setattr(
+        webhook,
+        "execute_query",
+        lambda _sql: (
+            [
+                {
+                    "month": "2026-06",
+                    "sales": 100.0,
+                    "units": 10,
+                    "sales_change": -7.0,
+                    "sales_change_pct": -0.07,
+                    "units_change": -1,
+                    "units_change_pct": -0.1,
+                }
+            ],
+            [
+                "month",
+                "sales",
+                "units",
+                "sales_change",
+                "sales_change_pct",
+                "units_change",
+                "units_change_pct",
+            ],
+            None,
+        ),
+    )
+    monkeypatch.setattr("data_agent.visualization.chart.generate_table_image", lambda *_args, **_kwargs: b"table_png")
+
+    uploaded: list[bytes] = []
+
+    def fake_upload(payload: bytes) -> str:
+        uploaded.append(payload)
+        return f"img_{len(uploaded)}"
+
+    monkeypatch.setattr(webhook, "upload_image", fake_upload)
+
+    card = webhook._handle_user_query("s1", "BKN US 2026年6月销售额销量环比")
+    body = str(card)
+
+    assert uploaded[-1] == b"table_png"
+    assert "img_2" in body
+    assert "原始数据" in body
+    assert "| month | sales | units | sales_change | sales_change_pct | units_change | units_change_pct |" in body
+    assert "共 7 列（展示前 6 列）" not in body
+
+
+def test_handle_user_query_skips_chart_but_uploads_table_for_detail_intent(monkeypatch) -> None:
+    uploaded: list[bytes] = []
 
     monkeypatch.setattr(
         webhook,
@@ -213,16 +305,18 @@ def test_handle_user_query_skips_chart_for_detail_intent(monkeypatch) -> None:
         ),
     )
 
-    def fake_upload(_bytes):
-        called["chart"] = True
-        return "img_key"
+    monkeypatch.setattr("data_agent.visualization.chart.generate_table_image", lambda *_args, **_kwargs: b"table_png")
+
+    def fake_upload(payload: bytes):
+        uploaded.append(payload)
+        return "table_img"
 
     monkeypatch.setattr(webhook, "upload_image", fake_upload)
 
     card = webhook._handle_user_query("s1", "Brumate 2026年6月订单明细列表")
 
-    assert called["chart"] is False
-    assert "SKU-1" in str(card)
+    assert uploaded == [b"table_png"]
+    assert "table_img" in str(card)
 
 
 def test_handle_user_query_retries_once_with_repaired_sql(monkeypatch) -> None:
@@ -303,6 +397,31 @@ def test_handle_user_query_does_not_retry_permission_errors(monkeypatch) -> None
     rendered = str(card)
     assert executed == ["SELECT bad_sql"]
     assert "数据库权限不足" in rendered
+    assert "重试 SQL 仍出错" not in rendered
+
+
+def test_handle_user_query_does_not_retry_timeout_errors(monkeypatch) -> None:
+    monkeypatch.setattr(webhook, "chat", lambda _messages: "```sql\nSELECT slow_sql\n```")
+    monkeypatch.setattr(webhook, "_maybe_refine_tables_via_llm", lambda *_args, **_kwargs: None)
+    monkeypatch.setattr(webhook, "_maybe_find_few_shot_examples", lambda *_args, **_kwargs: [])
+
+    executed: list[str] = []
+
+    def fake_execute(sql: str):
+        executed.append(sql)
+        return [], [], "查询超时（超过 30 秒），请缩小时间范围或增加过滤条件"
+
+    def fail_repair(**_kwargs):
+        raise AssertionError("timeout errors should not be sent to LLM repair")
+
+    monkeypatch.setattr(webhook, "execute_query", fake_execute)
+    monkeypatch.setattr(webhook, "_repair_sql_via_llm", fail_repair)
+
+    card = webhook._handle_user_query("s1", "BKN US 2026年1到6月店铺销售额销量环比")
+
+    rendered = str(card)
+    assert executed == ["SELECT slow_sql"]
+    assert "查询超时" in rendered
     assert "重试 SQL 仍出错" not in rendered
 
 
