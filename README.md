@@ -1,3 +1,5 @@
+**English** | [简体中文](README.zh-CN.md)
+
 # Data Detector
 
 Data Detector is a FastAPI-based Feishu data assistant for Amazon business analytics. Users ask questions in Feishu with natural language; the service links the question to the structured Amazon intermediate catalog, generates read-only PostgreSQL SQL, executes it with safety checks, and replies with a Feishu card, table, and chart.
